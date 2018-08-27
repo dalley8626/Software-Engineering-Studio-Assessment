@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "493634084545-ljnqeetum89rng9p42ce189gkqsnnbl2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "au.edu.uts.doccomm",
+            "certificate_hash": "d7fc45a8aa498e8cc53f939ba7256457b9a4d4d9"
+          }
+        },
+        {
           "client_id": "493634084545-lanjdjl76ndqfq5lntf0m73mqg6mtbps.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "493634084545-lanjdjl76ndqfq5lntf0m73mqg6mtbps.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
