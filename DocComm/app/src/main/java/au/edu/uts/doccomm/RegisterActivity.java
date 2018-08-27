@@ -1,16 +1,14 @@
 package au.edu.uts.doccomm;
 
 import android.app.ProgressDialog;
-import android.nfc.Tag;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,9 +16,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button btnRegister;
     private EditText etEmail;
@@ -33,9 +30,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_register);
 
         mAuth = FirebaseAuth.getInstance();
+
+        if(mAuth.getCurrentUser() != null){
+            finish();
+            startActivity(new Intent(getApplicationContext(),UserActivty.class));
+        }
 
         progressDialog = new ProgressDialog(this);
 
@@ -87,16 +89,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             //Sign in success, update UI with the signed-in
                             //FirebaseUser user = mAuth.getCurrentUser();
                             progressDialog.dismiss();
-                            Toast.makeText(MainActivity.this,"Registration Successful",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this,"Registration Successful",Toast.LENGTH_SHORT).show();
+                            finish();
+                            startActivity(new Intent(getApplicationContext(), UserActivty.class));
+
                         }
                         else {
-                            Toast.makeText(MainActivity.this,"Registration Unsuccessful",Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+                            Toast.makeText(RegisterActivity.this,"Registration Unsuccessful",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
-
-
 
     @Override
     public void onClick(View view) {
@@ -105,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if (view == tvSignIn) {
-            //TODO: Redirect User to Sign In Page
+            startActivity(new Intent(this, LoginActivity.class));
         }
     }
 }
