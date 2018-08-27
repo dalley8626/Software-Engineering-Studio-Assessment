@@ -85,7 +85,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             //Sign in success, update UI with the signed-in
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            //FirebaseUser user = mAuth.getCurrentUser();
+                            progressDialog.dismiss();
                             Toast.makeText(MainActivity.this,"Registration Successful",Toast.LENGTH_SHORT).show();
                         }
                         else {
