@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "615152471918",
+    "firebase_url": "https://dotcomm-a0c41.firebaseio.com",
+    "project_id": "dotcomm-a0c41",
+    "storage_bucket": "dotcomm-a0c41.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:615152471918:android:a75da3f0b524435e",
+        "android_client_info": {
+          "package_name": "au.edu.uts.doccomm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "615152471918-bhrt6q01bikk5ddbh3iof1erp7d1udk8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBggVUWiBxo2J3tZUZIw6ywv-siZbxgsZ4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
