@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -51,8 +52,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         etEmail = (EditText) findViewById(R.id.etEmail);
         etPassword = (EditText) findViewById(R.id.etPassword);
         tvSignIn = (TextView) findViewById(R.id.tvSignIn);
-        etPhoneNumber = (EditText) findViewById(R.id.etPhoneNumber);
-        etName = (EditText) findViewById(R.id.etName);
+        //etPhoneNumber = (EditText) findViewById(R.id.etPhoneNumber);
+        //etName = (EditText) findViewById(R.id.etName);
 
 
         btnRegister.setOnClickListener(this);
@@ -72,17 +73,17 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private void registerUser(){
         final String emailAddress = etEmail.getText().toString().trim();
         final String password = etPassword.getText().toString().trim();
-        final String name = etName.getText().toString().trim();
-        final String phoneNumber = etPhoneNumber.getText().toString().trim();
+//        final String name = etName.getText().toString().trim();
+//        final String phoneNumber = etPhoneNumber.getText().toString().trim();
 
         //Validation method that ensures that the user has entered email and password to register
         //When the user did not enter anything to the email field
         //Stop the except and provide an exception error
 
-        if(TextUtils.isEmpty(name)) {
-            Toast.makeText(this,"Please enter your password", Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        if(TextUtils.isEmpty(name)) {
+//            Toast.makeText(this,"Please enter your password", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
 
         if(TextUtils.isEmpty(emailAddress)) {
             Toast.makeText(this,"Please enter your email", Toast.LENGTH_SHORT).show();
@@ -93,11 +94,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             Toast.makeText(this,"Please enter your password", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        if(TextUtils.isEmpty(phoneNumber)) {
-            Toast.makeText(this,"Please enter your password", Toast.LENGTH_SHORT).show();
-            return;
-        }
+//
+//        if(TextUtils.isEmpty(phoneNumber)) {
+//            Toast.makeText(this,"Please enter your password", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
 
         //If the validation is successful, show registration progress
         progressDialog.setMessage("Registering in Process, Please Wait");
@@ -109,11 +110,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             //Sign in success, update UI with the signed-in
-                            //FirebaseUser user = mAuth.getCurrentUser();
+                            FirebaseUser user = mAuth.getCurrentUser();
                             progressDialog.dismiss();
                             Toast.makeText(RegisterActivity.this,"Registration Successful",Toast.LENGTH_SHORT).show();
                             finish();
-                            String userId = mAuth.getCurrentUser().getUid();
+                            //String userId = mAuth.getCurrentUser().getUid();
 //                            var CurrentUser = mDatabase.child("users").child(userId).setValue(userId);
 
 //
@@ -125,7 +126,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 //
 //                            currentUserDatabase.setValue(newPost);
 
-                            mDatabase.child("users").child(userId).child("username").setValue(name);
+                            //mDatabase.child("users").child(userId).child("username").setValue(name);
 
                             startActivity(new Intent(getApplicationContext(), UserActivty.class));
 

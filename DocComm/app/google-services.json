@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "493634084545-lim0tb9c0so4qjch5vln3rroojffm0fc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "au.edu.uts.doccomm",
+            "certificate_hash": "51daff480d18ae9451d635342624eda9bc1504ac"
+          }
+        },
+        {
           "client_id": "493634084545-lanjdjl76ndqfq5lntf0m73mqg6mtbps.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -31,7 +39,6 @@
         {
           "current_key": "AIzaSyATvYC2kmVR4U8FrU6iR3Wa-eVwjoaSDJ8"
         }
-        
       ],
       "services": {
         "analytics_service": {

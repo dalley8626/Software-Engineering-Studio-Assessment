@@ -12,19 +12,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <EditText
-            android:layout_margin="15dp"
-            android:hint="Name"
-            android:id="@+id/etName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+        <!--<EditText-->
+            <!--android:layout_margin="15dp"-->
+            <!--android:hint="Name"-->
+            <!--android:id="@+id/etName"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"/>-->
 
-        <EditText
-            android:layout_margin="15dp"
-            android:hint="PhoneNumber"
-            android:id="@+id/etPhoneNumber"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+        <!--<EditText-->
+            <!--android:layout_margin="15dp"-->
+            <!--android:hint="PhoneNumber"-->
+            <!--android:id="@+id/etPhoneNumber"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"/>-->
 
         <EditText
             android:layout_margin="15dp"
