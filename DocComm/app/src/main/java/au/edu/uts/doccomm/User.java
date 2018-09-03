@@ -11,13 +11,14 @@ public class User {
     public String phoneNumber;
     public String weight;
     public String height;
+    public String medicalCondition;
 
 
     public User() {
 
     }
 
-    public User(String userId, String firstName, String lastName, String emailAddress, String password, String gender, String phoneNumber,String dateOfBirth, String weight, String height) {
+    public User(String userId, String firstName, String lastName, String emailAddress, String password, String gender, String phoneNumber,String dateOfBirth, String weight, String height, String medicalCondition) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -28,7 +29,7 @@ public class User {
         this.dateOfBirth = dateOfBirth;
         this.weight = weight;
         this.height = height;
-
+        this.medicalCondition = medicalCondition;
     }
 
     public String getDateOfBirth() {
@@ -69,5 +70,9 @@ public class User {
 
     public String getPhoneNumber() {
         return phoneNumber;
+    }
+
+    public String getMedicalCondition() {
+        return medicalCondition;
     }
 }

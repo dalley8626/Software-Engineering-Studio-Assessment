@@ -47,6 +47,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private EditText etHeight;
     private EditText etWeight;
     private TextView tvDateOfBirth;
+    private EditText etMedicalCondition;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
 
 
@@ -83,37 +84,26 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         etHeight = (EditText) findViewById(R.id.etHeight);
         etWeight = (EditText) findViewById(R.id.etWeight);
         tvDateOfBirth = (TextView) findViewById(R.id.tvDateOfBirth);
+        etMedicalCondition = (EditText) findViewById(R.id.etMedicalCondition);
 
 
         tvDateOfBirth.setOnClickListener(new View.OnClickListener() {
             @Override
 
             public void onClick(View view) {
-
                 Calendar cal = Calendar.getInstance();
-
                 int year = cal.get(Calendar.YEAR);
-
                 int month = cal.get(Calendar.MONTH);
-
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
-
-
                 DatePickerDialog dialog = new DatePickerDialog(
-
                         RegisterActivity.this,
-
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-
                         mDateSetListener,
-
                         year,month,day);
 
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
                 dialog.show();
-
             }
 
 
@@ -124,17 +114,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             @Override
 
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-
                 month = month + 1;
-
                 Log.d(TAG, "onDateSet: mm/dd/yyy: " + month + "/" + day + "/" + year);
-
-
-
                 String date = month + "/" + day + "/" + year;
-
                 tvDateOfBirth.setText(date);
-
             }
 
         };
@@ -163,6 +146,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         final String phoneNumber = etPhoneNumber.getText().toString().trim();
         final String weight = etWeight.getText().toString().trim();
         final String height = etHeight.getText().toString().trim();
+        final String medicalCondition = etMedicalCondition.getText().toString().trim();
 
         //Validation method that ensures that the user has entered email and password to register
         //When the user did not enter anything to the email field
@@ -221,7 +205,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
                             String id = mDatabase.push().getKey();
                             //TODO: add weight and DOB
-                            User user = new User( id, firstName, lastName, emailAddress, password, gender, phoneNumber,dateOfBirth, weight, height);
+                            User user = new User( id, firstName, lastName, emailAddress, password, gender, phoneNumber,dateOfBirth, weight, height, medicalCondition);
                             mDatabase.child(id).setValue(user);
 
                             progressDialog.dismiss();

@@ -55,7 +55,7 @@
 
         <EditText
             android:layout_margin="15dp"
-            android:hint="PhoneNumber"
+            android:hint="Phone Number"
             android:id="@+id/etPhoneNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -65,10 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tvDateOfBirth"
-            android:hint="Date of Birth"
-
-
-            />
+            android:hint="Date of Birth" />
 
         <Spinner
             android:layout_margin="15dp"
@@ -90,6 +87,15 @@
             android:id="@+id/etWeight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/etMedicalCondition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:ems="10"
+            android:hint="Medical Condition"
+            android:inputType="textMultiLine" />
 
         <Button
             android:layout_margin="15dp"
