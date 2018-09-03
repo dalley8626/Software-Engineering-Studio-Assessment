@@ -44,7 +44,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private EditText etFirstName;
     private EditText etLastName;
     private Spinner spGender;
-//    private TextView tvDateOfBirth;
+    private EditText etHeight;
+    private EditText etWeight;
+    private TextView tvDateOfBirth;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
 
 
@@ -78,8 +80,64 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         etFirstName = (EditText) findViewById(R.id.etFirstName);
         etLastName = (EditText) findViewById(R.id.etLastName);
         spGender = (Spinner) findViewById(R.id.spGender);
-//        tvDateOfBirth = (TextView) findViewById(R.id.tvDateOfBirth);
+        etHeight = (EditText) findViewById(R.id.etHeight);
+        etWeight = (EditText) findViewById(R.id.etWeight);
+        tvDateOfBirth = (TextView) findViewById(R.id.tvDateOfBirth);
 
+
+        tvDateOfBirth.setOnClickListener(new View.OnClickListener() {
+            @Override
+
+            public void onClick(View view) {
+
+                Calendar cal = Calendar.getInstance();
+
+                int year = cal.get(Calendar.YEAR);
+
+                int month = cal.get(Calendar.MONTH);
+
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+
+
+
+                DatePickerDialog dialog = new DatePickerDialog(
+
+                        RegisterActivity.this,
+
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+
+                        mDateSetListener,
+
+                        year,month,day);
+
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                dialog.show();
+
+            }
+
+
+        });
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+
+                month = month + 1;
+
+                Log.d(TAG, "onDateSet: mm/dd/yyy: " + month + "/" + day + "/" + year);
+
+
+
+                String date = month + "/" + day + "/" + year;
+
+                tvDateOfBirth.setText(date);
+
+            }
+
+        };
 
         btnRegister.setOnClickListener(this);
         tvSignIn.setOnClickListener(this);
@@ -100,9 +158,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         final String password = etPassword.getText().toString().trim();
         final String firstName = etFirstName.getText().toString().trim();
         final String lastName = etLastName.getText().toString().trim();
-//        final String dateOfBirth = tvDateOfBirth.getText().toString().trim();
+        final String dateOfBirth = tvDateOfBirth.getText().toString().trim();
         final String gender = spGender.getSelectedItem().toString().trim();
         final String phoneNumber = etPhoneNumber.getText().toString().trim();
+        final String weight = etWeight.getText().toString().trim();
+        final String height = etHeight.getText().toString().trim();
 
         //Validation method that ensures that the user has entered email and password to register
         //When the user did not enter anything to the email field
@@ -132,6 +192,20 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return;
         }
 
+        if(TextUtils.isEmpty(weight)) {
+            Toast.makeText(this,"Please enter your weight", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(TextUtils.isEmpty(height)) {
+            Toast.makeText(this,"Please enter your height", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(TextUtils.isEmpty(dateOfBirth)) {
+            Toast.makeText(this,"Please enter your date of birth", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         //If the validation is successful, show registration progress
         progressDialog.setMessage("Registering in Process, Please Wait");
@@ -143,11 +217,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             //Sign in success, update UI with the signed-in
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            FirebaseUser userAuth = mAuth.getCurrentUser();
 
                             String id = mDatabase.push().getKey();
                             //TODO: add weight and DOB
-//                            User user = new User( id, firstName, lastName, emailAddress, password, gender, phoneNumber);
+                            User user = new User( id, firstName, lastName, emailAddress, password, gender, phoneNumber,dateOfBirth, weight, height);
                             mDatabase.child(id).setValue(user);
 
                             progressDialog.dismiss();
@@ -165,6 +239,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     }
                 });
     }
+
 
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         month = month + 1;

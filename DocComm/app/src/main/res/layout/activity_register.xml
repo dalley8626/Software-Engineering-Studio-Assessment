@@ -73,8 +73,21 @@
         <Spinner
             android:layout_margin="15dp"
             android:id="@+id/spGender"
-            android:prompt="@string/GenderTitle"
             android:entries="@array/Gender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:layout_margin="15dp"
+            android:hint="Height in CM"
+            android:id="@+id/etHeight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:layout_margin="15dp"
+            android:hint="Weight in KG"
+            android:id="@+id/etWeight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
