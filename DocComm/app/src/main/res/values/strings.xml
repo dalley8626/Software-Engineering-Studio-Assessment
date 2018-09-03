@@ -6,6 +6,6 @@
         <item>Rather Not to Say</item>
     </string-array>
 
-    <string name="Gender">Gender</string>
+    <string name="GenderTitle">Gender</string>
 
 </resources>

@@ -60,14 +60,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
+        <TextView
+            android:layout_margin="19dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvDateOfBirth"
+            android:hint="Date of Birth"
+
+
+            />
+
         <Spinner
             android:layout_margin="15dp"
             android:id="@+id/spGender"
+            android:prompt="@string/GenderTitle"
             android:entries="@array/Gender"
-            android:prompt="@string/Gender"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-
 
         <Button
             android:layout_margin="15dp"

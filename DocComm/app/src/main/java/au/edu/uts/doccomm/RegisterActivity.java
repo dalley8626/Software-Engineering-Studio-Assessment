@@ -1,13 +1,19 @@
 package au.edu.uts.doccomm;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CalendarView;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +26,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.w3c.dom.Text;
+
+import java.util.Calendar;
+import java.util.Date;
+
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private static final String TAG = "RegisterActivity";
 
     private Button btnRegister;
     private EditText etEmail;
@@ -28,6 +41,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private TextView tvSignIn;
     private EditText etPhoneNumber;
     private EditText etName;
+    private TextView tvDateOfBirth;
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
+
 
     private ProgressDialog progressDialog;
     private FirebaseAuth mAuth;
@@ -40,6 +56,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_register);
 
         mAuth = FirebaseAuth.getInstance();
+
+
+
 
         if(mAuth.getCurrentUser() != null){
             finish();
@@ -55,9 +74,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         //etPhoneNumber = (EditText) findViewById(R.id.etPhoneNumber);
         //etName = (EditText) findViewById(R.id.etName);
 
+        tvDateOfBirth = (TextView) findViewById(R.id.tvDateOfBirth);
 
+
+        tvDateOfBirth.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
         tvSignIn.setOnClickListener(this);
+
+
+
     }
 
     /* TODO: Implement if the user has already been signed in
@@ -139,6 +164,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 });
     }
 
+    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+        month = month + 1;
+        Log.d(TAG, "onDateSet: dd/mm/yyyy " + day + "/" + month + "/" + year);
+    }
+
+
+
     @Override
     public void onClick(View view) {
         if (view == btnRegister) {
@@ -148,5 +180,34 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         if (view == tvSignIn) {
             startActivity(new Intent(this, LoginActivity.class));
         }
+
+        if (view == tvDateOfBirth) {
+
+            Calendar cal= Calendar.getInstance();
+            int year = cal.get(Calendar.YEAR);
+            int month = cal.get(Calendar.MONTH);
+            int day = cal.get(Calendar.DATE);
+
+            DatePickerDialog dialog = new DatePickerDialog(
+                    RegisterActivity.this,
+                    android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                    mDateSetListener,
+                    year,month,year);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
+        }
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                month = month + 1;
+                Log.d(TAG, "onDateSet: dd/mm/yyyy " + day + "/" + month + "/" + year);
+            }
+        };
+
     }
+
+
+
+
 }
