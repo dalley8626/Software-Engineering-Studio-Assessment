@@ -1,4 +1,4 @@
-package au.edu.uts.doccomm;
+package au.edu.uts.doccomm.Activities;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,6 +23,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+import au.edu.uts.doccomm.R;
+
 public class PatientInformationActivity extends AppCompatActivity {
 
     //ArrayList to store the information that the patient want to give to doctor
@@ -33,22 +35,22 @@ public class PatientInformationActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.add_note_menu, menu);
+        menuInflater.inflate(R.menu.drawer_view, menu);
 
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        super.onOptionsItemSelected(item);
-
-        if(item.getItemId() == R.id.add_note) {
-            Intent intent = new Intent(getApplicationContext(), PatientInformationDisplay.class);
-            startActivity(intent);
-            return true;
-        }
-        return false;
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        super.onOptionsItemSelected(item);
+//
+//        if(item.getItemId() == R.id.add_node) {
+//            Intent intent = new Intent(getApplicationContext(), PatientInformationDisplay.class);
+//            startActivity(intent);
+//            return true;
+//        }
+//        return false;
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
