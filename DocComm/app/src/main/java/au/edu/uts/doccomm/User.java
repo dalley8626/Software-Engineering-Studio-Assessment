@@ -1,61 +1,56 @@
 package au.edu.uts.doccomm;
 
 public class User {
-    public String emailAddres;
+    public String userId;
     public String firstName;
     public String lastName;
+    public String emailAddress;
+    public String password;
     public String gender;
-    public String weight;
+//    public String dateOfBirth;
+    public String phoneNumber;
+//    public String weight;
 
-    public User(String emailAddres, String firstName, String lastName, String gender, String weight) {
-        this.emailAddres = emailAddres;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.gender = gender;
-        this.weight = weight;
-    }
+
     public User() {
 
     }
 
-    public String getEmailAddres() {
-        return emailAddres;
+    public User(String userId, String firstName, String lastName, String emailAddress, String password, String gender, String phoneNumber) {
+        this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.emailAddress = emailAddress;
+        this.password = password;
+        this.gender = gender;
+        this.phoneNumber = phoneNumber;
     }
 
-    public void setEmailAddres(String emailAddres) {
-        this.emailAddres = emailAddres;
+    public String getUserId() {
+        return userId;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public String getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getWeight() {
-        return weight;
-    }
-
-    public void setWeight(String weight) {
-        this.weight = weight;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 }
-

@@ -44,7 +44,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private EditText etFirstName;
     private EditText etLastName;
     private Spinner spGender;
-    private TextView tvDateOfBirth;
+//    private TextView tvDateOfBirth;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
 
 
@@ -58,16 +58,17 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        mAuth = FirebaseAuth.getInstance();
+        progressDialog = new ProgressDialog(this);
 
         //Check if the user is signed in, if the user is signed in
         //Then re-direct the user to Main page
+        mAuth = FirebaseAuth.getInstance();
         if(mAuth.getCurrentUser() != null){
             finish();
             startActivity(new Intent(getApplicationContext(),UserActivty.class));
         }
 
-        progressDialog = new ProgressDialog(this);
+        mDatabase = FirebaseDatabase.getInstance().getReference("users");
 
         btnRegister = (Button) findViewById(R.id.btnRegister);
         etEmail = (EditText) findViewById(R.id.etEmail);
@@ -77,11 +78,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         etFirstName = (EditText) findViewById(R.id.etFirstName);
         etLastName = (EditText) findViewById(R.id.etLastName);
         spGender = (Spinner) findViewById(R.id.spGender);
-        tvDateOfBirth = (TextView) findViewById(R.id.tvDateOfBirth);
+//        tvDateOfBirth = (TextView) findViewById(R.id.tvDateOfBirth);
 
 
-        tvDateOfBirth.setOnClickListener(this);
-        spGender.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
         tvSignIn.setOnClickListener(this);
     }
@@ -101,7 +100,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         final String password = etPassword.getText().toString().trim();
         final String firstName = etFirstName.getText().toString().trim();
         final String lastName = etLastName.getText().toString().trim();
-        final String dateOfBirth = tvDateOfBirth.getText().toString().trim();
+//        final String dateOfBirth = tvDateOfBirth.getText().toString().trim();
         final String gender = spGender.getSelectedItem().toString().trim();
         final String phoneNumber = etPhoneNumber.getText().toString().trim();
 
@@ -123,18 +122,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return;
         }
 
+        if(TextUtils.isEmpty(password)) {
+            Toast.makeText(this,"Please enter your password", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if(TextUtils.isEmpty(phoneNumber)) {
             Toast.makeText(this,"Please enter your phone number", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if(TextUtils.isEmpty(dateOfBirth)) {
-            Toast.makeText(this,"Please select your date of birth", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if(TextUtils.isEmpty(gender)) {
-            Toast.makeText(this,"Please select your gender", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -150,22 +144,16 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         if (task.isSuccessful()) {
                             //Sign in success, update UI with the signed-in
                             FirebaseUser user = mAuth.getCurrentUser();
+
+                            String id = mDatabase.push().getKey();
+                            //TODO: add weight and DOB
+//                            User user = new User( id, firstName, lastName, emailAddress, password, gender, phoneNumber);
+                            mDatabase.child(id).setValue(user);
+
                             progressDialog.dismiss();
                             Toast.makeText(RegisterActivity.this,"Registration Successful",Toast.LENGTH_SHORT).show();
                             finish();
-                            //String userId = mAuth.getCurrentUser().getUid();
-//                            var CurrentUser = mDatabase.child("users").child(userId).setValue(userId);
 
-//
-//                            HashMap<String, Object> newPost = new HashMap<>();
-//                            newPost.put("name", name);
-//                            newPost.put("email", emailAddress);
-//                            newPost.put("password", password);
-//                            newPost.put("phoneNumber", phoneNumber);
-//
-//                            currentUserDatabase.setValue(newPost);
-
-                            //mDatabase.child("users").child(userId).child("username").setValue(name);
 
                             startActivity(new Intent(getApplicationContext(), UserActivty.class));
 
@@ -187,6 +175,30 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View view) {
+//        if (view == tvDateOfBirth) {
+//
+//            Calendar cal= Calendar.getInstance();
+//            int year = cal.get(Calendar.YEAR);
+//            int month = cal.get(Calendar.MONTH);
+//            int day = cal.get(Calendar.DATE);
+//
+//            DatePickerDialog dialog = new DatePickerDialog(
+//                    RegisterActivity.this,
+//                    android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+//                    mDateSetListener,
+//                    year,month,year);
+//            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//            dialog.show();
+//        }
+//
+//        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+//            @Override
+//            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+//                month = month + 1;
+//                Log.d(TAG, "onDateSet: dd/mm/yyyy " + day + "/" + month + "/" + year);
+//            }
+//        };
+
         if (view == btnRegister) {
             registerUser();
         }
@@ -195,29 +207,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             startActivity(new Intent(this, LoginActivity.class));
         }
 
-        if (view == tvDateOfBirth) {
-
-            Calendar cal= Calendar.getInstance();
-            int year = cal.get(Calendar.YEAR);
-            int month = cal.get(Calendar.MONTH);
-            int day = cal.get(Calendar.DATE);
-
-            DatePickerDialog dialog = new DatePickerDialog(
-                    RegisterActivity.this,
-                    android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                    mDateSetListener,
-                    year,month,year);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            dialog.show();
-        }
-
-        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                month = month + 1;
-                Log.d(TAG, "onDateSet: dd/mm/yyyy " + day + "/" + month + "/" + year);
-            }
-        };
 
     }
 
