@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,7 +41,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private EditText etPassword;
     private TextView tvSignIn;
     private EditText etPhoneNumber;
-    private EditText etName;
+    private EditText etFirstName;
+    private EditText etLastName;
+    private Spinner spGender;
     private TextView tvDateOfBirth;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
 
@@ -57,9 +60,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         mAuth = FirebaseAuth.getInstance();
 
-
-
-
+        //Check if the user is signed in, if the user is signed in
+        //Then re-direct the user to Main page
         if(mAuth.getCurrentUser() != null){
             finish();
             startActivity(new Intent(getApplicationContext(),UserActivty.class));
@@ -71,18 +73,17 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         etEmail = (EditText) findViewById(R.id.etEmail);
         etPassword = (EditText) findViewById(R.id.etPassword);
         tvSignIn = (TextView) findViewById(R.id.tvSignIn);
-        //etPhoneNumber = (EditText) findViewById(R.id.etPhoneNumber);
-        //etName = (EditText) findViewById(R.id.etName);
-
+        etPhoneNumber = (EditText) findViewById(R.id.etPhoneNumber);
+        etFirstName = (EditText) findViewById(R.id.etFirstName);
+        etLastName = (EditText) findViewById(R.id.etLastName);
+        spGender = (Spinner) findViewById(R.id.spGender);
         tvDateOfBirth = (TextView) findViewById(R.id.tvDateOfBirth);
 
 
         tvDateOfBirth.setOnClickListener(this);
+        spGender.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
         tvSignIn.setOnClickListener(this);
-
-
-
     }
 
     /* TODO: Implement if the user has already been signed in
@@ -98,32 +99,45 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private void registerUser(){
         final String emailAddress = etEmail.getText().toString().trim();
         final String password = etPassword.getText().toString().trim();
-//        final String name = etName.getText().toString().trim();
-//        final String phoneNumber = etPhoneNumber.getText().toString().trim();
+        final String firstName = etFirstName.getText().toString().trim();
+        final String lastName = etLastName.getText().toString().trim();
+        final String dateOfBirth = tvDateOfBirth.getText().toString().trim();
+        final String gender = spGender.getSelectedItem().toString().trim();
+        final String phoneNumber = etPhoneNumber.getText().toString().trim();
 
         //Validation method that ensures that the user has entered email and password to register
         //When the user did not enter anything to the email field
         //Stop the except and provide an exception error
+        if(TextUtils.isEmpty(firstName)) {
+            Toast.makeText(this,"Please enter your first name", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-//        if(TextUtils.isEmpty(name)) {
-//            Toast.makeText(this,"Please enter your password", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
+        if(TextUtils.isEmpty(lastName)) {
+            Toast.makeText(this,"Please enter your last name", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         if(TextUtils.isEmpty(emailAddress)) {
             Toast.makeText(this,"Please enter your email", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if(TextUtils.isEmpty(password)) {
-            Toast.makeText(this,"Please enter your password", Toast.LENGTH_SHORT).show();
+        if(TextUtils.isEmpty(phoneNumber)) {
+            Toast.makeText(this,"Please enter your phone number", Toast.LENGTH_SHORT).show();
             return;
         }
-//
-//        if(TextUtils.isEmpty(phoneNumber)) {
-//            Toast.makeText(this,"Please enter your password", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
+
+        if(TextUtils.isEmpty(dateOfBirth)) {
+            Toast.makeText(this,"Please select your date of birth", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(TextUtils.isEmpty(gender)) {
+            Toast.makeText(this,"Please select your gender", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
 
         //If the validation is successful, show registration progress
         progressDialog.setMessage("Registering in Process, Please Wait");
