@@ -60,7 +60,7 @@ public class NearbyMedicalFacilities extends AsyncTask<Object, String, String> {
             LatLng LatitudeLong = new LatLng(lat,lng);
             markerOptions.position(LatitudeLong); //setting new position to updated lat/long
             markerOptions.title(facilityName + " : " + facilityDistanceVicinity);
-            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
             //set colour , title, etc
             mMap.addMarker(markerOptions);
             mMap.moveCamera(CameraUpdateFactory.newLatLng(LatitudeLong));

@@ -168,7 +168,7 @@ public class FacilitiesMapsActivity extends FragmentActivity implements OnMapRea
             LatLng LatitudeLongitude = new LatLng(location.getLatitude(), location.getLongitude());
             markerOptions1.position(LatitudeLongitude); //setting new position to updated lat/long
             markerOptions1.title("User's current updated location");
-            markerOptions1.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+            markerOptions1.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
             //set colour , title, etc
 
             CurrentLocation = mMap.addMarker(markerOptions1); //set location
@@ -220,7 +220,7 @@ public class FacilitiesMapsActivity extends FragmentActivity implements OnMapRea
                                 LatLng LatitudeLong = new LatLng(userSearchAddress.getLatitude(), userSearchAddress.getLongitude());
                                 userAddressMarker.position(LatitudeLong); //setting new position to updated lat/long
                                 userAddressMarker.title(inputted_address);
-                                userAddressMarker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                                userAddressMarker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
                                 //set colour , title, etc
                                 mMap.addMarker(userAddressMarker);
                                 mMap.moveCamera(CameraUpdateFactory.newLatLng(LatitudeLong));
