@@ -149,7 +149,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             startActivity(new Intent(this, LoginActivity.class));
         }
 
-        if(view.getId() == R.id.mapsBtn){
+        if(view.getId() == R.id.mapsButton){
             Intent intent2 = new Intent(RegisterActivity.this, FacilitiesMapsActivity.class);
             startActivity(intent2);
         }
