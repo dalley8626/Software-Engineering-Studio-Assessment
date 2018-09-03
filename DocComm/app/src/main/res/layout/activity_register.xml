@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,34 +13,61 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!--<EditText-->
-            <!--android:layout_margin="15dp"-->
-            <!--android:hint="Name"-->
-            <!--android:id="@+id/etName"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"/>-->
-
-        <!--<EditText-->
-            <!--android:layout_margin="15dp"-->
-            <!--android:hint="PhoneNumber"-->
-            <!--android:id="@+id/etPhoneNumber"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"/>-->
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            app:srcCompat="@drawable/doclogo" />
 
         <EditText
+            android:inputType="text"
             android:layout_margin="15dp"
-            android:hint="Enter your Email"
+            android:hint="First Name"
+            android:id="@+id/etFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:inputType="text"
+            android:layout_margin="15dp"
+            android:hint="Last Name"
+            android:id="@+id/etLastName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:inputType="textEmailAddress"
+            android:layout_margin="15dp"
+            android:hint="Email Address"
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <!-- Password Placeholder -->
         <EditText
+            android:inputType="textPassword"
             android:layout_margin="15dp"
-            android:hint="Enter your Password"
+            android:hint="Password"
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
+        <EditText
+            android:layout_margin="15dp"
+            android:hint="PhoneNumber"
+            android:id="@+id/etPhoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Spinner
+            android:layout_margin="15dp"
+            android:id="@+id/spGender"
+            android:entries="@array/Gender"
+            android:prompt="@string/Gender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
 
         <Button
             android:layout_margin="15dp"
@@ -57,4 +85,6 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+
+
+</ScrollView>
