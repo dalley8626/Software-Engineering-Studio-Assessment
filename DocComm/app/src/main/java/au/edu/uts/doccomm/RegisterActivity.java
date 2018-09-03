@@ -139,7 +139,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 });
     }
 
-    @Override
+  //  @Override
     public void onClick(View view) {
         if (view == btnRegister) {
             registerUser();
@@ -147,6 +147,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         if (view == tvSignIn) {
             startActivity(new Intent(this, LoginActivity.class));
+        }
+
+        if(view.getId() == R.id.mapsBtn){
+            Intent intent2 = new Intent(RegisterActivity.this, FacilitiesMapsActivity.class);
+            startActivity(intent2);
         }
     }
 }
