@@ -1,7 +1,9 @@
 package au.edu.uts.doccomm;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 public class PatientInformationActivity extends AppCompatActivity {
@@ -63,6 +66,16 @@ public class PatientInformationActivity extends AppCompatActivity {
         ////////////////////////////////////////////////////////////////////////
 
         ListView listView = findViewById(R.id.listView);
+
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("au.edu.uts.doccomm", Context.MODE_PRIVATE);
+        HashSet<String> set = (HashSet<String>) sharedPreferences.getStringSet("notes", null);
+        if(set == null) {
+            patientInformation.add("Enter information");
+        }
+        else {
+            patientInformation = new ArrayList(set);
+        }
+
         arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, patientInformation);
         listView.setAdapter(arrayAdapter);
 
@@ -87,6 +100,9 @@ public class PatientInformationActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 patientInformation.remove(itemToDelete);
                                 arrayAdapter.notifyDataSetChanged();
+                                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("au.edu.uts.doccomm", Context.MODE_PRIVATE);
+                                HashSet<String> set = new HashSet(PatientInformationActivity.patientInformation);
+                                sharedPreferences.edit().putStringSet("notes", set).apply();
                             }
                         }
                         )

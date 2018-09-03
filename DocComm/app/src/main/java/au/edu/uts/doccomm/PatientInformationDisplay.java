@@ -1,11 +1,15 @@
 package au.edu.uts.doccomm;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
+
+import java.util.HashSet;
 
 public class PatientInformationDisplay extends AppCompatActivity {
     int noteId;
@@ -37,6 +41,10 @@ public class PatientInformationDisplay extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 PatientInformationActivity.patientInformation.set(noteId, s.toString());
                 PatientInformationActivity.arrayAdapter.notifyDataSetChanged();
+
+                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("au.edu.uts.doccomm", Context.MODE_PRIVATE);
+                HashSet<String> set = new HashSet(PatientInformationActivity.patientInformation);
+                sharedPreferences.edit().putStringSet("notes", set).apply();
             }
 
             @Override
