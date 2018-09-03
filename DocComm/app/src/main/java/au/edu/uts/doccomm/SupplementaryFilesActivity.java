@@ -1,33 +1,33 @@
 package au.edu.uts.doccomm;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Toast;
-
+import android.widget.ImageView;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
+
 
 public class SupplementaryFilesActivity extends AppCompatActivity {
-    private ListView listView;
-    ArrayList filename;
+    private ImageView iv_image;
+    private Uri imageUri;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_supplementary_files);
+
+        iv_image = (ImageView) findViewById(R.id.iv_image);
 
         File file = new File("/data/data/au.edu.uts.doccomm","supplementaryFiles");
         if(!(file.exists())){
@@ -36,6 +36,9 @@ public class SupplementaryFilesActivity extends AppCompatActivity {
         findViewById(R.id.createFile).setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+
+
+                // create a text file in supplementary file  path: /data/data/au.edu.uts.doccomm/supplementaryFiles
                 AlertDialog.Builder inputDialog =
                         new AlertDialog.Builder(SupplementaryFilesActivity.this);
                 final View dialogView = LayoutInflater.from(SupplementaryFilesActivity.this).inflate(R.layout.dialog_customize,null);
@@ -70,6 +73,41 @@ public class SupplementaryFilesActivity extends AppCompatActivity {
             }
         });
 
+        final Button chooseImage = (Button) findViewById(R.id.viewFile);
+        chooseImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chooseImage(v);
+            }
+        });
+    }
 
+    private void chooseImage(View v) {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_PICK);
+        intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 1:
+                if (resultCode == RESULT_CANCELED) {
+                    return;
+                }
+                try {
+                    Uri imageUri = data.getData();
+                    Log.e("TAG", imageUri.toString());
+                    iv_image.setImageURI(imageUri);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            default:
+                break;
+        }
     }
 }
