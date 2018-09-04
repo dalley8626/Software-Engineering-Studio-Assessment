@@ -22,13 +22,6 @@
             android:textAlignment="center" />
 
         <Button
-            android:id="@+id/btnLogout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:text="Logout" />
-
-        <Button
             android:id="@+id/dataButton"
             android:layout_width="161dp"
             android:layout_height="wrap_content"
@@ -42,6 +35,13 @@
             android:layout_height="wrap_content"
             android:onClick="viewPacket"
             android:text="View Data Packet" />
+
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:text="Logout" />
 
 
     </LinearLayout>
