@@ -9,7 +9,7 @@
 
     <string name="GenderTitle">Gender</string>
 
-
+    <string name="default_text">--</string>
     <string name="title_activity_maps">Map</string>
 
 </resources>
