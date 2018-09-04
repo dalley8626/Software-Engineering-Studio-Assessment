@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">DocComm</string>
+    <string-array name="Gender">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Rather Not to Say</item>
+    </string-array>
+
+    <string name="GenderTitle">Gender</string>
+
 </resources>
