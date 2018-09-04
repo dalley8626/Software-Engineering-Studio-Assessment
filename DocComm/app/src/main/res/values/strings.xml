@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">DocComm</string>
 
+
     <string-array name="Gender">
         <item>Male</item>
         <item>Female</item>
@@ -11,5 +12,6 @@
 
     <string name="default_text">--</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_supplementary_files">SupplementaryFilesActivity</string>
 
 </resources>

@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_COURSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
 
 
@@ -17,6 +18,11 @@
     <uses-permission android:name="android.permission.CAMERA"/>
 
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
 
     <application
         android:allowBackup="true"
@@ -36,6 +42,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
 
         <activity android:name=".LoginActivity" />
         <activity android:name=".UserActivty" />
@@ -46,6 +53,19 @@
         <activity android:name=".DataPacketList"></activity>
         <activity android:name=".FacilitiesMapsActivity" />
 
+=======
+        <activity android:name=".PatientInformationDisplay" />
+        <activity android:name=".PatientInformationActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".UserActivty" />
+        <activity android:name=".SupplementaryFilesActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+>>>>>>> e3a458b7ccd3ea16b1001206358d376fd7bdbd29
     </application>
 
 </manifest>
