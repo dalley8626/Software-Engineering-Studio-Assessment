@@ -22,6 +22,11 @@ public class UserActivty extends AppCompatActivity implements View.OnClickListen
         startActivity(intent);
     }
 
+    public void addPacket(View view) {
+        Intent intent = new Intent(getApplicationContext(), DataPacketActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

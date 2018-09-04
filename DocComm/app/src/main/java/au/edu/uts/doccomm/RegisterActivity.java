@@ -32,7 +32,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private ProgressDialog progressDialog;
     private FirebaseAuth mAuth;
 
-    private DatabaseReference mDatabase;
+    public static DatabaseReference mDatabase;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
