@@ -227,6 +227,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
 
+
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         month = month + 1;
         Log.d(TAG, "onDateSet: dd/mm/yyyy " + day + "/" + month + "/" + year);
@@ -235,6 +236,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
 
     @Override
+
+  //  @Override
+
     public void onClick(View view) {
 //        if (view == tvDateOfBirth) {
 //
@@ -268,7 +272,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             startActivity(new Intent(this, LoginActivity.class));
         }
 
+<<<<<<< HEAD
 
+=======
+        if(view.getId() == R.id.mapsButton){
+            Intent intent2 = new Intent(RegisterActivity.this, FacilitiesMapsActivity.class);
+            startActivity(intent2);
+        }
+>>>>>>> be1559aee0db9451f44f601b5b01e41109fdf351
     }
 
 
