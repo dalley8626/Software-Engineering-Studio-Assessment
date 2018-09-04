@@ -8,6 +8,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +20,7 @@ import static au.edu.uts.doccomm.RegisterActivity.mDatabase;
 
 public class DataPacketActivity extends AppCompatActivity {
 
+    public String timeStamp;
 
     public String name;
     public String gender;
@@ -28,6 +31,8 @@ public class DataPacketActivity extends AppCompatActivity {
 
     public String heartRate;
 
+    String  currentDateTimeString;
+
     TextView nameTv;
     TextView genderTv;
     TextView heightTv;
@@ -36,16 +41,36 @@ public class DataPacketActivity extends AppCompatActivity {
 
     EditText medicalDataEt;
 
-    Map<String, String> dataPacket = new HashMap<>();
+    public static Map<String, String> dataPacket = new HashMap<>();
+
+    public void addToPacket() {
+        currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+        dataPacket.put("timestamp", currentDateTimeString);
+
+        if(!name.isEmpty())
+            dataPacket.put("name", name);
+
+        if(!gender.isEmpty())
+            dataPacket.put("gender", gender);
+
+        if(!weight.isEmpty())
+            dataPacket.put("weight", weightTv.getText().toString());
+
+        if(!height.isEmpty())
+            dataPacket.put("height", height);
+
+        if(!medicalCondition.isEmpty())
+            dataPacket.put("medicalCondition", medicalCondition);
+
+        if(!medicalDataEt.getText().toString().isEmpty())
+            dataPacket.put("medicalData", medicalDataEt.getText().toString());
+
+    }
 
 
     public void sendPacket(View view) {
-        dataPacket.put("name", name);
-        dataPacket.put("gender", gender);
-        dataPacket.put("weight", weightTv.getText().toString());
-        dataPacket.put("height", height);
-        dataPacket.put("medicalCondition", medicalCondition);
-        dataPacket.put("medicalData", medicalDataEt.getText().toString());
+
+        addToPacket();
 
         mDatabase.child(RegisterActivity.id).push().setValue(dataPacket);
 

@@ -111,13 +111,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/profileButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="addProfile"
-            android:text="Button" />
-
     </LinearLayout>
 
 

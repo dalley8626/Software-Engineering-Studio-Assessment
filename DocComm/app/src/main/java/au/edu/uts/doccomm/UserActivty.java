@@ -17,13 +17,13 @@ public class UserActivty extends AppCompatActivity implements View.OnClickListen
     private FirebaseAuth mAuth;
     private TextView tvUsername;
 
-    public void addData(View view) {
-        Intent intent = new Intent(getApplicationContext(), PatientInformationActivity.class);
+    public void addPacket(View view) {
+        Intent intent = new Intent(getApplicationContext(), DataPacketActivity.class);
         startActivity(intent);
     }
 
-    public void addPacket(View view) {
-        Intent intent = new Intent(getApplicationContext(), DataPacketActivity.class);
+    public void viewPacket(View view) {
+        Intent intent = new Intent(getApplicationContext(), DataPacketDisplay.class);
         startActivity(intent);
     }
 
@@ -49,8 +49,7 @@ public class UserActivty extends AppCompatActivity implements View.OnClickListen
         btnLogout = (Button) findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(this);
 
-        PatientInformationActivity.patientInformation.add("Enter medical information.\n");
-        PatientInformationActivity.patientInformation.add("Enter medical information 2.\n");
+
 
     }
 
