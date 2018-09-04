@@ -64,9 +64,7 @@ public class DataPacketActivity extends AppCompatActivity {
 
         if(!medicalDataEt.getText().toString().isEmpty())
             dataPacket.put("medicalData", medicalDataEt.getText().toString());
-
     }
-
 
     public void sendPacket(View view) {
 
@@ -76,10 +74,25 @@ public class DataPacketActivity extends AppCompatActivity {
 
         Toast.makeText(DataPacketActivity.this,"Saved and Sent",Toast.LENGTH_SHORT).show();
 
+        savePacket(view);
+
         Intent intent = new Intent(getApplicationContext(), UserActivty.class);
         startActivity(intent);
     }
 
+    public void savePacket(View view) {
+        String dataPacket = "Name: " + name + " Gender: " + gender + "\n" +
+                            "Height: " + height + " Weight: " + weight + "\n" +
+                            "Medical Condition: " + medicalCondition + "\n" +
+                            "Addition medical condition: " + medicalDataEt.getText().toString();
+
+        DataPacketList.dataPacketText.add(dataPacket);
+
+        Toast.makeText(DataPacketActivity.this,"Saved",Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(getApplicationContext(), UserActivty.class);
+        startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,9 +118,5 @@ public class DataPacketActivity extends AppCompatActivity {
         heightTv.setText(height);
 
         weightTv.setText(weight);
-
-
-
-
     }
 }

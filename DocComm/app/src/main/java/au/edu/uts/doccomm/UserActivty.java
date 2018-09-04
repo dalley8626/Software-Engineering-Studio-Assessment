@@ -23,7 +23,7 @@ public class UserActivty extends AppCompatActivity implements View.OnClickListen
     }
 
     public void viewPacket(View view) {
-        Intent intent = new Intent(getApplicationContext(), DataPacketDisplay.class);
+        Intent intent = new Intent(getApplicationContext(), DataPacketList.class);
         startActivity(intent);
     }
 
