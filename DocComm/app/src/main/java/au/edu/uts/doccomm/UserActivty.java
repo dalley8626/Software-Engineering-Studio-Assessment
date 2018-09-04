@@ -9,12 +9,14 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.StorageReference;
 
 public class UserActivty extends AppCompatActivity implements View.OnClickListener {
 
     private Button btnLogout;
     private FirebaseAuth mAuth;
+    private FirebaseDatabase mDatabase;
     private TextView tvUsername;
 
     public void heartRate(View view) {
@@ -44,7 +46,10 @@ public class UserActivty extends AppCompatActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_activty);
 
+        tvUsername = (TextView) findViewById(R.id.tvUsername);
+
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance();
 
         //If there is no use logged in, redirect them to the login page
         if(mAuth.getCurrentUser() == null){
@@ -56,7 +61,9 @@ public class UserActivty extends AppCompatActivity implements View.OnClickListen
 
         //TODO: Change to Username
         //tvUsername = (TextView) findViewById(R.id.etEmail);
-        //tvUsername.setText("Welcome" + user.getEmail());
+
+        tvUsername.setText("Welcome " + user.getEmail());
+
 
         btnLogout = (Button) findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(this);
