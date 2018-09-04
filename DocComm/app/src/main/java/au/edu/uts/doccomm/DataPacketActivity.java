@@ -1,10 +1,12 @@
 package au.edu.uts.doccomm;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,6 +48,11 @@ public class DataPacketActivity extends AppCompatActivity {
         dataPacket.put("medicalData", medicalDataEt.getText().toString());
 
         mDatabase.child(RegisterActivity.id).push().setValue(dataPacket);
+
+        Toast.makeText(DataPacketActivity.this,"Saved and Sent",Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(getApplicationContext(), UserActivty.class);
+        startActivity(intent);
     }
 
 
