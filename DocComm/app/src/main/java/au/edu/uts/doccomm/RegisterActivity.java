@@ -272,14 +272,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             startActivity(new Intent(this, LoginActivity.class));
         }
 
-<<<<<<< HEAD
 
-=======
         if(view.getId() == R.id.mapsButton){
             Intent intent2 = new Intent(RegisterActivity.this, FacilitiesMapsActivity.class);
             startActivity(intent2);
         }
->>>>>>> be1559aee0db9451f44f601b5b01e41109fdf351
+
     }
 
 

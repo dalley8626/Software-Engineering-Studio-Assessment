@@ -17,6 +17,13 @@ public class UserActivty extends AppCompatActivity implements View.OnClickListen
     private FirebaseAuth mAuth;
     private TextView tvUsername;
 
+    public void nearbyMedicalFacilities(View view) {
+
+            Intent intent2 = new Intent(getApplicationContext(), FacilitiesMapsActivity.class);
+            startActivity(intent2);
+
+    }
+
     public void addPacket(View view) {
         Intent intent = new Intent(getApplicationContext(), DataPacketActivity.class);
         startActivity(intent);
