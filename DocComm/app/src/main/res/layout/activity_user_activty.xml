@@ -12,6 +12,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:onClick="onClick"
+        android:layout_margin="16dp"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
@@ -26,7 +27,7 @@
 
         <Button
             android:id="@+id/dataButton"
-            android:layout_width="161dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:onClick="addPacket"
@@ -34,20 +35,20 @@
 
         <Button
             android:id="@+id/viewPacketBtn"
-            android:layout_width="161dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="viewPacket"
             android:text="View Data Packet" />
 
         <Button
             android:id="@+id/button"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="nearbyMedicalFacilities"
             android:text="Nearby Medical Facilitie" />
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="heartRate"
             android:text="Measure Heart Rate" />
