@@ -173,6 +173,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return;
         }
 
+        if(password.length() < 8) {
+            Toast.makeText(this,"Please enter more than 8 characters for your password", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
         if(TextUtils.isEmpty(phoneNumber)) {
             Toast.makeText(this,"Please enter your phone number", Toast.LENGTH_SHORT).show();
             return;

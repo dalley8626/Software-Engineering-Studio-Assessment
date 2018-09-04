@@ -77,10 +77,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressDialog.dismiss();
 
+                        if(task.isCanceled()) {
+                            Toast.makeText(getBaseContext(),"Something went wrong in the system", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        if(!task.isSuccessful()) {
+                            Toast.makeText(getBaseContext(),"Incorrect Username or Password", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
                         if(task.isSuccessful()){
                             finish();
                             startActivity(new Intent(getApplicationContext(),UserActivty.class));
                         }
+
+
                     }
                 });
     }
