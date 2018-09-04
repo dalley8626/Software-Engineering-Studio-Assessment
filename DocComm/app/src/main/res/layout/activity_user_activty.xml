@@ -12,6 +12,28 @@
         android:layout_height="match_parent"
         android:orientation="vertical"><!-- Layout to contain contents of main body of screen (drawer will slide over this) -->
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:text="You're Logged in"
+            android:textAlignment="center" />
+
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:text="Logout" />
+
+        <Button
+            android:id="@+id/dataButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:onClick="addData"
+            android:text="Button" />
+
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -25,31 +47,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:text="You're Logged in"
-                android:textAlignment="center" />
-
-            <Button
-                android:id="@+id/btnLogout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:text="Logout" />
-
-            <Button
-                android:id="@+id/dataButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:onClick="addData"
-                android:text="Button" />
 
         </FrameLayout>
 
+
+
+
+
+
     </LinearLayout>
+
+
 
 
 
