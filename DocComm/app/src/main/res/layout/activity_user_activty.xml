@@ -41,6 +41,12 @@
             android:text="View Data Packet" />
 
         <Button
+            android:id="@+id/startUpload"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Upload File" />
+
+        <Button
             android:id="@+id/button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
