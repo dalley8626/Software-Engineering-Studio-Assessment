@@ -1,4 +1,4 @@
-package au.edu.uts.doccomm.Activities;
+package au.edu.uts.doccomm;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,8 +10,6 @@ import android.text.TextWatcher;
 import android.widget.EditText;
 
 import java.util.HashSet;
-
-import au.edu.uts.doccomm.R;
 
 public class PatientInformationDisplay extends AppCompatActivity {
     int noteId;

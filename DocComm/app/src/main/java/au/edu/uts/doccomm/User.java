@@ -1,4 +1,4 @@
-package au.edu.uts.doccomm.Activities;
+package au.edu.uts.doccomm;
 
 public class User {
     public String userId;

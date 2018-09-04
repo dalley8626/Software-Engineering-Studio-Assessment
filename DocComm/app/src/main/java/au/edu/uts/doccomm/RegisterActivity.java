@@ -1,4 +1,4 @@
-package au.edu.uts.doccomm.Activities;
+package au.edu.uts.doccomm;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -26,9 +27,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.Calendar;
+import org.w3c.dom.Text;
 
-import au.edu.uts.doccomm.R;
+import java.util.Calendar;
+import java.util.Date;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
