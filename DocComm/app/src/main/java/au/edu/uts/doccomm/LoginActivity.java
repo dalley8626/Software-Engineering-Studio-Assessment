@@ -16,6 +16,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+
+import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -26,10 +29,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private FirebaseAuth mAuth;
     private ProgressDialog progressDialog;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -50,9 +56,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         tvSignUp.setOnClickListener(this);
     }
 
+
     private void userLogin(){
         String emailAddress = etEmailAddress.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
+
 
         //Validation method that ensures that the user has entered email and password to register
         //When the user did not enter anything to the email field

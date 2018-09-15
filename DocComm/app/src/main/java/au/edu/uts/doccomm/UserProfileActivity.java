@@ -29,5 +29,7 @@ public class UserProfileActivity extends AppCompatActivity {
         weightET = findViewById(R.id.weightText);
         desciptionET = findViewById(R.id.descriptionText);
 
+
+
     }
 }

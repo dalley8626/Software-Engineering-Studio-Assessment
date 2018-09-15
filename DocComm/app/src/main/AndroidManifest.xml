@@ -39,7 +39,6 @@
 
         <activity android:name=".LoginActivity" />
         <activity android:name=".UserActivty" />
-        <activity android:name=".MainActivity" />
         <activity android:name=".UserProfileActivity" />
         <activity android:name=".DataPacketActivity" />
         <activity android:name=".DataPacketDisplay" />

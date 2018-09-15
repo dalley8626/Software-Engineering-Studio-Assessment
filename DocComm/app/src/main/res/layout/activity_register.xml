@@ -98,11 +98,11 @@
             android:inputType="textMultiLine" />
 
         <Button
-            android:layout_margin="15dp"
             android:id="@+id/btnRegister"
-            android:text="Register"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:text="Register" />
 
         <TextView
             android:textAlignment="center"

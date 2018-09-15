@@ -1,24 +1,38 @@
 package au.edu.uts.doccomm;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import static au.edu.uts.doccomm.RegisterActivity.mDatabase;
 
 
 
 
 public class DataPacketActivity extends AppCompatActivity {
+
+
+    public FirebaseAuth mAuth;
+    public DatabaseReference mDatabase;
 
     public String timeStamp;
 
@@ -40,6 +54,7 @@ public class DataPacketActivity extends AppCompatActivity {
     EditText weightTv;
 
     EditText medicalDataEt;
+
 
     public static Map<String, String> dataPacket = new HashMap<>();
 
@@ -70,7 +85,9 @@ public class DataPacketActivity extends AppCompatActivity {
 
         addToPacket();
 
-        mDatabase.child(RegisterActivity.id).push().setValue(dataPacket);
+        String id = mAuth.getCurrentUser().getUid();
+
+        mDatabase.child(id).push().setValue(dataPacket);
 
         Toast.makeText(DataPacketActivity.this,"Saved and Sent",Toast.LENGTH_SHORT).show();
 
@@ -82,9 +99,9 @@ public class DataPacketActivity extends AppCompatActivity {
 
     public void savePacket(View view) {
         String dataPacket = "Name: " + name + " Gender: " + gender + "\n" +
-                            "Height: " + height + " Weight: " + weight + "\n" +
-                            "Medical Condition: " + medicalCondition + "\n" +
-                            "Addition medical condition: " + medicalDataEt.getText().toString();
+                "Height: " + height + " Weight: " + weight + "\n" +
+                "Medical Condition: " + medicalCondition + "\n" +
+                "Addition medical condition: " + medicalDataEt.getText().toString();
 
         DataPacketList.dataPacketText.add(dataPacket);
 
@@ -99,6 +116,10 @@ public class DataPacketActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_packet);
 
+
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference("users");
+
         nameTv = findViewById(R.id.nameTV);
         genderTv = findViewById(R.id.genderTV);
         heightTv = findViewById(R.id.heightTV);
@@ -106,17 +127,30 @@ public class DataPacketActivity extends AppCompatActivity {
         weightTv = findViewById(R.id.weightET);
         medicalDataEt = findViewById(R.id.medicalDataET);
 
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.child(mAuth.getCurrentUser().getUid()).getValue(User.class);
+                name = user.getFirstName() + " " + user.getLastName();
+                gender = user.getGender();
+                weight = user.getWeight();
+                height = user.getHeight();
+                medicalCondition = user.getMedicalCondition();
 
-        name = User.firstName + " " + User.lastName;
-        gender = User.gender;
-        weight = User.weight;
-        height = User.height;
-        medicalCondition = User.medicalCondition;
+                nameTv.setText(name);
+                genderTv.setText(gender);
+                heightTv.setText(height);
+                weightTv.setText(weight);
+            }
 
-        nameTv.setText(name);
-        genderTv.setText(gender);
-        heightTv.setText(height);
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-        weightTv.setText(weight);
+            }
+        });
+
+
+
+
     }
 }

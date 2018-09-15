@@ -2,7 +2,9 @@ package au.edu.uts.doccomm;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
@@ -31,6 +33,7 @@ import org.w3c.dom.Text;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -52,16 +55,23 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
 
     private ProgressDialog progressDialog;
-    private FirebaseAuth mAuth;
 
-    public static DatabaseReference mDatabase;
+    public FirebaseAuth mAuth;
+    public DatabaseReference mDatabase;
 
     public static String id;
+
+    public static User user;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+
+
 
         progressDialog = new ProgressDialog(this);
 
@@ -150,6 +160,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         final String height = etHeight.getText().toString().trim();
         final String medicalCondition = etMedicalCondition.getText().toString().trim();
 
+
+
         //Validation method that ensures that the user has entered email and password to register
         //When the user did not enter anything to the email field
         //Stop the except and provide an exception error
@@ -211,9 +223,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             //Sign in success, update UI with the signed-in
                             FirebaseUser userAuth = mAuth.getCurrentUser();
 
-                            id = mDatabase.push().getKey();
+                            id = userAuth.getUid();
                             //TODO: add weight and DOB
-                            User user = new User( id, firstName, lastName, emailAddress, password, gender, phoneNumber,dateOfBirth, weight, height, medicalCondition);
+                            user = new User( id, firstName, lastName, emailAddress, password, gender, phoneNumber,dateOfBirth, weight, height, medicalCondition);
                             mDatabase.child(id).setValue(user);
 
                             progressDialog.dismiss();

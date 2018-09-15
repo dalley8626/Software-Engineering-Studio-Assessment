@@ -1,17 +1,22 @@
 package au.edu.uts.doccomm;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import java.util.Set;
+
 public class User {
     public String userId;
-    public static String firstName;
-    public static String lastName;
+    public String firstName;
+    public String lastName;
     public String emailAddress;
     public String password;
-    public static String gender;
+    public String gender;
     public String dateOfBirth;
     public String phoneNumber;
-    public static String weight;
-    public static String height;
-    public static String medicalCondition;
+    public String weight;
+    public String height;
+    public String medicalCondition;
 
 
     public User() {
@@ -31,6 +36,10 @@ public class User {
         this.height = height;
         this.medicalCondition = medicalCondition;
     }
+
+
+
+
 
     public String getDateOfBirth() {
         return dateOfBirth;

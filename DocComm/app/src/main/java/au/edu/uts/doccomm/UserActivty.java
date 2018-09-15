@@ -1,6 +1,8 @@
 package au.edu.uts.doccomm;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +20,9 @@ public class UserActivty extends AppCompatActivity implements View.OnClickListen
     private FirebaseAuth mAuth;
     private FirebaseDatabase mDatabase;
     private TextView tvUsername;
+
+    public static String id;
+
 
     public void heartRate(View view) {
         Intent intent = new Intent(getApplicationContext(), HeartRateMonitor.class);
