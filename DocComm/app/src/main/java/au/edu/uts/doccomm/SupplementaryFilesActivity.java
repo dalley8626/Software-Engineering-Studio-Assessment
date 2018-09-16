@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-<<<<<<< HEAD
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,8 +20,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-=======
->>>>>>> e3a458b7ccd3ea16b1001206358d376fd7bdbd29
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -103,7 +100,6 @@ public class SupplementaryFilesActivity extends AppCompatActivity {
                 chooseImage(v);
             }
         });
-<<<<<<< HEAD
 
         final Button uploadImage = (Button) findViewById(R.id.upLoadImage);
         uploadImage.setOnClickListener(new View.OnClickListener() {
@@ -122,8 +118,6 @@ public class SupplementaryFilesActivity extends AppCompatActivity {
             Toast toast = Toast.makeText(SupplementaryFilesActivity.this,"uploaded", Toast.LENGTH_SHORT);
             toast.show();
         }
-=======
->>>>>>> e3a458b7ccd3ea16b1001206358d376fd7bdbd29
     }
 
     private void chooseImage(View v) {
@@ -142,11 +136,8 @@ public class SupplementaryFilesActivity extends AppCompatActivity {
                     return;
                 }
                 try {
-<<<<<<< HEAD
                     imageUri = data.getData();
-=======
                     Uri imageUri = data.getData();
->>>>>>> e3a458b7ccd3ea16b1001206358d376fd7bdbd29
                     Log.e("TAG", imageUri.toString());
                     iv_image.setImageURI(imageUri);
 
