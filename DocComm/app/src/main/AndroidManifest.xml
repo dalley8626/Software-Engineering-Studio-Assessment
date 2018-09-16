@@ -48,6 +48,7 @@
         <activity android:name=".FacilitiesMapsActivity" />
         <activity android:name=".ChangeProfileActivity" />
         <activity android:name=".ViewProfileActivity" />
+        <activity android:name=".HeartRateMonitor" />
         <activity android:name=".SupplementaryFilesActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
