@@ -78,7 +78,19 @@ public class UserActivty extends AppCompatActivity implements View.OnClickListen
         btnLogout = (Button) findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(this);
 
+        final Button uploadBtn = (Button) findViewById(R.id.startUpload);
+        uploadBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uploadActivity(v);
+            }
+        });
 
+    }
+
+    private void uploadActivity(View v) {
+        Intent intent = new Intent(UserActivty.this,SupplementaryFilesActivity.class);
+        startActivity(intent);
     }
 
     @Override
