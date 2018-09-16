@@ -40,7 +40,6 @@ public class User {
 
 
 
-
     public String getDateOfBirth() {
         return dateOfBirth;
     }

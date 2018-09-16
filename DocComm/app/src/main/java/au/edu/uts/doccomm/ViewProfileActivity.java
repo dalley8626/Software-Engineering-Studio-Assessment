@@ -56,8 +56,8 @@ public class ViewProfileActivity extends AppCompatActivity {
                 String name = user.getFirstName() + " " + user.getLastName();
                 viewName.setText(name);
                 viewGender.setText(user.getGender());
-                viewHeight.setText(user.getHeight());
-                viewWeight.setText(user.getWeight());
+                viewHeight.setText(user.getHeight() + "cm");
+                viewWeight.setText(user.getWeight() + "kg");
                 viewMedicalCondition.setText(user.getMedicalCondition());
                 viewPhoneNumber.setText(user.getPhoneNumber());
             }

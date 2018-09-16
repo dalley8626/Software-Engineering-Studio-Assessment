@@ -156,8 +156,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         final String dateOfBirth = tvDateOfBirth.getText().toString().trim();
         final String gender = spGender.getSelectedItem().toString().trim();
         final String phoneNumber = etPhoneNumber.getText().toString().trim();
-        final String weight = etWeight.getText().toString().trim();
-        final String height = etHeight.getText().toString().trim();
+        final String weight = etWeight.getText().toString().trim() + "kg";
+        final String height = etHeight.getText().toString().trim() + "cm";
         final String medicalCondition = etMedicalCondition.getText().toString().trim();
 
 

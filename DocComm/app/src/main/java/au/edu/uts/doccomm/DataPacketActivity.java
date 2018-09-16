@@ -34,31 +34,26 @@ public class DataPacketActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
 
+    public static Map<String, String> dataPacket = new HashMap<>();
+
     private String id;
 
     public String timeStamp;
-
     public String name;
     public String gender;
-
     public String weight;
     public String height;
     public String medicalCondition;
-
     public String heartRate;
 
-    String  currentDateTimeString;
+    public String packetKey;
 
+    String  currentDateTimeString;
     TextView nameTv;
     TextView genderTv;
     TextView heightTv;
-
     EditText weightTv;
-
     EditText medicalDataEt;
-
-
-    public static Map<String, String> dataPacket = new HashMap<>();
 
     public void addToPacket() {
         currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
@@ -89,7 +84,15 @@ public class DataPacketActivity extends AppCompatActivity {
 
         String id = mAuth.getCurrentUser().getUid();
 
-        mDatabase.child(id).push().setValue(dataPacket);
+        DatabaseReference newRef = mDatabase.child(id).child("DataPacket").push();
+        newRef.setValue(dataPacket);
+        packetKey = newRef.getKey();
+
+
+/*        Map<String, Object> newInfo = new HashMap<>();
+        newInfo.put("name", "CarioTan");
+
+        mDatabase.child(id).child("DataPacket").child(packetKey).updateChildren(newInfo);*/
 
         Toast.makeText(DataPacketActivity.this,"Saved and Sent",Toast.LENGTH_SHORT).show();
 
@@ -134,6 +137,10 @@ public class DataPacketActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.child(id).getValue(User.class);
+
+                HashMap<String, String> newMap = new HashMap<>();
+
+
                 name = user.getFirstName() + " " + user.getLastName();
                 gender = user.getGender();
                 weight = user.getWeight();
