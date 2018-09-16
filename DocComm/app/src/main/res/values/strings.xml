@@ -11,5 +11,7 @@
 
     <string name="default_text">--</string>
     <string name="title_activity_maps">Map</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
 
 </resources>

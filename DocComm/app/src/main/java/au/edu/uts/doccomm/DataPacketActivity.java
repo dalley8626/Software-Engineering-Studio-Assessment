@@ -31,8 +31,10 @@ import java.util.Map;
 public class DataPacketActivity extends AppCompatActivity {
 
 
-    public FirebaseAuth mAuth;
-    public DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
+
+    private String id;
 
     public String timeStamp;
 
@@ -119,6 +121,7 @@ public class DataPacketActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
+        id = mAuth.getCurrentUser().getUid();
 
         nameTv = findViewById(R.id.nameTV);
         genderTv = findViewById(R.id.genderTV);
@@ -130,7 +133,7 @@ public class DataPacketActivity extends AppCompatActivity {
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.child(mAuth.getCurrentUser().getUid()).getValue(User.class);
+                User user = dataSnapshot.child(id).getValue(User.class);
                 name = user.getFirstName() + " " + user.getLastName();
                 gender = user.getGender();
                 weight = user.getWeight();

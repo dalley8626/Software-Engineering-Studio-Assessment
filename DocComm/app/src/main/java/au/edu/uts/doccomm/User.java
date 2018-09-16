@@ -6,17 +6,17 @@ import android.content.SharedPreferences;
 import java.util.Set;
 
 public class User {
-    public String userId;
-    public String firstName;
-    public String lastName;
-    public String emailAddress;
-    public String password;
-    public String gender;
-    public String dateOfBirth;
-    public String phoneNumber;
-    public String weight;
-    public String height;
-    public String medicalCondition;
+    private String userId;
+    private String firstName;
+    private String lastName;
+    private String emailAddress;
+    private String password;
+    private String gender;
+    private String dateOfBirth;
+    private String phoneNumber;
+    private String weight;
+    private String height;
+    private String medicalCondition;
 
 
     public User() {

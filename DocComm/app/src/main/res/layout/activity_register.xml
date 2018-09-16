@@ -54,11 +54,12 @@
             android:layout_height="wrap_content"/>
 
         <EditText
-            android:layout_margin="15dp"
-            android:hint="Phone Number"
             android:id="@+id/etPhoneNumber"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:hint="Phone Number"
+            android:inputType="phone" />
 
         <TextView
             android:layout_margin="19dp"
@@ -75,18 +76,20 @@
             android:layout_height="wrap_content"/>
 
         <EditText
-            android:layout_margin="15dp"
-            android:hint="Height in CM"
             android:id="@+id/etHeight"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:hint="Height in CM"
+            android:inputType="numberDecimal" />
 
         <EditText
-            android:layout_margin="15dp"
-            android:hint="Weight in KG"
             android:id="@+id/etWeight"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:hint="Weight in KG"
+            android:inputType="numberDecimal" />
 
         <EditText
             android:id="@+id/etMedicalCondition"

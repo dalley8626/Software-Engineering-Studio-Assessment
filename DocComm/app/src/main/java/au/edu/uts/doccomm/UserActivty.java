@@ -29,10 +29,15 @@ public class UserActivty extends AppCompatActivity implements View.OnClickListen
         startActivity(intent);
     }
 
+    public void viewProfile(View view) {
+        Intent intent = new Intent(getApplicationContext(), ViewProfileActivity.class);
+        startActivity(intent);
+    }
+
     public void nearbyMedicalFacilities(View view) {
 
-            Intent intent2 = new Intent(getApplicationContext(), FacilitiesMapsActivity.class);
-            startActivity(intent2);
+        Intent intent2 = new Intent(getApplicationContext(), FacilitiesMapsActivity.class);
+        startActivity(intent2);
 
     }
 
@@ -57,7 +62,7 @@ public class UserActivty extends AppCompatActivity implements View.OnClickListen
         mDatabase = FirebaseDatabase.getInstance();
 
         //If there is no use logged in, redirect them to the login page
-        if(mAuth.getCurrentUser() == null){
+        if (mAuth.getCurrentUser() == null) {
             finish();
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         }
@@ -72,7 +77,6 @@ public class UserActivty extends AppCompatActivity implements View.OnClickListen
 
         btnLogout = (Button) findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(this);
-
 
 
     }
