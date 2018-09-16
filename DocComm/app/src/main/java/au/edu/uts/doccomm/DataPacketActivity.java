@@ -52,7 +52,7 @@ public class DataPacketActivity extends AppCompatActivity {
     TextView nameTv;
     TextView genderTv;
     TextView heightTv;
-    EditText weightTv;
+    TextView weightTv;
     EditText medicalDataEt;
 
     public void addToPacket() {
@@ -130,7 +130,7 @@ public class DataPacketActivity extends AppCompatActivity {
         genderTv = findViewById(R.id.genderTV);
         heightTv = findViewById(R.id.heightTV);
 
-        weightTv = findViewById(R.id.weightET);
+        weightTv = findViewById(R.id.weightTV);
         medicalDataEt = findViewById(R.id.medicalDataET);
 
         mDatabase.addValueEventListener(new ValueEventListener() {
@@ -149,8 +149,8 @@ public class DataPacketActivity extends AppCompatActivity {
 
                 nameTv.setText(name);
                 genderTv.setText(gender);
-                heightTv.setText(height);
-                weightTv.setText(weight);
+                heightTv.setText(height + "cm");
+                weightTv.setText(weight + "kg");
             }
 
             @Override
