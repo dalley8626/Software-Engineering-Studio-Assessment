@@ -114,13 +114,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/mapsButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:onClick="onClick"
-            android:text="Nearby Medical Facilities" />
+        <!--<Button-->
+            <!--android:id="@+id/mapsButton"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="15dp"-->
+            <!--android:onClick="onClick"-->
+            <!--android:text="Nearby Medical Facilities" />-->
 
     </LinearLayout>
 

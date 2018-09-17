@@ -82,11 +82,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         //Stop the except and provide an exception error
         if(TextUtils.isEmpty(emailAddress)) {
             Toast.makeText(this,"Please enter your email", Toast.LENGTH_SHORT).show();
+            etEmailAddress.requestFocus();
             return;
         }
 
         if(TextUtils.isEmpty(password)) {
             Toast.makeText(this,"Please enter your password", Toast.LENGTH_SHORT).show();
+            etEmailAddress.requestFocus();
             return;
         }
 
