@@ -65,9 +65,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         } else {
             Toast.makeText(this, "Verify your email address", Toast.LENGTH_SHORT).show();
             mAuth.signOut();
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
-
         }
     }
 
@@ -111,8 +108,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         }
 
                         if(task.isSuccessful()){
-
-                            finish();
                             checkEmailVerification();
                         }
 
