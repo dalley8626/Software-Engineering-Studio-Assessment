@@ -10,7 +10,6 @@ public class User {
     private String firstName;
     private String lastName;
     private String emailAddress;
-    private String password;
     private String gender;
     private String dateOfBirth;
     private String phoneNumber;
@@ -28,7 +27,6 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailAddress = emailAddress;
-        this.password = password;
         this.gender = gender;
         this.phoneNumber = phoneNumber;
         this.dateOfBirth = dateOfBirth;
@@ -66,10 +64,6 @@ public class User {
 
     public String getEmailAddress() {
         return emailAddress;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public String getGender() {

@@ -29,6 +29,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextView tvSignUp;
     private FirebaseAuth mAuth;
     private ProgressDialog progressDialog;
+    private TextView tvResetPassword;
 
 
 
@@ -51,9 +52,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         etPassword = (EditText) findViewById(R.id.etPassword);
         btnSignIn = (Button) findViewById(R.id.btnSignIn);
         tvSignUp = (TextView) findViewById(R.id.tvSignUp);
+        tvResetPassword = (TextView) findViewById(R.id.tvResetPassword);
 
         btnSignIn.setOnClickListener(this);
         tvSignUp.setOnClickListener(this);
+        tvResetPassword.setOnClickListener(this);
     }
 
     public void checkEmailVerification() {
@@ -120,6 +123,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         if (view == btnSignIn) {
             userLogin();
+        }
+
+        if (view == tvResetPassword) {
+            finish();
+            startActivity(new Intent(this,ResetPasswordActivity.class));
         }
 
         if(view == tvSignUp) {

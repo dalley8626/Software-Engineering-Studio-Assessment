@@ -53,6 +53,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <TextView
+            android:textAlignment="center"
+            android:text="Forget your password?"
+            android:id="@+id/tvResetPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 
 
