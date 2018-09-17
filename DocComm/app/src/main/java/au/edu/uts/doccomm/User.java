@@ -35,9 +35,6 @@ public class User {
         this.medicalCondition = medicalCondition;
     }
 
-
-
-
     public String getDateOfBirth() {
         return dateOfBirth;
     }

@@ -12,7 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
@@ -116,6 +118,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
+                dialog.getDatePicker().setMaxDate(System.currentTimeMillis() - 1000);
             }
 
 
@@ -126,6 +129,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             @Override
 
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+
                 month = month + 1;
                 Log.d(TAG, "onDateSet: mm/dd/yyy: " + month + "/" + day + "/" + year);
                 String date = month + "/" + day + "/" + year;
@@ -187,47 +191,66 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         //Stop the except and provide an exception error
         if(TextUtils.isEmpty(firstName)) {
             Toast.makeText(this,"Please enter your first name", Toast.LENGTH_SHORT).show();
+            etFirstName.requestFocus();
             return;
         }
 
         if(TextUtils.isEmpty(lastName)) {
             Toast.makeText(this,"Please enter your last name", Toast.LENGTH_SHORT).show();
+            etLastName.requestFocus();
             return;
         }
 
+        if(!emailAddress.matches("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])"))
+        {
+            Toast.makeText(this,"Please enter your email in correct format", Toast.LENGTH_SHORT).show();
+            etEmail.requestFocus();
+            return;
+        }
+
+
         if(TextUtils.isEmpty(emailAddress)) {
             Toast.makeText(this,"Please enter your email", Toast.LENGTH_SHORT).show();
+            etEmail.requestFocus();
             return;
         }
 
         if(TextUtils.isEmpty(password)) {
             Toast.makeText(this,"Please enter your password", Toast.LENGTH_SHORT).show();
+            etPassword.requestFocus();
             return;
         }
 
-        if(password.length() < 8) {
+        if(password.length() < 9) {
             Toast.makeText(this,"Please enter more than 8 characters for your password", Toast.LENGTH_SHORT).show();
+            etPassword.requestFocus();
             return;
         }
 
 
         if(TextUtils.isEmpty(phoneNumber)) {
             Toast.makeText(this,"Please enter your phone number", Toast.LENGTH_SHORT).show();
+            etPhoneNumber.requestFocus();
+            return;
+        }
+
+
+        if(TextUtils.isEmpty(dateOfBirth)) {
+            Toast.makeText(this,"Please enter your date of birth", Toast.LENGTH_SHORT).show();
+            tvDateOfBirth.requestFocus();
+            return;
+        }
+
+
+        if(TextUtils.isEmpty(height)) {
+            Toast.makeText(this,"Please enter your height", Toast.LENGTH_SHORT).show();
+            etHeight.requestFocus();
             return;
         }
 
         if(TextUtils.isEmpty(weight)) {
             Toast.makeText(this,"Please enter your weight", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if(TextUtils.isEmpty(height)) {
-            Toast.makeText(this,"Please enter your height", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if(TextUtils.isEmpty(dateOfBirth)) {
-            Toast.makeText(this,"Please enter your date of birth", Toast.LENGTH_SHORT).show();
+            etWeight.requestFocus();
             return;
         }
 
@@ -248,11 +271,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             mDatabase.child(id).setValue(user);
                             progressDialog.dismiss();
                             sendEmailVerification();
-
-//                            Toast.makeText(RegisterActivity.this,"Registration Successful",Toast.LENGTH_SHORT).show();
-//                            finish();
-//                            startActivity(new Intent(getApplicationContext(), UserActivty.class));
-
                         }
                         else {
                             progressDialog.dismiss();
@@ -263,11 +281,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
 
-
-    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-        month = month + 1;
-        Log.d(TAG, "onDateSet: dd/mm/yyyy " + day + "/" + month + "/" + year);
-    }
+//
+//    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+//        month = month + 1;
+//        month = month + 1;
+//
+//        Log.d(TAG, "onDateSet: dd/mm/yyyy " + day + "/" + month + "/" + year);
+//    }
 
 
 
