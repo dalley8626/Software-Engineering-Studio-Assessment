@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.HashMap;
@@ -36,7 +37,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
         mAuth = FirebaseAuth.getInstance();
 
         //If the user is already logged in
@@ -54,6 +54,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         btnSignIn.setOnClickListener(this);
         tvSignUp.setOnClickListener(this);
+    }
+
+    public void checkEmailVerification() {
+        FirebaseUser firebaseUser = mAuth.getInstance().getCurrentUser();
+        Boolean emailFlag = firebaseUser.isEmailVerified();
+
+        if(emailFlag) {
+            startActivity(new Intent(LoginActivity.this, UserActivty.class));
+        } else {
+            Toast.makeText(this, "Verify your email address", Toast.LENGTH_SHORT).show();
+            mAuth.signOut();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+
+        }
     }
 
 
@@ -76,7 +91,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         //If the validation is successful, show login progress
-        progressDialog.setMessage("Registering in Process, Please Wait");
+        progressDialog.setMessage("Logging in is in Process, Please Wait");
         progressDialog.show();
 
         mAuth.signInWithEmailAndPassword(emailAddress,password)
@@ -96,8 +111,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         }
 
                         if(task.isSuccessful()){
+
                             finish();
-                            startActivity(new Intent(getApplicationContext(),UserActivty.class));
+                            checkEmailVerification();
                         }
 
 

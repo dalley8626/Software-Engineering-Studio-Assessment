@@ -148,6 +148,26 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     */
 
+    private void sendEmailVerification() {
+        FirebaseUser firebaseUser = mAuth.getInstance().getCurrentUser();
+        if(firebaseUser != null) {
+            firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful()) {
+                        Toast.makeText(RegisterActivity.this,"Successfully Registered, Please check your email address for verfication email", Toast.LENGTH_SHORT).show();
+                        mAuth.signOut();
+                        finish();
+                        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                    } else {
+                        Toast.makeText(RegisterActivity.this,"Something error with the email verification, Please Try again later",Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+    }
+
+
     private void registerUser(){
         final String emailAddress = etEmail.getText().toString().trim();
         final String password = etPassword.getText().toString().trim();
@@ -224,16 +244,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             FirebaseUser userAuth = mAuth.getCurrentUser();
 
                             id = userAuth.getUid();
-                            //TODO: add weight and DOB
                             user = new User( id, firstName, lastName, emailAddress, password, gender, phoneNumber,dateOfBirth, weight, height, medicalCondition);
                             mDatabase.child(id).setValue(user);
-
                             progressDialog.dismiss();
-                            Toast.makeText(RegisterActivity.this,"Registration Successful",Toast.LENGTH_SHORT).show();
-                            finish();
+                            sendEmailVerification();
 
-
-                            startActivity(new Intent(getApplicationContext(), UserActivty.class));
+//                            Toast.makeText(RegisterActivity.this,"Registration Successful",Toast.LENGTH_SHORT).show();
+//                            finish();
+//                            startActivity(new Intent(getApplicationContext(), UserActivty.class));
 
                         }
                         else {
