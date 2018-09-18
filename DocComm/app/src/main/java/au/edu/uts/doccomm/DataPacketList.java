@@ -56,17 +56,19 @@ public class DataPacketList extends AppCompatActivity {
 
         packetLV = findViewById(R.id.dataPacketLV);
 
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, dataPacketText);
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
         id = mAuth.getCurrentUser().getUid();
 
-         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(id).child("DataPacket");
-            ref.addListenerForSingleValueEvent(
+         DatabaseReference ref = mDatabase.child(id).child("DataPacket");
+            ref.addValueEventListener(
                     new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             collectDataPackets((Map<String,Object>) dataSnapshot.getValue());
+                            packetLV.setAdapter(arrayAdapter);
                         }
 
                         @Override
@@ -78,8 +80,7 @@ public class DataPacketList extends AppCompatActivity {
 
 
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, dataPacketText);
-        packetLV.setAdapter(arrayAdapter);
+
 
 
 
