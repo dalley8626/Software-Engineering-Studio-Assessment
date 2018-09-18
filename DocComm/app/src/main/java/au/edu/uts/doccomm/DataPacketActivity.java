@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,7 +39,6 @@ public class DataPacketActivity extends AppCompatActivity {
 
     private String id;
 
-    public String timeStamp;
     public String name;
     public String gender;
     public String weight;
@@ -48,7 +48,9 @@ public class DataPacketActivity extends AppCompatActivity {
 
     public String packetKey;
 
-    String  currentDateTimeString;
+    private String currentDateTimeString;
+
+
     TextView nameTv;
     TextView genderTv;
     TextView heightTv;
@@ -56,8 +58,7 @@ public class DataPacketActivity extends AppCompatActivity {
     EditText medicalDataEt;
 
     public void addToPacket() {
-        currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-        dataPacket.put("timestamp", currentDateTimeString);
+
 
         if(!name.isEmpty())
             dataPacket.put("name", name);
@@ -84,6 +85,9 @@ public class DataPacketActivity extends AppCompatActivity {
 
         String id = mAuth.getCurrentUser().getUid();
 
+        currentDateTimeString = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(new Date());
+        dataPacket.put("timestamp", currentDateTimeString);
+
         DatabaseReference newRef = mDatabase.child(id).child("DataPacket").push();
         newRef.setValue(dataPacket);
         packetKey = newRef.getKey();
@@ -103,12 +107,15 @@ public class DataPacketActivity extends AppCompatActivity {
     }
 
     public void savePacket(View view) {
-        String dataPacket = "Name: " + name + " Gender: " + gender + "\n" +
+        String dataPackets = "Name: " + name + " Gender: " + gender + "\n" +
                 "Height: " + height + " Weight: " + weight + "\n" +
                 "Medical Condition: " + medicalCondition + "\n" +
                 "Addition medical condition: " + medicalDataEt.getText().toString();
 
-        DataPacketList.dataPacketText.add(dataPacket);
+        currentDateTimeString = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(new Date());
+        dataPacket.put("timestamp", currentDateTimeString);
+
+        DataPacketList.dataPacketText.add(dataPackets);
 
         Toast.makeText(DataPacketActivity.this,"Saved",Toast.LENGTH_SHORT).show();
 
@@ -125,6 +132,7 @@ public class DataPacketActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
         id = mAuth.getCurrentUser().getUid();
+
 
         nameTv = findViewById(R.id.nameTV);
         genderTv = findViewById(R.id.genderTV);

@@ -1,17 +1,51 @@
 package au.edu.uts.doccomm;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DataPacketList extends AppCompatActivity {
 
     ListView packetLV;
 
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
+    private String id;
+
     public static ArrayList<String> dataPacketText = new ArrayList<>();
+
+    public String dataPacketString(HashMap<String, String> dataPacket) {
+       String dataPackets = "Name: " + dataPacket.get("name") + " Gender: " + dataPacket.get("gender") + "\n" +
+                "Height: " + dataPacket.get("height") + " Weight: " + dataPacket.get("weight") + "\n" +
+                "Medical Condition: " + dataPacket.get("medicalCondition") + "\n" +
+                "Addition medical condition: " + dataPacket.get("medicalData");
+
+       return dataPackets;
+    }
+
+    private void collectPhoneNumbers(Map<String,Object> users) {
+
+        //iterate through each user, ignoring their UID
+        for (Map.Entry<String, Object> entry : users.entrySet()){
+            //Get dataPacket
+            HashMap<String, String> dataPacket = (HashMap<String,String>) entry.getValue();
+
+            dataPacketText.add(dataPacketString(dataPacket));
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,8 +54,33 @@ public class DataPacketList extends AppCompatActivity {
 
         packetLV = findViewById(R.id.dataPacketLV);
 
+
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference("users");
+        id = mAuth.getCurrentUser().getUid();
+
+         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(id).child("DataPacket");
+            ref.addListenerForSingleValueEvent(
+                    new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            collectPhoneNumbers((Map<String,Object>) dataSnapshot.getValue());
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            //handle databaseError
+                        }
+                    });
+
+
+
+
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, dataPacketText);
         packetLV.setAdapter(arrayAdapter);
+
+
+
 
 
     }
