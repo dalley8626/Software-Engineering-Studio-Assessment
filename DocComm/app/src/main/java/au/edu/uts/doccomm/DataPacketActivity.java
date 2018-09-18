@@ -21,12 +21,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-
-
 
 
 public class DataPacketActivity extends AppCompatActivity {
@@ -35,7 +33,7 @@ public class DataPacketActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
 
-    public static Map<String, String> dataPacket = new HashMap<>();
+    public static Map<String, String> dataPacket;
 
     private String id;
 
@@ -50,6 +48,7 @@ public class DataPacketActivity extends AppCompatActivity {
 
     private String currentDateTimeString;
 
+    public  ArrayList<String> dataPacketText;
 
     TextView nameTv;
     TextView genderTv;
@@ -60,22 +59,22 @@ public class DataPacketActivity extends AppCompatActivity {
     public void addToPacket() {
 
 
-        if(!name.isEmpty())
+        if (!name.isEmpty())
             dataPacket.put("name", name);
 
-        if(!gender.isEmpty())
+        if (!gender.isEmpty())
             dataPacket.put("gender", gender);
 
-        if(!weight.isEmpty())
+        if (!weight.isEmpty())
             dataPacket.put("weight", weightTv.getText().toString());
 
-        if(!height.isEmpty())
+        if (!height.isEmpty())
             dataPacket.put("height", height);
 
-        if(!medicalCondition.isEmpty())
+        if (!medicalCondition.isEmpty())
             dataPacket.put("medicalCondition", medicalCondition);
 
-        if(!medicalDataEt.getText().toString().isEmpty())
+        if (!medicalDataEt.getText().toString().isEmpty())
             dataPacket.put("medicalData", medicalDataEt.getText().toString());
     }
 
@@ -93,46 +92,41 @@ public class DataPacketActivity extends AppCompatActivity {
         packetKey = newRef.getKey();
 
 
-/*        Map<String, Object> newInfo = new HashMap<>();
-        newInfo.put("name", "CarioTan");
 
-        mDatabase.child(id).child("DataPacket").child(packetKey).updateChildren(newInfo);*/
+        Toast.makeText(DataPacketActivity.this, "Saved and Sent", Toast.LENGTH_SHORT).show();
 
-        Toast.makeText(DataPacketActivity.this,"Saved and Sent",Toast.LENGTH_SHORT).show();
-
-        savePacket(view);
+        //savePacket(view);
 
         Intent intent = new Intent(getApplicationContext(), UserActivty.class);
         startActivity(intent);
     }
 
-    public void savePacket(View view) {
-        String dataPackets = "Name: " + name + " Gender: " + gender + "\n" +
-                "Height: " + height + " Weight: " + weight + "\n" +
-                "Medical Condition: " + medicalCondition + "\n" +
-                "Addition medical condition: " + medicalDataEt.getText().toString();
-
-        currentDateTimeString = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(new Date());
-        dataPacket.put("timestamp", currentDateTimeString);
-
-        DataPacketList.dataPacketText.add(dataPackets);
-
-        Toast.makeText(DataPacketActivity.this,"Saved",Toast.LENGTH_SHORT).show();
-
-        Intent intent = new Intent(getApplicationContext(), UserActivty.class);
-        startActivity(intent);
-    }
+//    public void savePacket(View view) {
+//        String dataPackets = "Name: " + name + " Gender: " + gender + "\n" +
+//                "Height: " + height + " Weight: " + weight + "\n" +
+//                "Medical Condition: " + medicalCondition + "\n" +
+//                "Addition medical condition: " + medicalDataEt.getText().toString();
+//
+//        dataPacketText.add(dataPackets);
+//
+//        Toast.makeText(DataPacketActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+//
+//        Intent intent = new Intent(getApplicationContext(), UserActivty.class);
+//        startActivity(intent);
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_packet);
 
+        dataPacketText = new ArrayList<>();
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
         id = mAuth.getCurrentUser().getUid();
 
+        dataPacket = new HashMap<>();
 
         nameTv = findViewById(R.id.nameTV);
         genderTv = findViewById(R.id.genderTV);
@@ -147,7 +141,6 @@ public class DataPacketActivity extends AppCompatActivity {
                 User user = dataSnapshot.child(id).getValue(User.class);
 
                 HashMap<String, String> newMap = new HashMap<>();
-
 
                 name = user.getFirstName() + " " + user.getLastName();
                 gender = user.getGender();
@@ -166,8 +159,6 @@ public class DataPacketActivity extends AppCompatActivity {
 
             }
         });
-
-
 
 
     }

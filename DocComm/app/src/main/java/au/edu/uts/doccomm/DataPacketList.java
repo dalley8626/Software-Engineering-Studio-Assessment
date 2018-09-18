@@ -3,6 +3,7 @@ package au.edu.uts.doccomm;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -21,11 +22,12 @@ public class DataPacketList extends AppCompatActivity {
 
     ListView packetLV;
 
+    public ArrayList<String> dataPacketText;
+
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private String id;
 
-    public static ArrayList<String> dataPacketText = new ArrayList<>();
 
     public String dataPacketString(HashMap<String, String> dataPacket) {
        String dataPackets = "Name: " + dataPacket.get("name") + " Gender: " + dataPacket.get("gender") + "\n" +
@@ -36,13 +38,11 @@ public class DataPacketList extends AppCompatActivity {
        return dataPackets;
     }
 
-    private void collectPhoneNumbers(Map<String,Object> users) {
-
+    private void collectDataPackets(Map<String,Object> users) {
         //iterate through each user, ignoring their UID
         for (Map.Entry<String, Object> entry : users.entrySet()){
             //Get dataPacket
             HashMap<String, String> dataPacket = (HashMap<String,String>) entry.getValue();
-
             dataPacketText.add(dataPacketString(dataPacket));
         }
     }
@@ -51,6 +51,8 @@ public class DataPacketList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_packet_list);
+
+        dataPacketText = new ArrayList<>();
 
         packetLV = findViewById(R.id.dataPacketLV);
 
@@ -64,7 +66,7 @@ public class DataPacketList extends AppCompatActivity {
                     new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            collectPhoneNumbers((Map<String,Object>) dataSnapshot.getValue());
+                            collectDataPackets((Map<String,Object>) dataSnapshot.getValue());
                         }
 
                         @Override
