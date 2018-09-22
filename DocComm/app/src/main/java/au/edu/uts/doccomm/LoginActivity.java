@@ -17,9 +17,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -30,8 +35,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private FirebaseAuth mAuth;
     private ProgressDialog progressDialog;
     private TextView tvResetPassword;
-
-
+    public DatabaseReference mDatabase;
+    public String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +50,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             finish();
             startActivity(new Intent(getApplicationContext(),UserActivty.class));
         }
+        mDatabase = FirebaseDatabase.getInstance().getReference("users");
 
         progressDialog = new ProgressDialog(this);
 
@@ -62,9 +68,29 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void checkEmailVerification() {
         FirebaseUser firebaseUser = mAuth.getInstance().getCurrentUser();
         Boolean emailFlag = firebaseUser.isEmailVerified();
+        id = mAuth.getCurrentUser().getUid();
 
         if(emailFlag) {
-            startActivity(new Intent(LoginActivity.this, UserActivty.class));
+            mDatabase.child(id).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    Map<String, Object> user = (Map<String, Object>) dataSnapshot.getValue();
+                    String userType = (String) user.get("userType");
+                    if(userType.equals("patient")) {
+                        startActivity(new Intent(LoginActivity.this, UserActivty.class));
+                    }
+                    else {
+                        startActivity(new Intent(LoginActivity.this, DoctorActivity.class));
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+
         } else {
             Toast.makeText(this, "Verify your email address", Toast.LENGTH_SHORT).show();
             mAuth.signOut();
