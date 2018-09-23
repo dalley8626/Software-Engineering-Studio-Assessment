@@ -25,6 +25,14 @@ public class UserActivty extends AppCompatActivity implements View.OnClickListen
     public static String id;
 
 
+    public void findDoctor(View view) {
+
+    }
+
+    public void interactDoctor(View view) {
+
+    }
+
     public void heartRate(View view) {
         Intent intent = new Intent(getApplicationContext(), HeartRateMonitor.class);
         startActivity(intent);

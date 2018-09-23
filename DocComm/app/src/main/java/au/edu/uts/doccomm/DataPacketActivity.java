@@ -32,10 +32,9 @@ public class DataPacketActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+    private String id;
 
     public static Map<String, String> dataPacket;
-
-    private String id;
 
     public String name;
     public String gender;
