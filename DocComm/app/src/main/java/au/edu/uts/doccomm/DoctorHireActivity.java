@@ -1,9 +1,11 @@
 package au.edu.uts.doccomm;
 
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,7 +29,7 @@ public class DoctorHireActivity extends AppCompatActivity {
 
     public ArrayList<String> doctorList;
 
-    public String doctorString(HashMap<String, String> dataPacket) {
+    public String doctorString(Map<String, Object> dataPacket) {
         String doctorList = dataPacket.get("firstName") + " " + dataPacket.get("lastName") + "\n" +
                 dataPacket.get("occupation");
 
@@ -46,17 +48,19 @@ public class DoctorHireActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
         id = mAuth.getCurrentUser().getUid();
 
-        mDatabase.child(id).addValueEventListener(new ValueEventListener() {
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, doctorList);
+
+        mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Map<String, Object> user = (Map<String, Object>) dataSnapshot.getValue();
-                String userType = (String) user.get("userType");
-                if(userType.equals("patient")) {
-                    startActivity(new Intent(getApplicationContext(), UserActivty.class));
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Map<String, Object> user = (Map<String, Object>) snapshot.getValue();
+                    String userType =  (String) user.get("userType");
+                    if(userType.equals("doctor")) {
+                        doctorList.add(doctorString(user));
+                    }
                 }
-                else {
-                    startActivity(new Intent(getApplicationContext(), DoctorActivity.class));
-                }
+                doctorListView.setAdapter(arrayAdapter);
             }
 
             @Override

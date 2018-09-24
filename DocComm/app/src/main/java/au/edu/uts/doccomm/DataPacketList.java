@@ -76,15 +76,5 @@ public class DataPacketList extends AppCompatActivity {
                             //handle databaseError
                         }
                     });
-
-
-
-
-
-
-
-
-
-
     }
 }

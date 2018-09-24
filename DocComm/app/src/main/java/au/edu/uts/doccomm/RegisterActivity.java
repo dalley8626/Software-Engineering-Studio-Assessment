@@ -267,10 +267,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             FirebaseUser userAuth = mAuth.getCurrentUser();
 
                             id = userAuth.getUid();
-                            user = new User( id, firstName, lastName, emailAddress, password, gender, phoneNumber,dateOfBirth, weight, height, medicalCondition);
+                            user = new User( id, firstName, lastName, emailAddress, password, gender, phoneNumber,dateOfBirth, weight, height, medicalCondition, "patient");
                             mDatabase.child(id).setValue(user);
                             progressDialog.dismiss();
-                            sendEmailVerification();
+                             sendEmailVerification();
                         }
                         else {
                             progressDialog.dismiss();

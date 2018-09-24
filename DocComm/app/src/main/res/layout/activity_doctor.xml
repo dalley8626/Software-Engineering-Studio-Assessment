@@ -21,4 +21,5 @@
         android:text="New Patient"
         tools:layout_editor_absoluteX="95dp"
         tools:layout_editor_absoluteY="310dp" />
+
 </android.support.constraint.ConstraintLayout>
