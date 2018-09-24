@@ -1,13 +1,20 @@
 package au.edu.uts.doccomm;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class DataPacketActivity extends AppCompatActivity {
+public class DataPacketActivity extends AppCompatActivity implements View.OnClickListener {
 
 
     private FirebaseAuth mAuth;
@@ -55,6 +62,8 @@ public class DataPacketActivity extends AppCompatActivity {
     TextView heightTv;
     TextView weightTv;
     EditText medicalDataEt;
+    Button btnUpload;
+    Uri pdfUri; //local storage of url
 
     public void addToPacket() {
 
@@ -134,6 +143,11 @@ public class DataPacketActivity extends AppCompatActivity {
 
         weightTv = findViewById(R.id.weightTV);
         medicalDataEt = findViewById(R.id.medicalDataET);
+        btnUpload = (Button) findViewById(R.id.btnUpload);
+
+        btnUpload.setOnClickListener(this);
+
+
 
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -150,8 +164,8 @@ public class DataPacketActivity extends AppCompatActivity {
 
                 nameTv.setText(name);
                 genderTv.setText(gender);
-                heightTv.setText(height + "cm");
-                weightTv.setText(weight + "kg");
+                heightTv.setText(height);
+                weightTv.setText(weight);
             }
 
             @Override
@@ -161,5 +175,48 @@ public class DataPacketActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == 9 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            selectPdf();
+        }
+        else {
+            Toast.makeText(this,"Please provide image permission", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view == btnUpload) {
+            if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                selectPdf();
+            }
+            else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 9);
+            }
+
+        }
+    }
+
+    private void selectPdf() {
+        //Select files
+        Intent intent = new Intent();
+        intent.setType("application/pdf");
+        intent.setAction(Intent.ACTION_GET_CONTENT); //to fetch files
+        startActivityForResult(intent, 86);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //check whether the file has been selected
+        if(requestCode == 86 && resultCode == RESULT_OK && data != null) {
+            pdfUri=data.getData();//return the uri of the selected file
+        }
+        else {
+            Toast.makeText(this,"Please select a file", Toast.LENGTH_SHORT).show();
+        }
     }
 }
