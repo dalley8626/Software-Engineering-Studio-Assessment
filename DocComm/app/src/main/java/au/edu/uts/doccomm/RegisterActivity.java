@@ -270,7 +270,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             user = new User( id, firstName, lastName, emailAddress, password, gender, phoneNumber,dateOfBirth, weight, height, medicalCondition, "patient");
                             mDatabase.child(id).setValue(user);
                             progressDialog.dismiss();
-                             sendEmailVerification();
+                            sendEmailVerification();
                         }
                         else {
                             progressDialog.dismiss();

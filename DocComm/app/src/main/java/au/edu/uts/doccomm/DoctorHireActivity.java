@@ -55,7 +55,7 @@ public class DoctorHireActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Map<String, Object> user = (Map<String, Object>) snapshot.getValue();
-                    String userType =  (String) user.get("userType");
+                    String userType = (String) user.get("userType");
                     if(userType.equals("doctor")) {
                         doctorList.add(doctorString(user));
                     }
