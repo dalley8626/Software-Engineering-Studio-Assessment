@@ -25,13 +25,13 @@ public class DoctorHireActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+
     private String id;
-
-
 
     ListView doctorListView;
 
     public ArrayList<String> doctorList;
+    public ArrayList<String> doctorIDList;
 
     public String doctorString(Map<String, Object> dataPacket) {
         String doctorList = dataPacket.get("firstName") + " " + dataPacket.get("lastName") + "\n" +
@@ -40,16 +40,16 @@ public class DoctorHireActivity extends AppCompatActivity {
         return doctorList;
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_hire);
 
-        final Intent intent = new Intent(getApplicationContext(), DoctorProfileViewActivity.class);
 
         doctorListView = findViewById(R.id.doctorLV);
         doctorList = new ArrayList<>();
-        final ArrayList<String> doctorID = new ArrayList<>();
+        doctorIDList = new ArrayList<>();
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
@@ -61,11 +61,12 @@ public class DoctorHireActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Map<String, Object> user;
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     user = (Map<String, Object>) snapshot.getValue();
                     String userType = (String) user.get("userType");
-                    if(userType.equals("doctor")) {
+                    if (userType.equals("doctor")) {
                         doctorList.add(doctorString(user));
+                        doctorIDList.add((String) user.get("userId"));
                     }
                 }
                 doctorListView.setAdapter(arrayAdapter);
@@ -80,29 +81,11 @@ public class DoctorHireActivity extends AppCompatActivity {
         doctorListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-
-                mDatabase.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            Map<String, Object> user = (Map<String, Object>) snapshot.getValue();
-                            String doct = doctorString(user);
-                            String clickedDoctor = doctorList.get(position);
-                            if(doct.equals(clickedDoctor)) {
-                                intent.putExtra("id", (String) user.get("userId"));
-                                break;
-                            }
-                        }
-                        startActivity(intent);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-
+            public void onItemClick(AdapterView<?> parent, View view, final int position, final long id) {
+                Intent intent = new Intent(getApplicationContext(), DoctorProfileViewActivity.class);
+                intent.putExtra("doctorID", doctorIDList.get(position));
+                intent.putExtra("patientID", mAuth.getCurrentUser().getUid());
+                startActivity(intent);
             }
         });
     }

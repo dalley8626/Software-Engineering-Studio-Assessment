@@ -14,6 +14,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class DoctorProfileViewActivity extends AppCompatActivity {
@@ -28,6 +29,11 @@ public class DoctorProfileViewActivity extends AppCompatActivity {
     public void pairDoctor(View view) {
         Intent intent = new Intent(getApplicationContext(), UserActivty.class);
         intent.putExtra("doctorID", id);
+
+        Map<String, Object> pairingRequest = new HashMap<>();
+        pairingRequest.put("patientID", getIntent().getStringExtra("patientID"));
+        mDatabase.child(id).updateChildren(pairingRequest);
+
         startActivity(intent);
     }
 
@@ -36,7 +42,7 @@ public class DoctorProfileViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_profile_view);
 
-        id = getIntent().getExtras().getString("id");
+        id = getIntent().getExtras().getString("doctorID");
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
         nameTV = findViewById(R.id.doctorNameTV);
         genderTV = findViewById(R.id.doctorGenderTV);

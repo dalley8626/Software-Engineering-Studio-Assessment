@@ -74,10 +74,11 @@
             android:text="Find a Doctor" />
 
         <Button
-            android:id="@+id/button11"
+            android:id="@+id/interactBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Interact with Doctor" />
+            android:text="Interact with Doctor"
+            android:visibility="visible" />
 
 
     </LinearLayout>

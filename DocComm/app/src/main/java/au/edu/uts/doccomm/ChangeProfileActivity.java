@@ -82,10 +82,10 @@ public class ChangeProfileActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
         id = mAuth.getCurrentUser().getUid();
 
-        mDatabase.addValueEventListener(new ValueEventListener() {
+        mDatabase.child(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.child(id).getValue(User.class);
+                User user = dataSnapshot.getValue(User.class);
                 firstName.setText(user.getFirstName());
                 lastName.setText(user.getLastName());
                 height.setText(user.getHeight());

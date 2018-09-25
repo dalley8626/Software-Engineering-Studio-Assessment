@@ -3,6 +3,7 @@ package au.edu.uts.doccomm;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,8 +13,13 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
+
+import java.util.Map;
 
 public class UserActivty extends AppCompatActivity implements View.OnClickListener {
 
@@ -22,11 +28,14 @@ public class UserActivty extends AppCompatActivity implements View.OnClickListen
     private FirebaseDatabase mDatabase;
     private TextView tvUsername;
 
-    public static String id;
+
+
+    public String id;
 
 
     public void findDoctor(View view) {
         Intent intent = new Intent(getApplicationContext(), DoctorHireActivity.class);
+        intent.putExtra("patientID", id);
         startActivity(intent);
     }
 
@@ -71,6 +80,7 @@ public class UserActivty extends AppCompatActivity implements View.OnClickListen
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
+
 
         //If there is no use logged in, redirect them to the login page
         if (mAuth.getCurrentUser() == null) {
