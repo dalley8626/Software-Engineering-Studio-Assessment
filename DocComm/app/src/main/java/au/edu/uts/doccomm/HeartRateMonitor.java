@@ -4,6 +4,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.hardware.Camera;
 import android.hardware.Camera.PreviewCallback;
@@ -21,7 +22,7 @@ import android.widget.Toast;
 /**
  * This class extends Activity to handle a picture preview, process the preview
  * for a red values and determine a heart beat.
- * 
+ *
  * @author Justin Wetherell <phishman3579@gmail.com>
  */
 public class HeartRateMonitor extends Activity {
@@ -44,9 +45,13 @@ public class HeartRateMonitor extends Activity {
     private static int beatsAvg;
     public final int[] result = new int[3];
 
+    long newStartTime = 0;
+
+    int count = 0;
+
     public enum TYPE {
         GREEN, RED
-    };
+    }
 
     private static TYPE currentType = TYPE.GREEN;
 
@@ -125,109 +130,116 @@ public class HeartRateMonitor extends Activity {
         @Override
         public void onPreviewFrame(byte[] data, Camera cam) {
 
-            for (int j = 0; j < result.length; j++){
 
-                if (data == null) throw new NullPointerException();
-                Camera.Size size = cam.getParameters().getPreviewSize();
-                if (size == null) throw new NullPointerException();
+            if (data == null) throw new NullPointerException();
+            Camera.Size size = cam.getParameters().getPreviewSize();
+            if (size == null) throw new NullPointerException();
 
-                if (!processing.compareAndSet(false, true)) return;
+            if (!processing.compareAndSet(false, true)) return;
 
-                int width = size.width;
-                int height = size.height;
+            int width = size.width;
+            int height = size.height;
 
-                int imgAvg = ImageProcessing.decodeYUV420SPtoRedAvg(data.clone(), height, width);
+            int imgAvg = ImageProcessing.decodeYUV420SPtoRedAvg(data.clone(), height, width);
 
-                Camera.Parameters parameters = camera.getParameters();
-                if (imgAvg > 230 || imgAvg < 30){
-                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-                    camera.setParameters(parameters);
-                    camera.startPreview();
+            Camera.Parameters parameters = camera.getParameters();
+            if (imgAvg < 250 && imgAvg > 220){
+                parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                camera.setParameters(parameters);
+                camera.startPreview();
+            }
+            else{
+
+            }
+
+            if (imgAvg == 0 || imgAvg == 255){
+                processing.set(false);
+                return;
+            }
+
+            int averageArrayAvg = 0;
+            int averageArrayCnt = 0;
+            for (int i = 0; i < averageArray.length; i++) {
+                if (averageArray[i] > 0) {
+                    averageArrayAvg += averageArray[i];
+                    averageArrayCnt++;
                 }
-                else{
-                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-                    camera.setParameters(parameters);
-                    camera.startPreview();
-                }
+            }
 
-                if (imgAvg == 0 || imgAvg == 255){
+            int rollingAverage = (averageArrayCnt > 0) ? (averageArrayAvg / averageArrayCnt) : 0;
+            TYPE newType = currentType;
+            if (imgAvg < rollingAverage) {
+                newType = TYPE.RED;
+                if (newType != currentType) {
+                    beats++;
+                    // Log.d(TAG, "BEAT!! beats="+beats);
+                }
+            } else if (imgAvg > rollingAverage) {
+                newType = TYPE.GREEN;
+            }
+
+            if (averageIndex == averageArraySize) averageIndex = 0;
+            averageArray[averageIndex] = imgAvg;
+            averageIndex++;
+            // Transitioned from one state to another to the same
+            if (newType != currentType) {
+                currentType = newType;
+                image.postInvalidate();
+            }
+
+            long endTime = System.currentTimeMillis();
+            double totalTimeInSecs = (endTime - startTime) / 1000d;
+            if(count == 0) {
+                newStartTime = startTime;
+            }
+            double timeInSeconds = (endTime - newStartTime) / 1000d;
+            if (totalTimeInSecs >= 10) {
+                double bps = (beats / totalTimeInSecs);
+                int dpm = (int) (bps * 60d);
+                if (dpm < 30 || dpm > 180) {
+                    startTime = System.currentTimeMillis();
+                    beats = 0;
                     processing.set(false);
                     return;
                 }
-
-                int averageArrayAvg = 0;
-                int averageArrayCnt = 0;
-                for (int i = 0; i < averageArray.length; i++) {
-                    if (averageArray[i] > 0) {
-                        averageArrayAvg += averageArray[i];
-                        averageArrayCnt++;
-                    }
+                if(timeInSeconds >= 30) {
+                    Intent intent = new Intent(getApplicationContext(), DataPacketActivity.class);
+                    intent.putExtra("bpm", beatsAvg);
+                    startActivity(intent);
                 }
 
-                int rollingAverage = (averageArrayCnt > 0) ? (averageArrayAvg / averageArrayCnt) : 0;
-                TYPE newType = currentType;
-                if (imgAvg < rollingAverage) {
-                    newType = TYPE.RED;
-                    if (newType != currentType) {
-                        beats++;
-                        // Log.d(TAG, "BEAT!! beats="+beats);
-                    }
-                } else if (imgAvg > rollingAverage) {
-                    newType = TYPE.GREEN;
-                }
+                // Log.d(TAG,
+                // "totalTimeInSecs="+totalTimeInSecs+" beats="+beats);
 
-                if (averageIndex == averageArraySize) averageIndex = 0;
-                averageArray[averageIndex] = imgAvg;
-                averageIndex++;
+                if (beatsIndex == beatsArraySize) beatsIndex = 0;
+                beatsArray[beatsIndex] = dpm;
+                beatsIndex++;
 
-                // Transitioned from one state to another to the same
-                if (newType != currentType) {
-                    currentType = newType;
-                    image.postInvalidate();
-                }
-
-                long endTime = System.currentTimeMillis();
-                double totalTimeInSecs = (endTime - startTime) / 1000d;
-                if (totalTimeInSecs >= 10) {
-                    double bps = (beats / totalTimeInSecs);
-                    int dpm = (int) (bps * 60d);
-                    if (dpm < 30 || dpm > 180) {
-                        startTime = System.currentTimeMillis();
-                        beats = 0;
-                        processing.set(false);
-                        return;
-                    }
-
-                    // Log.d(TAG,
-                    // "totalTimeInSecs="+totalTimeInSecs+" beats="+beats);
-
-                    if (beatsIndex == beatsArraySize) beatsIndex = 0;
-                    beatsArray[beatsIndex] = dpm;
-                    beatsIndex++;
-
-                    int beatsArrayAvg = 0;
-                    int beatsArrayCnt = 0;
-                    for (int i = 0; i < beatsArray.length; i++) {
-                        if (beatsArray[i] > 0) {
-                            beatsArrayAvg += beatsArray[i];
-                            beatsArrayCnt++;
-                        }
-                    }
-                    beatsAvg = (beatsArrayAvg / beatsArrayCnt);
-                    text.setText(String.valueOf(beatsAvg));
-                    startTime = System.currentTimeMillis();
-                    beats = 0;
-
-                    if(beatsAvg > 100){
-                        Toast.makeText(getApplicationContext(),"Too High!",Toast.LENGTH_SHORT).show();
-                    }
-                    if(beatsAvg < 60){
-                        Toast.makeText(getApplicationContext(),"Too Low!",Toast.LENGTH_SHORT).show();
+                int beatsArrayAvg = 0;
+                int beatsArrayCnt = 0;
+                for (int i = 0; i < beatsArray.length; i++) {
+                    if (beatsArray[i] > 0) {
+                        beatsArrayAvg += beatsArray[i];
+                        beatsArrayCnt++;
                     }
                 }
-                processing.set(false);
-                beatsAvg = result[j];
+                beatsAvg = (beatsArrayAvg / beatsArrayCnt);
+                text.setText(String.valueOf(beatsAvg));
+                startTime = System.currentTimeMillis();
+                beats = 0;
+
+                count = 1;
+
+
+
+                if(beatsAvg > 100){
+                    Toast.makeText(getApplicationContext(),"Too High!",Toast.LENGTH_SHORT).show();
+                }
+                if(beatsAvg < 60){
+                    Toast.makeText(getApplicationContext(),"Too Low!",Toast.LENGTH_SHORT).show();
+                }
             }
+            processing.set(false);
         }
     };
 

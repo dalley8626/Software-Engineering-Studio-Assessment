@@ -67,13 +67,24 @@
         android:layout_marginTop="50dp"
         android:text="To send your heart rate, measure your heart rate first from the main menu. Once that is done, check below." />
 
-    <CheckBox
-        android:id="@+id/heartRateCB"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/heartRateTV"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
         android:text="Heart Rate" />
+
+    <Button
+        android:id="@+id/button8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:onClick="heartRate"
+        android:text="Get Heart Rate" />
 
     <TextView
         android:id="@+id/textView4"

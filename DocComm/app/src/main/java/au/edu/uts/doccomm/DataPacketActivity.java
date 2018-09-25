@@ -55,8 +55,11 @@ public class DataPacketActivity extends AppCompatActivity {
     TextView weightTv;
     EditText medicalDataEt;
 
-    public void addToPacket() {
+    TextView heartRateTextView;
 
+
+
+    public void addToPacket() {
 
         if (!name.isEmpty())
             dataPacket.put("name", name);
@@ -75,6 +78,11 @@ public class DataPacketActivity extends AppCompatActivity {
 
         if (!medicalDataEt.getText().toString().isEmpty())
             dataPacket.put("medicalData", medicalDataEt.getText().toString());
+    }
+
+    public void heartRate(View view) {
+        Intent intent = new Intent(getApplicationContext(), HeartRateMonitor.class);
+        startActivity(intent);
     }
 
     public void sendPacket(View view) {
@@ -125,6 +133,8 @@ public class DataPacketActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
         id = mAuth.getCurrentUser().getUid();
 
+        heartRateTextView = findViewById(R.id.heartRateTV);
+
         dataPacket = new HashMap<>();
 
         nameTv = findViewById(R.id.nameTV);
@@ -133,6 +143,12 @@ public class DataPacketActivity extends AppCompatActivity {
 
         weightTv = findViewById(R.id.weightTV);
         medicalDataEt = findViewById(R.id.medicalDataET);
+
+        int bpm = getIntent().getIntExtra("bpm", 0);
+        if(bpm != 0) {
+            heartRate = Integer.toString(bpm);
+            heartRateTextView.setText(heartRate);
+        }
 
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -158,7 +174,6 @@ public class DataPacketActivity extends AppCompatActivity {
 
             }
         });
-
 
     }
 }
