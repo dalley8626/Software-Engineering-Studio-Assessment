@@ -5,6 +5,8 @@ import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -25,6 +27,8 @@ public class DoctorHireActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private String id;
 
+
+
     ListView doctorListView;
 
     public ArrayList<String> doctorList;
@@ -41,8 +45,11 @@ public class DoctorHireActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_hire);
 
+        final Intent intent = new Intent(getApplicationContext(), DoctorProfileViewActivity.class);
+
         doctorListView = findViewById(R.id.doctorLV);
         doctorList = new ArrayList<>();
+        final ArrayList<String> doctorID = new ArrayList<>();
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
@@ -53,8 +60,9 @@ public class DoctorHireActivity extends AppCompatActivity {
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Map<String, Object> user;
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Map<String, Object> user = (Map<String, Object>) snapshot.getValue();
+                    user = (Map<String, Object>) snapshot.getValue();
                     String userType = (String) user.get("userType");
                     if(userType.equals("doctor")) {
                         doctorList.add(doctorString(user));
@@ -65,6 +73,35 @@ public class DoctorHireActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        doctorListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                mDatabase.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            Map<String, Object> user = (Map<String, Object>) snapshot.getValue();
+                            String doct = doctorString(user);
+                            String clickedDoctor = doctorList.get(position);
+                            if(doct.equals(clickedDoctor)) {
+                                intent.putExtra("id", (String) user.get("userId"));
+                                break;
+                            }
+                        }
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
 
             }
         });
