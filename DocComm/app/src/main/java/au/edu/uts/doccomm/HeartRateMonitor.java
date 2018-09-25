@@ -15,6 +15,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 /**
@@ -40,7 +41,10 @@ public class HeartRateMonitor extends Activity {
     private static final int averageArraySize = 4;
     private static final int[] averageArray = new int[averageArraySize];
 
-    public static enum TYPE {
+    private static int beatsAvg;
+    public final int[] result = new int[3];
+
+    public enum TYPE {
         GREEN, RED
     };
 
@@ -113,97 +117,125 @@ public class HeartRateMonitor extends Activity {
         camera = null;
     }
 
-    private static PreviewCallback previewCallback = new PreviewCallback() {
+    private PreviewCallback previewCallback = new PreviewCallback() {
 
         /**
          * {@inheritDoc}
          */
         @Override
         public void onPreviewFrame(byte[] data, Camera cam) {
-            if (data == null) throw new NullPointerException();
-            Camera.Size size = cam.getParameters().getPreviewSize();
-            if (size == null) throw new NullPointerException();
 
-            if (!processing.compareAndSet(false, true)) return;
+            for (int j = 0; j < result.length; j++){
 
-            int width = size.width;
-            int height = size.height;
+                if (data == null) throw new NullPointerException();
+                Camera.Size size = cam.getParameters().getPreviewSize();
+                if (size == null) throw new NullPointerException();
 
-            int imgAvg = ImageProcessing.decodeYUV420SPtoRedAvg(data.clone(), height, width);
-            // Log.i(TAG, "imgAvg="+imgAvg);
-            if (imgAvg == 0 || imgAvg == 255) {
-                processing.set(false);
-                return;
-            }
+                if (!processing.compareAndSet(false, true)) return;
 
-            int averageArrayAvg = 0;
-            int averageArrayCnt = 0;
-            for (int i = 0; i < averageArray.length; i++) {
-                if (averageArray[i] > 0) {
-                    averageArrayAvg += averageArray[i];
-                    averageArrayCnt++;
+                int width = size.width;
+                int height = size.height;
+
+                int imgAvg = ImageProcessing.decodeYUV420SPtoRedAvg(data.clone(), height, width);
+
+                Camera.Parameters parameters = camera.getParameters();
+                if (imgAvg > 230 || imgAvg < 30){
+                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                    camera.setParameters(parameters);
+                    camera.startPreview();
                 }
-            }
-
-            int rollingAverage = (averageArrayCnt > 0) ? (averageArrayAvg / averageArrayCnt) : 0;
-            TYPE newType = currentType;
-            if (imgAvg < rollingAverage) {
-                newType = TYPE.RED;
-                if (newType != currentType) {
-                    beats++;
-                    // Log.d(TAG, "BEAT!! beats="+beats);
+                else{
+                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                    camera.setParameters(parameters);
+                    camera.startPreview();
                 }
-            } else if (imgAvg > rollingAverage) {
-                newType = TYPE.GREEN;
-            }
 
-            if (averageIndex == averageArraySize) averageIndex = 0;
-            averageArray[averageIndex] = imgAvg;
-            averageIndex++;
-
-            // Transitioned from one state to another to the same
-            if (newType != currentType) {
-                currentType = newType;
-                image.postInvalidate();
-            }
-
-            long endTime = System.currentTimeMillis();
-            double totalTimeInSecs = (endTime - startTime) / 1000d;
-            if (totalTimeInSecs >= 10) {
-                double bps = (beats / totalTimeInSecs);
-                int dpm = (int) (bps * 60d);
-                if (dpm < 30 || dpm > 180) {
-                    startTime = System.currentTimeMillis();
-                    beats = 0;
+                if (imgAvg == 0 || imgAvg == 255){
                     processing.set(false);
                     return;
                 }
 
-                // Log.d(TAG,
-                // "totalTimeInSecs="+totalTimeInSecs+" beats="+beats);
-
-                if (beatsIndex == beatsArraySize) beatsIndex = 0;
-                beatsArray[beatsIndex] = dpm;
-                beatsIndex++;
-
-                int beatsArrayAvg = 0;
-                int beatsArrayCnt = 0;
-                for (int i = 0; i < beatsArray.length; i++) {
-                    if (beatsArray[i] > 0) {
-                        beatsArrayAvg += beatsArray[i];
-                        beatsArrayCnt++;
+                int averageArrayAvg = 0;
+                int averageArrayCnt = 0;
+                for (int i = 0; i < averageArray.length; i++) {
+                    if (averageArray[i] > 0) {
+                        averageArrayAvg += averageArray[i];
+                        averageArrayCnt++;
                     }
                 }
-                int beatsAvg = (beatsArrayAvg / beatsArrayCnt);
-                text.setText(String.valueOf(beatsAvg));
-                startTime = System.currentTimeMillis();
-                beats = 0;
+
+                int rollingAverage = (averageArrayCnt > 0) ? (averageArrayAvg / averageArrayCnt) : 0;
+                TYPE newType = currentType;
+                if (imgAvg < rollingAverage) {
+                    newType = TYPE.RED;
+                    if (newType != currentType) {
+                        beats++;
+                        // Log.d(TAG, "BEAT!! beats="+beats);
+                    }
+                } else if (imgAvg > rollingAverage) {
+                    newType = TYPE.GREEN;
+                }
+
+                if (averageIndex == averageArraySize) averageIndex = 0;
+                averageArray[averageIndex] = imgAvg;
+                averageIndex++;
+
+                // Transitioned from one state to another to the same
+                if (newType != currentType) {
+                    currentType = newType;
+                    image.postInvalidate();
+                }
+
+                long endTime = System.currentTimeMillis();
+                double totalTimeInSecs = (endTime - startTime) / 1000d;
+                if (totalTimeInSecs >= 10) {
+                    double bps = (beats / totalTimeInSecs);
+                    int dpm = (int) (bps * 60d);
+                    if (dpm < 30 || dpm > 180) {
+                        startTime = System.currentTimeMillis();
+                        beats = 0;
+                        processing.set(false);
+                        return;
+                    }
+
+                    // Log.d(TAG,
+                    // "totalTimeInSecs="+totalTimeInSecs+" beats="+beats);
+
+                    if (beatsIndex == beatsArraySize) beatsIndex = 0;
+                    beatsArray[beatsIndex] = dpm;
+                    beatsIndex++;
+
+                    int beatsArrayAvg = 0;
+                    int beatsArrayCnt = 0;
+                    for (int i = 0; i < beatsArray.length; i++) {
+                        if (beatsArray[i] > 0) {
+                            beatsArrayAvg += beatsArray[i];
+                            beatsArrayCnt++;
+                        }
+                    }
+                    beatsAvg = (beatsArrayAvg / beatsArrayCnt);
+                    text.setText(String.valueOf(beatsAvg));
+                    startTime = System.currentTimeMillis();
+                    beats = 0;
+
+                    if(beatsAvg > 100){
+                        Toast.makeText(getApplicationContext(),"Too High!",Toast.LENGTH_SHORT).show();
+                    }
+                    if(beatsAvg < 60){
+                        Toast.makeText(getApplicationContext(),"Too Low!",Toast.LENGTH_SHORT).show();
+                    }
+                }
+                processing.set(false);
+                beatsAvg = result[j];
             }
-            processing.set(false);
         }
     };
 
-    private static SurfaceHolder.Callback surfaceCallback = new SurfaceHolder.Callback() {
+    public int[] getResult() {
+        return result;
+    }
+
+    public SurfaceHolder.Callback surfaceCallback = new SurfaceHolder.Callback() {
 
         /**
          * {@inheritDoc}
@@ -224,7 +256,6 @@ public class HeartRateMonitor extends Activity {
         @Override
         public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
             Camera.Parameters parameters = camera.getParameters();
-            parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
             Camera.Size size = getSmallestPreviewSize(width, height, parameters);
             if (size != null) {
                 parameters.setPreviewSize(size.width, size.height);

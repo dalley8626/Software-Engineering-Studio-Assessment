@@ -44,7 +44,14 @@
         <activity android:name=".FacilitiesMapsActivity" />
         <activity android:name=".ChangeProfileActivity" />
         <activity android:name=".ViewProfileActivity" />
-        <activity android:name=".HeartRateMonitor" />
+        <activity android:name=".HeartRateMonitor"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".SupplementaryFilesActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
