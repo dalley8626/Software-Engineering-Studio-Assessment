@@ -56,7 +56,8 @@
         <activity android:name=".DoctorActivity" />
         <activity android:name=".ViewPatientsActivity" />
         <activity android:name=".DoctorHireActivity" />
-        <activity android:name=".DoctorProfileViewActivity"></activity>
+        <activity android:name=".DoctorProfileViewActivity" />
+        <activity android:name=".InteractDoctorActivity"></activity>
     </application>
 
 </manifest>

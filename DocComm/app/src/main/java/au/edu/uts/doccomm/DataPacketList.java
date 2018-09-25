@@ -33,7 +33,7 @@ public class DataPacketList extends AppCompatActivity {
        String dataPackets = "Name: " + dataPacket.get("name") + " Gender: " + dataPacket.get("gender") + "\n" +
                 "Height: " + dataPacket.get("height") + " Weight: " + dataPacket.get("weight") + "\n" +
                 "Medical Condition: " + dataPacket.get("medicalCondition") + "\n" +
-                "Addition medical condition: " + dataPacket.get("medicalData");
+                "Addition medical information: " + dataPacket.get("medicalData");
 
        return dataPackets;
     }

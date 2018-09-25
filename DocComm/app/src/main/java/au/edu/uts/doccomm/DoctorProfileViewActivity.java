@@ -1,8 +1,10 @@
 package au.edu.uts.doccomm;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,6 +25,12 @@ public class DoctorProfileViewActivity extends AppCompatActivity {
     TextView occupationTV;
     TextView contactNumberTV;
 
+    public void pairDoctor(View view) {
+        Intent intent = new Intent(getApplicationContext(), UserActivty.class);
+        intent.putExtra("doctorID", id);
+        startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,12 +43,11 @@ public class DoctorProfileViewActivity extends AppCompatActivity {
         occupationTV = findViewById(R.id.doctorOccupationTV);
         contactNumberTV = findViewById(R.id.doctorContactNumberTV);
 
-
         mDatabase.child(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Map<String, Object> doctor = (Map<String, Object>) dataSnapshot.getValue();
-                nameTV.setText((String) doctor.get("firstName") + " " + doctor.get("lastName"));
+                nameTV.setText(doctor.get("firstName") + " " + doctor.get("lastName"));
                 genderTV.setText((String) doctor.get("gender"));
                 occupationTV.setText((String) doctor.get("occupation"));
                 contactNumberTV.setText((String) doctor.get("phoneNumber"));
