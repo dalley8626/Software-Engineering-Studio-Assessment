@@ -27,14 +27,24 @@ public class DoctorProfileViewActivity extends AppCompatActivity {
     TextView contactNumberTV;
 
     public void pairDoctor(View view) {
-        Intent intent = new Intent(getApplicationContext(), UserActivty.class);
+        final Intent intent = new Intent(getApplicationContext(), UserActivty.class);
         intent.putExtra("doctorID", id);
 
-        Map<String, Object> pairingRequest = new HashMap<>();
-        pairingRequest.put("patientID", getIntent().getStringExtra("patientID"));
-        mDatabase.child(id).updateChildren(pairingRequest);
+        final String patientID = getIntent().getStringExtra("patientID");
+        mDatabase.child(patientID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Map<String, Object> patient;
+                patient = (Map<String, Object>) dataSnapshot.getValue();
+                mDatabase.child(id).child("patients").child(patientID).setValue(patient);
+                        startActivity(intent);
+            }
 
-        startActivity(intent);
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override

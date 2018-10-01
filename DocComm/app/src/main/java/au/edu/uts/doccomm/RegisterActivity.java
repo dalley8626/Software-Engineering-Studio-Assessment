@@ -61,9 +61,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     public FirebaseAuth mAuth;
     public DatabaseReference mDatabase;
 
-    public static String id;
+    public String id;
 
-    public static User user;
+    public User user;
 
 
 
