@@ -42,7 +42,7 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
     private DatabaseReference mDatabase;
     private String id;
 
-    public static Map<String, String> dataPacket;
+    public Map<String, String> dataPacket;
 
     public String name;
     public String gender;
@@ -170,7 +170,7 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
 
         weightTv = findViewById(R.id.weightTV);
         medicalDataEt = findViewById(R.id.medicalDataET);
-        btnUpload = (Button) findViewById(R.id.btnUpload);
+        btnUpload = findViewById(R.id.btnUpload);
 
         btnUpload.setOnClickListener(this);
 
@@ -246,7 +246,7 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //check whether the file has been selected
         if(requestCode == 86 && resultCode == RESULT_OK && data != null) {
-            pdfUri=data.getData();//return the uri of the selected file
+            pdfUri = data.getData();//return the uri of the selected file
         }
         else {
             Toast.makeText(this,"Please select a file", Toast.LENGTH_SHORT).show();
