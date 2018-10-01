@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewPatientsActivity">
+    tools:context=".DataPacketListFromDoctor">
 
     <ListView
-        android:id="@+id/patientListView"
+        android:id="@+id/packetListView2"
         android:layout_width="368dp"
         android:layout_height="551dp"
         tools:layout_editor_absoluteX="8dp"

@@ -1,13 +1,15 @@
 package au.edu.uts.doccomm;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
 public class DoctorActivity extends AppCompatActivity {
 
-    void viewPatients(View view) {
-
+    public void viewPatients(View view) {
+        Intent intent = new Intent(getApplicationContext(), ViewPatientsActivity.class);
+        startActivity(intent);
     }
 
     @Override

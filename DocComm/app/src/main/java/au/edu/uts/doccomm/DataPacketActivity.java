@@ -87,6 +87,10 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
 
         if (!medicalDataEt.getText().toString().isEmpty())
             dataPacket.put("medicalData", medicalDataEt.getText().toString());
+
+        if(!heartRateTextView.getText().toString().isEmpty()) {
+            dataPacket.put("heartRate", heartRateTextView.getText().toString());
+        }
     }
 
     public void heartRate(View view) {

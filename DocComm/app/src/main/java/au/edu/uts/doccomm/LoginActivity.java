@@ -44,13 +44,31 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference("users");
 
         //If the user is already logged in
-        if(mAuth.getCurrentUser() != null){
+     /*   if(mAuth.getCurrentUser() != null){
             finish();
-            startActivity(new Intent(getApplicationContext(),UserActivty.class));
-        }
-        mDatabase = FirebaseDatabase.getInstance().getReference("users");
+            id = mAuth.getCurrentUser().getUid();
+             mDatabase.child(id).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    Map<String, Object> user = (Map<String, Object>) dataSnapshot.getValue();
+                    String userType = (String) user.get("userType");
+                    if(userType.equals("patient")) {
+                        startActivity(new Intent(LoginActivity.this, UserActivty.class));
+                    }
+                    else {
+                        startActivity(new Intent(LoginActivity.this, DoctorActivity.class));
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }*/
 
         progressDialog = new ProgressDialog(this);
 
@@ -141,8 +159,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         if(task.isSuccessful()){
                             checkEmailVerification();
                         }
-
-
                     }
                 });
     }

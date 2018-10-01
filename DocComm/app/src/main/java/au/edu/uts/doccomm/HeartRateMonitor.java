@@ -192,6 +192,7 @@ public class HeartRateMonitor extends Activity {
             if(count == 0) {
                 newStartTime = startTime;
             }
+
             double timeInSeconds = (endTime - newStartTime) / 1000d;
             if (totalTimeInSecs >= 10) {
                 double bps = (beats / totalTimeInSecs);
@@ -202,11 +203,8 @@ public class HeartRateMonitor extends Activity {
                     processing.set(false);
                     return;
                 }
-                if(timeInSeconds >= 30) {
-                    Intent intent = new Intent(getApplicationContext(), DataPacketActivity.class);
-                    intent.putExtra("bpm", beatsAvg);
-                    startActivity(intent);
-                }
+
+
 
                 // Log.d(TAG,
                 // "totalTimeInSecs="+totalTimeInSecs+" beats="+beats);
@@ -224,20 +222,19 @@ public class HeartRateMonitor extends Activity {
                     }
                 }
                 beatsAvg = (beatsArrayAvg / beatsArrayCnt);
-                text.setText(String.valueOf(beatsAvg));
+                text.setText(String.valueOf(beatsAvg - 15));
+
+                if(timeInSeconds >= 30) {
+                    Intent intent = new Intent(getApplicationContext(), DataPacketActivity.class);
+                    intent.putExtra("bpm", beatsAvg - 15);
+                    startActivity(intent);
+                }
+
                 startTime = System.currentTimeMillis();
                 beats = 0;
 
                 count = 1;
 
-
-
-                if(beatsAvg > 100){
-                    Toast.makeText(getApplicationContext(),"Too High!",Toast.LENGTH_SHORT).show();
-                }
-                if(beatsAvg < 60){
-                    Toast.makeText(getApplicationContext(),"Too Low!",Toast.LENGTH_SHORT).show();
-                }
             }
             processing.set(false);
         }
