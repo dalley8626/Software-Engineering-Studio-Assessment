@@ -78,7 +78,6 @@ public class ViewPatientsActivity extends AppCompatActivity {
         });
 
         patientListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, final long id) {
                 Intent intent = new Intent(getApplicationContext(), ViewPatientProfileFromDoctor.class);

@@ -68,7 +68,8 @@
         <activity android:name=".DoctorProfileViewActivity" />
         <activity android:name=".InteractDoctorActivity" />
         <activity android:name=".ViewPatientProfileFromDoctor" />
-        <activity android:name=".DataPacketListFromDoctor"></activity>
+        <activity android:name=".DataPacketListFromDoctor" />
+        <activity android:name=".DataPacketViewDoctor"></activity>
     </application>
 
 </manifest>
