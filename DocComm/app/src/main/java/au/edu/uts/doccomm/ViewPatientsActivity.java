@@ -58,12 +58,13 @@ public class ViewPatientsActivity extends AppCompatActivity {
 
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, patientList);
 
-        mDatabase.child(doctorID).child("patients").addValueEventListener(new ValueEventListener() {
+        mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Map<String, Object> user;
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    user = (Map<String, Object>) snapshot.getValue();
+                for (DataSnapshot snapshot : dataSnapshot.child(doctorID).child("patients").getChildren()) {
+                    String patientID = snapshot.getKey();
+                    user = (Map<String, Object>) dataSnapshot.child(patientID).getValue();
                     patientList.add(patientToString(user));
                     patientIDList.add((String) user.get("userId"));
                 }

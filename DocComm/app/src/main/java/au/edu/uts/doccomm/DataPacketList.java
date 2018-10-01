@@ -30,12 +30,12 @@ public class DataPacketList extends AppCompatActivity {
 
 
     public String dataPacketString(HashMap<String, String> dataPacket) {
-       String dataPackets = "Name: " + dataPacket.get("name") + " Gender: " + dataPacket.get("gender") + "\n" +
+        String dataPackets = "Name: " + dataPacket.get("name") + " Gender: " + dataPacket.get("gender") + "\n" +
                 "Height: " + dataPacket.get("height") + " Weight: " + dataPacket.get("weight") + "\n" +
                 "Medical Condition: " + dataPacket.get("medicalCondition") + "\n" +
                 "Addition medical information: " + dataPacket.get("medicalData");
 
-       return dataPackets;
+        return dataPackets;
     }
 
     private void collectDataPackets(Map<String,Object> users) {
@@ -62,19 +62,21 @@ public class DataPacketList extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
         id = mAuth.getCurrentUser().getUid();
 
-         DatabaseReference ref = mDatabase.child(id).child("DataPacket");
-            ref.addValueEventListener(
-                    new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            collectDataPackets((Map<String,Object>) dataSnapshot.getValue());
-                            packetLV.setAdapter(arrayAdapter);
+        DatabaseReference ref = mDatabase.child(id);
+        ref.addValueEventListener(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.hasChild("DataPacket")) {
+                            collectDataPackets((Map<String,Object>) dataSnapshot.child("DataPacket").getValue());
                         }
+                        packetLV.setAdapter(arrayAdapter);
+                    }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                            //handle databaseError
-                        }
-                    });
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        //handle databaseError
+                    }
+                });
     }
 }

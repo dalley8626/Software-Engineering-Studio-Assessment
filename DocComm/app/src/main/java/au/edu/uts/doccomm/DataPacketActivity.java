@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,7 +67,8 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
 
     TextView heartRateTextView;
 
-
+    Button heartRateBtn;
+    CheckBox understandCB;
 
     public void addToPacket() {
 
@@ -91,6 +93,8 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         if(!heartRateTextView.getText().toString().isEmpty()) {
             dataPacket.put("heartRate", heartRateTextView.getText().toString());
         }
+
+
     }
 
     public void heartRate(View view) {
@@ -109,6 +113,7 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
 
         DatabaseReference newRef = mDatabase.child(id).child("DataPacket").push();
         newRef.setValue(dataPacket);
+        mDatabase.child(id).push().setValue(true);
         packetKey = newRef.getKey();
 
 
@@ -135,6 +140,15 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
 //        startActivity(intent);
 //    }
 
+    public void boxChecked(View view) {
+        if(understandCB.isChecked()) {
+            heartRateBtn.setVisibility(View.VISIBLE);
+        }
+        else {
+            heartRateBtn.setVisibility(View.INVISIBLE);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -160,7 +174,8 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
 
         btnUpload.setOnClickListener(this);
 
-
+        heartRateBtn = findViewById(R.id.button8);
+        understandCB = findViewById(R.id.checkBox2);
 
         int bpm = getIntent().getIntExtra("bpm", 0);
         if(bpm != 0) {

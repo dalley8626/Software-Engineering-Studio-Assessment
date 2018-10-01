@@ -34,9 +34,7 @@ public class DoctorProfileViewActivity extends AppCompatActivity {
         mDatabase.child(patientID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Map<String, Object> patient;
-                patient = (Map<String, Object>) dataSnapshot.getValue();
-                mDatabase.child(id).child("patients").child(patientID).setValue(patient);
+                mDatabase.child(id).child("patients").child(patientID).setValue(true);
                         startActivity(intent);
             }
 

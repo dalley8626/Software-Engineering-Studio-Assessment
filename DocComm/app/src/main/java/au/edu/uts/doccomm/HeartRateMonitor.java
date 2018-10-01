@@ -143,7 +143,7 @@ public class HeartRateMonitor extends Activity {
             int imgAvg = ImageProcessing.decodeYUV420SPtoRedAvg(data.clone(), height, width);
 
             Camera.Parameters parameters = camera.getParameters();
-            if (imgAvg < 250 && imgAvg > 220){
+            if (true){
                 parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
                 camera.setParameters(parameters);
                 camera.startPreview();

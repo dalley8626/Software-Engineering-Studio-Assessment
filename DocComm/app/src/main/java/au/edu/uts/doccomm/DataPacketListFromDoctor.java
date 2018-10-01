@@ -50,7 +50,7 @@ public class DataPacketListFromDoctor extends AppCompatActivity {
 
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, dataPacketList);
 
-        mDatabase.child(doctorID).child("patients").child(patientID).child("DataPacket").addValueEventListener(new ValueEventListener() {
+        mDatabase.child(patientID).child("DataPacket").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
