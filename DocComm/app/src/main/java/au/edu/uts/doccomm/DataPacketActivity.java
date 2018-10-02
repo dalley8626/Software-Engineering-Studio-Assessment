@@ -81,6 +81,9 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
     Button heartRateBtn;
     CheckBox understandCB;
 
+    private static final int REQUEST_CODE = 1;
+    private String [] permissions = {Manifest.permission.CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE};
+
     public void addToPacket() {
 
         if (!name.isEmpty())
@@ -107,9 +110,9 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
     }
 
     public void heartRate(View view) {
-        Intent intent = new Intent(getApplicationContext(), HeartRateMonitor.class);
-        intent.putExtra("doctorID", doctorID);
-        startActivity(intent);
+            Intent intent = new Intent(getApplicationContext(), HeartRateMonitor.class);
+            intent.putExtra("doctorID", doctorID);
+            startActivity(intent);
     }
 
     public void sendPacket(View view) {
@@ -184,6 +187,7 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_packet);
 
+        verifyPermission();
         dataPacketText = new ArrayList<>();
 
         mAuth = FirebaseAuth.getInstance();
@@ -251,11 +255,11 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View view) {
         if (view == btnUpload) {
-            if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+//            if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
                 selectPdf();
-            else {
-                ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 9);
-            }
+//            else {
+//                ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 9);
+//            }
         }
         if (view == btnBack) {
                 finish();
@@ -264,19 +268,34 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
 
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode == 9 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            selectPdf();
-        }
-        else {
-            Toast.makeText(this,"Please provide access storage permission", Toast.LENGTH_SHORT).show();
-        }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        if(requestCode == 9 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//            selectPdf();
+//        }
+//        else {
+//            Toast.makeText(this,"Please provide access storage permission", Toast.LENGTH_SHORT).show();
+//        }
+//
+//    }
 
+    public void verifyPermission(){
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                permissions[0]) == PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                permissions[1]) == PackageManager.PERMISSION_GRANTED){}
+        else{
+            ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE);
+        }
     }
 
-
-
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == REQUEST_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {}
+        else {
+            Toast.makeText(this, "Please provide access storage and camera permission", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 
 
