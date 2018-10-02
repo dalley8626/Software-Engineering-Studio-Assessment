@@ -199,7 +199,7 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         weightTv = findViewById(R.id.weightTV);
         medicalDataEt = findViewById(R.id.medicalDataET);
         btnUpload = findViewById(R.id.btnUpload);
-//        rcvUploadImages = findViewById(R.id.rcvUploadImages);
+        rcvUploadImages = (RecyclerView) findViewById(R.id.rcvUploadImages);
         btnBack = findViewById(R.id.btnBack);
 
 
@@ -280,11 +280,14 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
     private void selectPdf() {
         //Select files
         Intent intent = new Intent();
-        intent.setType("image/*");
+        intent.setType("application/pdf");
+//        intent.setType("image/*|application/pdf|audio/*");
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         intent.setAction(Intent.ACTION_GET_CONTENT); //to fetch files
+//        startActivityForResult(intent,86);
         startActivityForResult(intent.createChooser(intent,"Select File"), 86);
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -295,7 +298,7 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
                 Toast.makeText(this,"Selected Multiple Files", Toast.LENGTH_SHORT).show();
             }
             if (data.getData() != null) {
-                Toast.makeText(this,"Selected Multiple Files", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"Selected Single Files", Toast.LENGTH_SHORT).show();
             }
 
 //            pdfUri = data.getData();//return the uri of the selected file

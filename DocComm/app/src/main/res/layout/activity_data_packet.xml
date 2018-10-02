@@ -12,7 +12,8 @@
         android:layout_centerVertical="true"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
     <TextView
         android:id="@+id/textView"
         android:layout_width="343dp"
@@ -126,17 +127,14 @@
         android:layout_margin="15dp"
         android:text="Upload Files" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
 
-    <view class="android.support.v7.app.AlertController$RecycleListView"
+        <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/rcvUploadImages">
-     </view>
-    </RelativeLayout>
+            android:layout_height="wrap_content"
+            android:id="@+id/rcvUploadImages"
+            android:layout_margin="15dp"
+            >
+        </android.support.v7.widget.RecyclerView>
 
 
         <Button
