@@ -74,7 +74,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:onClick="boxChecked"
-        android:text="I understand" />
+        android:text="I have read and understood the above" />
 
     <TextView
         android:id="@+id/heartRateTV"

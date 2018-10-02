@@ -42,6 +42,8 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
     private DatabaseReference mDatabase;
     private String id;
 
+    private String doctorID;
+
     public Map<String, String> dataPacket;
 
     public String name;
@@ -115,6 +117,7 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         newRef.setValue(dataPacket);
         mDatabase.child(id).push().setValue(true);
         packetKey = newRef.getKey();
+        mDatabase.child(doctorID).child("dataPacket").child(id).setValue(dataPacket);
 
 
 
@@ -159,6 +162,7 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
         id = mAuth.getCurrentUser().getUid();
+        doctorID = getIntent().getStringExtra("doctorID");
 
         heartRateTextView = findViewById(R.id.heartRateTV);
 

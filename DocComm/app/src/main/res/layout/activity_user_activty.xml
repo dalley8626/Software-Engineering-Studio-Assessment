@@ -26,14 +26,6 @@
             android:textAlignment="center" />
 
         <Button
-            android:id="@+id/dataButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:onClick="addPacket"
-            android:text="Add Data Packet" />
-
-        <Button
             android:id="@+id/viewPacketBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -66,6 +58,13 @@
             android:layout_height="wrap_content"
             android:onClick="findDoctor"
             android:text="Find a Doctor" />
+
+        <Button
+            android:id="@+id/button9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="doctorList"
+            android:text="List of Paired Doctors" />
 
         <Button
             android:id="@+id/interactBtn"
