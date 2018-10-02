@@ -199,11 +199,12 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         weightTv = findViewById(R.id.weightTV);
         medicalDataEt = findViewById(R.id.medicalDataET);
         btnUpload = findViewById(R.id.btnUpload);
-        rcvUploadImages = findViewById(R.id.rcvUploadImages);
+//        rcvUploadImages = findViewById(R.id.rcvUploadImages);
         btnBack = findViewById(R.id.btnBack);
 
 
         btnUpload.setOnClickListener(this);
+        btnBack.setOnClickListener(this);
 
 
 
@@ -254,6 +255,7 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
             }
         }
         if (view == btnBack) {
+                finish();
             startActivity(new Intent(this, UserActivty.class));
         }
 
