@@ -2,15 +2,20 @@ package au.edu.uts.doccomm;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.hardware.Camera;
 import android.hardware.Camera.PreviewCallback;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -65,6 +70,30 @@ public class HeartRateMonitor extends Activity {
     private static double beats = 0;
     private static long startTime = 0;
 
+    private static final int request_code = 1;
+
+    public void getPermission(){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
+            preview = (SurfaceView) findViewById(R.id.preview);
+            previewHolder = preview.getHolder();
+            previewHolder.addCallback(surfaceCallback);
+            previewHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+
+            image = findViewById(R.id.image);
+            text = (TextView) findViewById(R.id.text);
+
+            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+            wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "DoNotDimScreen");      }
+        else {
+            ActivityCompat.requestPermissions(HeartRateMonitor.this, new String[]{Manifest.permission.CAMERA}, request_code);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        getPermission();
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -73,16 +102,7 @@ public class HeartRateMonitor extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        preview = (SurfaceView) findViewById(R.id.preview);
-        previewHolder = preview.getHolder();
-        previewHolder.addCallback(surfaceCallback);
-        previewHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-
-        image = findViewById(R.id.image);
-        text = (TextView) findViewById(R.id.text);
-
-        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "DoNotDimScreen");
+        getPermission();
     }
 
     /**
