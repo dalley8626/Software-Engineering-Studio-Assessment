@@ -22,8 +22,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -47,7 +50,10 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private StorageReference mStorageRef;
+    //    private FirebaseStorage firebaseStorage;
     private String id;
+    public String url;
+
 
     private String doctorID;
 
@@ -60,11 +66,12 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
     public String medicalCondition;
     public String heartRate;
 
+
     public String packetKey;
 
     private String currentDateTimeString;
 
-    public  ArrayList<String> dataPacketText;
+    public ArrayList<String> dataPacketText;
 
     TextView nameTv;
     TextView genderTv;
@@ -73,7 +80,7 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
     EditText medicalDataEt;
     Button btnUpload;
     RecyclerView rcvUploadImages;
-    Uri pdfUri; //local storage of url
+    public Uri pdfUri; //local storage of url
     Button btnBack;
 
     TextView heartRateTextView;
@@ -101,9 +108,11 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         if (!medicalDataEt.getText().toString().isEmpty())
             dataPacket.put("medicalData", medicalDataEt.getText().toString());
 
-        if(!heartRateTextView.getText().toString().isEmpty()) {
+        if (!heartRateTextView.getText().toString().isEmpty()) {
             dataPacket.put("heartRate", heartRateTextView.getText().toString());
         }
+
+
     }
 
     public void heartRate(View view) {
@@ -114,19 +123,22 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
 
     public void sendPacket(View view) {
 
+        uploadFile(pdfUri);
         addToPacket();
+
 
         String id = mAuth.getCurrentUser().getUid();
 
         currentDateTimeString = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(new Date());
         dataPacket.put("timestamp", currentDateTimeString);
 
+        dataPacket.put("url", url);
+
         DatabaseReference newRef = mDatabase.child(id).child("DataPacket").push();
         newRef.setValue(dataPacket);
-      //  mDatabase.child(id).push().setValue(true);
+        //  mDatabase.child(id).push().setValue(true);
         packetKey = newRef.getKey();
         mDatabase.child(doctorID).child("dataPacket").child(id).push().setValue(dataPacket);
-
 
 
         Toast.makeText(DataPacketActivity.this, "Saved and Sent", Toast.LENGTH_SHORT).show();
@@ -137,24 +149,31 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         startActivity(intent);
     }
 
-//        public void uploadFile(Uri pdfUri) {
-//        mStorageRef = FirebaseStorage.getInstance().getReference();
-//        String fileName = System.currentTimeMillis()+"";
-//        StorageReference storageReference = mStorageRef.getReference();//returns root path
-//        storageReference.child("files").child(fileName).putFile(pdfUri)
-//                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                    @Override
-//                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                        String url = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
+    public void uploadFile(Uri pdfUri) {
+        String fileName = System.currentTimeMillis() + "";
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+
+        storageReference.child("files").child(fileName).putFile(pdfUri);
+
+//        Task<Uri> firebaseUri = taskSnapshot.getStorage().getDownloadUrl();
+
+
+
+
+//                                                                                                }
+//                                                                                            });
+//            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                @Override
+//                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 //
-//                    }
-//                }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
 //
-//            }
-//        });
-//    }
+//                }
+//            })
+        ;
+//            url = storageReference.child("files").getDownloadUrl().toString();
+
+
+    }
 
 //    public void savePacket(View view) {
 //        String dataPackets = "Name: " + name + " Gender: " + gender + "\n" +
@@ -171,10 +190,9 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
 //    }
 
     public void boxChecked(View view) {
-        if(understandCB.isChecked()) {
+        if (understandCB.isChecked()) {
             heartRateBtn.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             heartRateBtn.setVisibility(View.INVISIBLE);
         }
     }
@@ -210,13 +228,11 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         btnBack.setOnClickListener(this);
 
 
-
-
         heartRateBtn = findViewById(R.id.button8);
         understandCB = findViewById(R.id.checkBox2);
 
         int bpm = getIntent().getIntExtra("bpm", 0);
-        if(bpm != 0) {
+        if (bpm != 0) {
             heartRate = Integer.toString(bpm);
             heartRateTextView.setText(heartRate);
         }
@@ -251,63 +267,53 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View view) {
         if (view == btnUpload) {
-            if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
                 selectPdf();
             else {
-                ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 9);
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 9);
             }
         }
         if (view == btnBack) {
-                finish();
+            finish();
             startActivity(new Intent(this, UserActivty.class));
         }
 
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode == 9 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == 9 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             selectPdf();
-        }
-        else {
-            Toast.makeText(this,"Please provide access storage permission", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Please provide access storage permission", Toast.LENGTH_SHORT).show();
         }
 
     }
-
-
-
-
 
 
     private void selectPdf() {
         //Select files
         Intent intent = new Intent();
-        intent.setType("application/pdf");
-//        intent.setType("image/*|application/pdf|audio/*");
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+//        intent.setType("application/pdf");
+        intent.setType("image/*|application/pdf|audio/*");
+//        intent.setType("application/pdf");
+//        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         intent.setAction(Intent.ACTION_GET_CONTENT); //to fetch files
-//        startActivityForResult(intent,86);
-        startActivityForResult(intent.createChooser(intent,"Select File"), 86);
+        startActivityForResult(intent, 86);
+//        startActivityForResult(intent.createChooser(intent,"Select File"), 86);
     }
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode,86,data);
+    protected void onActivityResult(int requestCode, int resultCode, Intent
+            data) {
+        super.onActivityResult(requestCode, 86, data);
         //check whether the file has been selected
-        if(requestCode == 86 && resultCode == RESULT_OK ) {
-            if (data.getClipData() != null) {
-                Toast.makeText(this,"Selected Multiple Files", Toast.LENGTH_SHORT).show();
-            }
-            if (data.getData() != null) {
-                Toast.makeText(this,"Selected Single Files", Toast.LENGTH_SHORT).show();
-            }
-
-//            pdfUri = data.getData();//return the uri of the selected file
-        }
-        else {
-            Toast.makeText(this,"Please select a file", Toast.LENGTH_SHORT).show();
+        if (requestCode == 86 && resultCode == RESULT_OK && data != null) {
+            pdfUri = data.getData();//return the uri of the selected file
+        } else {
+            Toast.makeText(this, "Please select a file", Toast.LENGTH_SHORT).show();
         }
     }
 }
