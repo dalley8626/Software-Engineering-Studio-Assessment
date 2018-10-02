@@ -227,6 +227,8 @@ public class HeartRateMonitor extends Activity {
                 if(timeInSeconds >= 30) {
                     Intent intent = new Intent(getApplicationContext(), DataPacketActivity.class);
                     intent.putExtra("bpm", beatsAvg - 15);
+                    String doctorID = getIntent().getStringExtra("doctorID");
+                    intent.putExtra("doctorID", doctorID);
                     startActivity(intent);
                 }
 

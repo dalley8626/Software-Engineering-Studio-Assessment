@@ -83,15 +83,15 @@
         android:onClick="boxChecked"
         android:text="I have read and understood the above" />
 
-    <TextView
-        android:id="@+id/heartRateTV"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="15dp"
-        android:text="Heart Rate" />
+        <TextView
+            android:id="@+id/heartRateTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:text="Not measured" />
 
     <Button
         android:id="@+id/button8"

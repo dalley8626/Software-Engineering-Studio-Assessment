@@ -104,12 +104,11 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         if(!heartRateTextView.getText().toString().isEmpty()) {
             dataPacket.put("heartRate", heartRateTextView.getText().toString());
         }
-
-
     }
 
     public void heartRate(View view) {
         Intent intent = new Intent(getApplicationContext(), HeartRateMonitor.class);
+        intent.putExtra("doctorID", doctorID);
         startActivity(intent);
     }
 
