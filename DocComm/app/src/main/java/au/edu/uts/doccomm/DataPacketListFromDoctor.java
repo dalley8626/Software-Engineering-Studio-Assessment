@@ -29,6 +29,7 @@ public class DataPacketListFromDoctor extends AppCompatActivity {
 
     private ArrayList<String> dataPacketList;
     private ArrayList<String> dataPacketUserID;
+    private ArrayList<String> timeStamps;
 
     private ListView packetLV;
 
@@ -50,6 +51,7 @@ public class DataPacketListFromDoctor extends AppCompatActivity {
 
         dataPacketList = new ArrayList<>();
         dataPacketUserID = new ArrayList<>();
+        timeStamps = new ArrayList<>();
 
         packetLV = findViewById(R.id.packetListView2);
 
@@ -59,9 +61,9 @@ public class DataPacketListFromDoctor extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Map<String, Object> user = (Map<String, Object>) snapshot.getValue();
-                    dataPacketList.add(mapToString(user));
-                    dataPacketUserID.add((String) user.get("userId"));
+                    Map<String, Object> dataPacket = (Map<String, Object>) snapshot.getValue();
+                    dataPacketList.add(mapToString(dataPacket));
+                    timeStamps.add((String) dataPacket.get("timestamp"));
 
                 }
                 packetLV.setAdapter(arrayAdapter);
@@ -77,8 +79,9 @@ public class DataPacketListFromDoctor extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), DataPacketViewDoctor.class);
-                intent.putExtra("patientID", dataPacketUserID.get(position));
+                intent.putExtra("patientID", patientID);
                 intent.putExtra("doctorID", doctorID);
+                intent.putExtra("timeStamp", timeStamps.get(position));
 
                 startActivity(intent);
             }
