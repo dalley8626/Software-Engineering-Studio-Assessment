@@ -78,6 +78,8 @@ public class DataPacketListFromDoctor extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), DataPacketViewDoctor.class);
                 intent.putExtra("patientID", dataPacketUserID.get(position));
+                intent.putExtra("doctorID", doctorID);
+
                 startActivity(intent);
             }
         });

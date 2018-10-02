@@ -124,9 +124,9 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
 
         DatabaseReference newRef = mDatabase.child(id).child("DataPacket").push();
         newRef.setValue(dataPacket);
-        mDatabase.child(id).push().setValue(true);
+      //  mDatabase.child(id).push().setValue(true);
         packetKey = newRef.getKey();
-        mDatabase.child(doctorID).child("dataPacket").child(id).setValue(dataPacket);
+        mDatabase.child(doctorID).child("dataPacket").child(id).push().setValue(dataPacket);
 
 
 
