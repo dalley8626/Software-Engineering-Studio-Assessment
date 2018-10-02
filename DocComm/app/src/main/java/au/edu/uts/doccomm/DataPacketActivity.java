@@ -1,6 +1,7 @@
 package au.edu.uts.doccomm;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,12 +22,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -37,9 +44,9 @@ import java.util.Map;
 
 public class DataPacketActivity extends AppCompatActivity implements View.OnClickListener {
 
-
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+    private StorageReference mStorageRef;
     private String id;
 
     private String doctorID;
@@ -65,7 +72,9 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
     TextView weightTv;
     EditText medicalDataEt;
     Button btnUpload;
+    RecyclerView rcvUploadImages;
     Uri pdfUri; //local storage of url
+    Button btnBack;
 
     TextView heartRateTextView;
 
@@ -129,6 +138,25 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         startActivity(intent);
     }
 
+//        public void uploadFile(Uri pdfUri) {
+//        mStorageRef = FirebaseStorage.getInstance().getReference();
+//        String fileName = System.currentTimeMillis()+"";
+//        StorageReference storageReference = mStorageRef.getReference();//returns root path
+//        storageReference.child("files").child(fileName).putFile(pdfUri)
+//                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                    @Override
+//                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                        String url = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
+//
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//
+//            }
+//        });
+//    }
+
 //    public void savePacket(View view) {
 //        String dataPackets = "Name: " + name + " Gender: " + gender + "\n" +
 //                "Height: " + height + " Weight: " + weight + "\n" +
@@ -175,8 +203,15 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         weightTv = findViewById(R.id.weightTV);
         medicalDataEt = findViewById(R.id.medicalDataET);
         btnUpload = findViewById(R.id.btnUpload);
+        rcvUploadImages = (RecyclerView) findViewById(R.id.rcvUploadImages);
+        btnBack = findViewById(R.id.btnBack);
+
 
         btnUpload.setOnClickListener(this);
+        btnBack.setOnClickListener(this);
+
+
+
 
         heartRateBtn = findViewById(R.id.button8);
         understandCB = findViewById(R.id.checkBox2);
@@ -215,42 +250,62 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
     }
 
     @Override
+    public void onClick(View view) {
+        if (view == btnUpload) {
+            if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+                selectPdf();
+            else {
+                ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 9);
+            }
+        }
+        if (view == btnBack) {
+                finish();
+            startActivity(new Intent(this, UserActivty.class));
+        }
+
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode == 9 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             selectPdf();
         }
         else {
-            Toast.makeText(this,"Please provide image permission", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Please provide access storage permission", Toast.LENGTH_SHORT).show();
         }
 
     }
 
-    @Override
-    public void onClick(View view) {
-        if (view == btnUpload) {
-            if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                selectPdf();
-            }
-            else {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 9);
-            }
 
-        }
-    }
+
+
+
 
     private void selectPdf() {
         //Select files
         Intent intent = new Intent();
         intent.setType("application/pdf");
+//        intent.setType("image/*|application/pdf|audio/*");
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         intent.setAction(Intent.ACTION_GET_CONTENT); //to fetch files
-        startActivityForResult(intent, 86);
+//        startActivityForResult(intent,86);
+        startActivityForResult(intent.createChooser(intent,"Select File"), 86);
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode,86,data);
         //check whether the file has been selected
-        if(requestCode == 86 && resultCode == RESULT_OK && data != null) {
-            pdfUri = data.getData();//return the uri of the selected file
+        if(requestCode == 86 && resultCode == RESULT_OK ) {
+            if (data.getClipData() != null) {
+                Toast.makeText(this,"Selected Multiple Files", Toast.LENGTH_SHORT).show();
+            }
+            if (data.getData() != null) {
+                Toast.makeText(this,"Selected Single Files", Toast.LENGTH_SHORT).show();
+            }
+
+//            pdfUri = data.getData();//return the uri of the selected file
         }
         else {
             Toast.makeText(this,"Please select a file", Toast.LENGTH_SHORT).show();
