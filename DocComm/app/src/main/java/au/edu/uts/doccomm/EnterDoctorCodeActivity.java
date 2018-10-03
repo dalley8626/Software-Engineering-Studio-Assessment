@@ -24,7 +24,7 @@ public class EnterDoctorCodeActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
 
-    private String i;
+    private String id;
 
 
     public ArrayList<String> doctorList;
@@ -44,7 +44,6 @@ public class EnterDoctorCodeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_doctor_hire);
 
 
-        doctorListView = findViewById(R.id.doctorLV);
         doctorList = new ArrayList<>();
         doctorIDList = new ArrayList<>();
 
