@@ -38,7 +38,7 @@ public class UserActivty extends AppCompatActivity implements View.OnClickListen
     }
 
     public void findDoctor(View view) {
-        Intent intent = new Intent(getApplicationContext(), DoctorHireActivity.class);
+        Intent intent = new Intent(getApplicationContext(), EnterDoctorCodeActivity.class);
         intent.putExtra("patientID", id);
         startActivity(intent);
     }

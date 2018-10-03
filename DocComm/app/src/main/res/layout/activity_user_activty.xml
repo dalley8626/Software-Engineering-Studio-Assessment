@@ -64,7 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="doctorList"
-            android:text="List of Paired Doctors" />
+            android:text="Send Data Packet" />
 
         <Button
             android:id="@+id/interactBtn"
@@ -72,6 +72,12 @@
             android:layout_height="wrap_content"
             android:text="Interact with Doctor"
             android:visibility="visible" />
+
+        <Button
+            android:id="@+id/button12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pair with Doctor" />
 
 
     </LinearLayout>
