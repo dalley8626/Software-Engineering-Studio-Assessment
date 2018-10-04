@@ -41,7 +41,7 @@ public class EnterDoctorCodeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doctor_hire);
+        setContentView(R.layout.activity_enter_doctor_code);
 
 
         doctorList = new ArrayList<>();

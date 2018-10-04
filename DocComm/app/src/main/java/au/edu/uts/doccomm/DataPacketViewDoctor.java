@@ -1,8 +1,10 @@
 package au.edu.uts.doccomm;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,6 +26,14 @@ public class DataPacketViewDoctor extends AppCompatActivity {
     private String timeStamp;
 
     private TextView heartRateTV;
+
+    public void sendFeedback(View view) {
+        Intent intent = new Intent(getApplicationContext(), SendFeedbackActivity.class);
+        intent.putExtra("patientID", patientID);
+        intent.putExtra("doctorID", doctorID);
+
+        startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

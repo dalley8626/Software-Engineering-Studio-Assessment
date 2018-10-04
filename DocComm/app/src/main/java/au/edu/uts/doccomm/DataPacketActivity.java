@@ -321,7 +321,6 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         if(requestCode == REQUEST_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {}
         else {
             Toast.makeText(this, "Please provide access storage and camera permission", Toast.LENGTH_SHORT).show();
-            ////////////////////////////////////////////////////////////////////////////////
         }
     }
 

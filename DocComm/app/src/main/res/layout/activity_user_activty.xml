@@ -70,6 +70,7 @@
             android:id="@+id/interactBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="interactDoctor"
             android:text="Interact with Doctor"
             android:visibility="visible" />
 

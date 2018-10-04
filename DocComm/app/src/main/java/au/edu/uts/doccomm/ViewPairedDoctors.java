@@ -31,6 +31,8 @@ public class ViewPairedDoctors extends AppCompatActivity {
 
     private ListView doctorListLV;
 
+    private boolean fromInteractDoctorActivity;
+
     private String mapToString(Map<String, Object> doctors) {
         String doctor = doctors.get("firstName") + " " + doctors.get("lastName") + "\n" +
                 doctors.get("occupation");
@@ -51,6 +53,8 @@ public class ViewPairedDoctors extends AppCompatActivity {
         patientID = mAuth.getCurrentUser().getUid();
 
         doctorListLV = findViewById(R.id.doctorListLV);
+
+        fromInteractDoctorActivity = getIntent().getBooleanExtra("InteractDoctorActivity", false);
 
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listOfDoctors);
 
@@ -75,22 +79,33 @@ public class ViewPairedDoctors extends AppCompatActivity {
         doctorListLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(), DoctorProfileViewActivity.class);
-                intent.putExtra("pairedView", true);
-                intent.putExtra("doctorID", listOfDoctorsID.get(position));
-                intent.putExtra("patientID", mAuth.getCurrentUser().getUid());
-                startActivity(intent);
+                if(!fromInteractDoctorActivity) {
+                    Intent intent = new Intent(getApplicationContext(), DoctorProfileViewActivity.class);
+                    intent.putExtra("pairedView", true);
+                    intent.putExtra("doctorID", listOfDoctorsID.get(position));
+                    intent.putExtra("patientID", mAuth.getCurrentUser().getUid());
+                    startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(getApplicationContext(), InteractDoctorActivity.class);
+                    intent.putExtra("doctorID", listOfDoctorsID.get(position));
+                    intent.putExtra("patientID", mAuth.getCurrentUser().getUid());
+                    startActivity(intent);
+                }
             }
         });
 
         doctorListLV.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(), DataPacketActivity.class);
-                intent.putExtra("doctorID", listOfDoctorsID.get(position));
-                startActivity(intent);
+                if(!fromInteractDoctorActivity) {
+                    Intent intent = new Intent(getApplicationContext(), DataPacketActivity.class);
+                    intent.putExtra("doctorID", listOfDoctorsID.get(position));
+                    startActivity(intent);
 
-                return true;
+                    return true;
+                }
+                return false;
             }
         });
     }

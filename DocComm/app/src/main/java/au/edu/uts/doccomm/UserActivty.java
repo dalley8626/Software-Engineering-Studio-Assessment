@@ -15,22 +15,30 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class UserActivty extends AppCompatActivity implements View.OnClickListener {
 
     private Button btnLogout;
     private FirebaseAuth mAuth;
-    private FirebaseDatabase mDatabase;
+    private DatabaseReference mDatabase;
     private TextView tvUsername;
 
 
 
     public String id;
+
+
+    public void pairDoctor(View view) {
+        Intent intent = new Intent(getApplicationContext(), EnterDoctorCodeActivity.class);
+        startActivity(intent);
+    }
 
     public void doctorList(View view) {
         Intent intent = new Intent(getApplicationContext(), ViewPairedDoctors.class);
@@ -38,13 +46,15 @@ public class UserActivty extends AppCompatActivity implements View.OnClickListen
     }
 
     public void findDoctor(View view) {
-        Intent intent = new Intent(getApplicationContext(), EnterDoctorCodeActivity.class);
+        Intent intent = new Intent(getApplicationContext(), DoctorHireActivity.class);
         intent.putExtra("patientID", id);
         startActivity(intent);
     }
 
     public void interactDoctor(View view) {
-
+        Intent intent = new Intent(getApplicationContext(), ViewPairedDoctors.class);
+        intent.putExtra("InteractDoctorActivity", true);
+        startActivity(intent);
     }
 
     public void heartRate(View view) {
@@ -83,7 +93,7 @@ public class UserActivty extends AppCompatActivity implements View.OnClickListen
         tvUsername = (TextView) findViewById(R.id.tvUsername);
 
         mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference("users");
 
 
         //If there is no use logged in, redirect them to the login page
