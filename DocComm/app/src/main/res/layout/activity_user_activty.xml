@@ -9,11 +9,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:onClick="onClick"
-        android:layout_margin="16dp"
+        android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
+        android:onClick="onClick"
         android:orientation="vertical">
 
 
@@ -53,13 +52,6 @@
             android:text="View Profile Information" />
 
         <Button
-            android:id="@+id/button7"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="findDoctor"
-            android:text="Find a Doctor" />
-
-        <Button
             android:id="@+id/button9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -78,6 +70,7 @@
             android:id="@+id/button12"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="pairDoctor"
             android:text="Pair with Doctor" />
 
 

@@ -140,7 +140,6 @@ public class FacilitiesMapsActivity extends FragmentActivity implements OnMapRea
                 {
                     Toast.makeText(this, "Location permission denied by user", Toast.LENGTH_SHORT).show();
                 }
-                return;
         }
     }
 

@@ -21,8 +21,6 @@ import java.util.Map;
 
 public class DataPacketListFromDoctor extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
 
     private String patientID;
     private String doctorID;
@@ -34,14 +32,16 @@ public class DataPacketListFromDoctor extends AppCompatActivity {
     private ListView packetLV;
 
     private String mapToString(Map<String, Object> dataPacket) {
-        String result = (String) dataPacket.get("timestamp");
-        return result;
+        return (String) dataPacket.get("timestamp");
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_packet_list_from_doctor);
+
+        FirebaseAuth mAuth;
+        DatabaseReference mDatabase;
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference("users");

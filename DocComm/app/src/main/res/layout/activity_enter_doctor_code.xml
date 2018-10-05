@@ -13,19 +13,20 @@
         android:layout_height="wrap_content">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/codeTIL"
+            android:id="@+id/codeTIT"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:hint="Enter Dcotor Code" />
+            android:hint="Enter Code" />
     </android.support.design.widget.TextInputLayout>
 
     <Button
-        android:id="@+id/button13"
+        android:id="@+id/pairDoctorBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:onClick="pairDoctor"
         android:text="Pair with Doctor" />
 </LinearLayout>
