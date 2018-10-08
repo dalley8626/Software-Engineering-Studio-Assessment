@@ -35,6 +35,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -161,26 +162,18 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
 
         filePath.putFile(pdfUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) // THIS SHIT IS THE PROBLEM AS IT REQUIRES THE CODE TO BE SUCCESS FIRST
+            {
                 filePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
                         url = uri.toString();
 
-
                     }
                 });
+
             }
         });
-
-
-
-
-
-
-
-//
-
 
     }
 
@@ -324,7 +317,9 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
 //        } else {
 //            Toast.makeText(this, "Please provide access storage permission", Toast.LENGTH_SHORT).show();
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode == REQUEST_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {}
+        if(requestCode == REQUEST_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            selectPdf();
+        }
         else {
             Toast.makeText(this, "Please provide access storage and camera permission", Toast.LENGTH_SHORT).show();
         }
@@ -350,6 +345,7 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         //check whether the file has been selected
         if (requestCode == 86 && resultCode == RESULT_OK && data != null) {
             pdfUri = data.getData();//return the uri of the selected file
+            uploadFile(pdfUri);
         } else {
             Toast.makeText(this, "Please select a file", Toast.LENGTH_SHORT).show();
         }
