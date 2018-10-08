@@ -172,7 +172,9 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void onComplete(@NonNull Task<Uri> task) {
                 if(task.isSuccessful()) {
+                    System.out.print("shit");
                     url = task.getResult().toString();
+                    System.out.print(url);
                 }
             }
         });
