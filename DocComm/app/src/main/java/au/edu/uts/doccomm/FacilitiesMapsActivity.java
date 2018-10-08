@@ -84,9 +84,9 @@ public class FacilitiesMapsActivity extends FragmentActivity implements OnMapRea
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
-            mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
             buildGoogleApiClient();
-            mMap.setTrafficEnabled(true);
+            mMap.setTrafficEnabled(false);
             mMap.setIndoorEnabled(false);
             //System.out.print(CurrentLocation.getPosition());
 
