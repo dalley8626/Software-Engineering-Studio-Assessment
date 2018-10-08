@@ -128,7 +128,12 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
 
     public void sendPacket(View view) {
 
-        uploadFile(pdfUri);
+
+        if(url != null) {
+            uploadFile(pdfUri);
+        }
+
+
         addToPacket();
 
 
@@ -137,7 +142,9 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         currentDateTimeString = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(new Date());
         dataPacket.put("timestamp", currentDateTimeString);
 
+
         dataPacket.put("url", url);
+
 
         DatabaseReference newRef = mDatabase.child(id).child("DataPacket").push();
         newRef.setValue(dataPacket);
