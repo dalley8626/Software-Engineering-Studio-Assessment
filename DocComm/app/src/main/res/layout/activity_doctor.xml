@@ -7,6 +7,13 @@
     android:orientation="vertical"
     tools:context=".DoctorActivity">
 
+    <TextView
+        android:id="@+id/dataPacketNotification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="You have no new data packet" />
+
     <Button
         android:id="@+id/button6"
         android:layout_width="match_parent"
@@ -21,6 +28,14 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="Change Pairing Code" />
+
+    <Button
+        android:id="@+id/recentDataPacketBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:onClick="newDataPackets"
+        android:text="New Data Packets" />
 
     <Button
         android:id="@+id/button10"
