@@ -156,24 +156,32 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         String fileName = System.currentTimeMillis() + "";
         StorageReference storageReference = FirebaseStorage.getInstance().getReference();
 
-        storageReference.child("files").child(fileName).putFile(pdfUri);
+        final StorageReference filePath = storageReference.child("files").child(fileName);
 
-//        Task<Uri> firebaseUri = taskSnapshot.getStorage().getDownloadUrl();
+        final UploadTask uploadTask = filePath.putFile(pdfUri);
+
+        Task<Uri> uriTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if(task.isSuccessful()) {
+                    throw  task.getException();
+                }
+                return filePath.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if(task.isSuccessful()) {
+                    url = task.getResult().toString();
+                }
+            }
+        });
 
 
 
 
-//                                                                                                }
-//                                                                                            });
-//            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                @Override
-//                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
 //
-//
-//                }
-//            })
-        ;
-//            url = storageReference.child("files").getDownloadUrl().toString();
 
 
     }
