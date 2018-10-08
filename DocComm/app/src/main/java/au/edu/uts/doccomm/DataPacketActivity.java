@@ -81,7 +81,7 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
     TextView weightTv;
     EditText medicalDataEt;
     Button btnUpload;
-    RecyclerView rcvUploadImages;
+    TextView tvUploadUrl;
     public Uri pdfUri; //local storage of url
     Button btnBack;
 
@@ -210,8 +210,9 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         weightTv = findViewById(R.id.weightTV);
         medicalDataEt = findViewById(R.id.medicalDataET);
         btnUpload = findViewById(R.id.btnUpload);
-        rcvUploadImages = (RecyclerView) findViewById(R.id.rcvUploadImages);
+//        rcvUploadImages = (RecyclerView) findViewById(R.id.rcvUploadImages);
         btnBack = findViewById(R.id.btnBack);
+        tvUploadUrl = findViewById(R.id.tvUploadUrl);
 
 
         btnUpload.setOnClickListener(this);
@@ -310,6 +311,7 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode == REQUEST_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             selectPdf();
+
         }
         else {
             Toast.makeText(this, "Please provide access storage and camera permission", Toast.LENGTH_SHORT).show();
@@ -337,6 +339,8 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         if (requestCode == 86 && resultCode == RESULT_OK && data != null) {
             pdfUri = data.getData();//return the uri of the selected file
             uploadFile(pdfUri);
+            tvUploadUrl.setText("A file is selected: " + data.getData().getLastPathSegment());
+
         } else {
             Toast.makeText(this, "Please select a file", Toast.LENGTH_SHORT).show();
         }
