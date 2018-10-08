@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.nfc.Tag;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -153,31 +154,26 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
     }
 
     public void uploadFile(Uri pdfUri) {
-        String fileName = System.currentTimeMillis() + "";
+//        String fileName = System.currentTimeMillis() + "";
         StorageReference storageReference = FirebaseStorage.getInstance().getReference();
 
-        final StorageReference filePath = storageReference.child("files").child(fileName);
+        final StorageReference filePath = storageReference.child("files");
 
-        final UploadTask uploadTask = filePath.putFile(pdfUri);
+        filePath.putFile(pdfUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                filePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        url = uri.toString();
 
-        Task<Uri> uriTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-            @Override
-            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                if(task.isSuccessful()) {
-                    throw  task.getException();
-                }
-                return filePath.getDownloadUrl();
-            }
-        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-                if(task.isSuccessful()) {
-                    System.out.print("shit");
-                    url = task.getResult().toString();
-                    System.out.print(url);
-                }
+
+                    }
+                });
             }
         });
+
+
 
 
 
@@ -338,7 +334,7 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         //Select files
         Intent intent = new Intent();
 //        intent.setType("application/pdf");
-        intent.setType("image/*|application/pdf|audio/*");
+        intent.setType("application/pdf");
 //        intent.setType("application/pdf");
 //        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         intent.setAction(Intent.ACTION_GET_CONTENT); //to fetch files
