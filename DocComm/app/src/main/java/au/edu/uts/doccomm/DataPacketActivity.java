@@ -143,8 +143,10 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         newRef.setValue(dataPacket);
         //  mDatabase.child(id).push().setValue(true);
         packetKey = newRef.getKey();
-        mDatabase.child(doctorID).child("dataPacket").child(id).push().setValue(dataPacket);
-
+        DatabaseReference doctorRef = mDatabase.child(doctorID).child("dataPacket").child(id).push();
+        String dataPacketKey = doctorRef.getKey();
+        doctorRef.setValue(dataPacket);
+        mDatabase.child(doctorID).child("recentDataPackets").child(dataPacketKey).setValue(true);
 
         Toast.makeText(DataPacketActivity.this, "Saved and Sent", Toast.LENGTH_SHORT).show();
 
@@ -174,22 +176,7 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
 
             }
         });
-
     }
-
-//    public void savePacket(View view) {
-//        String dataPackets = "Name: " + name + " Gender: " + gender + "\n" +
-//                "Height: " + height + " Weight: " + weight + "\n" +
-//                "Medical Condition: " + medicalCondition + "\n" +
-//                "Addition medical condition: " + medicalDataEt.getText().toString();
-//
-//        dataPacketText.add(dataPackets);
-//
-//        Toast.makeText(DataPacketActivity.this, "Saved", Toast.LENGTH_SHORT).show();
-//
-//        Intent intent = new Intent(getApplicationContext(), UserActivty.class);
-//        startActivity(intent);
-//    }
 
     public void boxChecked(View view) {
         if (understandCB.isChecked()) {
@@ -238,6 +225,10 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         if (bpm != 0) {
             heartRate = Integer.toString(bpm);
             heartRateTextView.setText(heartRate);
+        }
+
+        if(!heartRateTextView.getText().toString().equals("not measureed")) {
+            understandCB.setChecked(true);
         }
 
         mDatabase.addValueEventListener(new ValueEventListener() {
