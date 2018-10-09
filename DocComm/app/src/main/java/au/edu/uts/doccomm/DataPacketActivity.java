@@ -170,10 +170,10 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
     }
 
     public void uploadFile(Uri pdfUri) {
-//        String fileName = System.currentTimeMillis() + "";
+        String fileName = System.currentTimeMillis() + "";
         StorageReference storageReference = FirebaseStorage.getInstance().getReference();
 
-        final StorageReference filePath = storageReference.child("files");
+        final StorageReference filePath = storageReference.child("files").child(fileName);
 
         filePath.putFile(pdfUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
