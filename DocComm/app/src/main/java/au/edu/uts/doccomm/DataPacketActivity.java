@@ -235,7 +235,6 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         weightTv = findViewById(R.id.weightTV);
         medicalDataEt = findViewById(R.id.medicalDataET);
         btnUpload = findViewById(R.id.btnUpload);
-       // rcvUploadImages = (RecyclerView) findViewById(R.id.rcvUploadImages);
         btnBack = findViewById(R.id.btnBack);
 
 
