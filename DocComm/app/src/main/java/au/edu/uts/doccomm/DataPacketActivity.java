@@ -359,7 +359,7 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
             returnCursor.moveToFirst();
             String name = returnCursor.getString(nameIndex);
 
-            tvUploadUrl.setText("Selected: " + name);
+            tvUploadUrl.setText(name);
 
 
 
