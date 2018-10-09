@@ -6,8 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.nfc.Tag;
+import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -39,6 +41,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -325,6 +328,7 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
+
     private void selectPdf() {
         //Select files
         Intent intent = new Intent();
@@ -336,6 +340,7 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         startActivityForResult(intent, 86);
 //        startActivityForResult(intent.createChooser(intent,"Select File"), 86);
     }
+    
 
 
     @Override
@@ -346,7 +351,17 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         if (requestCode == 86 && resultCode == RESULT_OK && data != null) {
             pdfUri = data.getData();//return the uri of the selected file
             uploadFile(pdfUri);
-            tvUploadUrl.setText("A file is selected: " + data.getData().getLastPathSegment());
+
+            Cursor returnCursor =
+                    getContentResolver().query(pdfUri, null, null, null, null);
+
+            int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+            returnCursor.moveToFirst();
+            String name = returnCursor.getString(nameIndex);
+
+            tvUploadUrl.setText("Selected: " + name);
+
+
 
         } else {
             Toast.makeText(this, "Please select a file", Toast.LENGTH_SHORT).show();
