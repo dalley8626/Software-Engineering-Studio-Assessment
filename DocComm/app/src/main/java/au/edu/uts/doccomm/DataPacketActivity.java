@@ -6,8 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.nfc.Tag;
+import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -35,9 +37,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -80,7 +84,7 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
     TextView weightTv;
     EditText medicalDataEt;
     Button btnUpload;
-    RecyclerView rcvUploadImages;
+    TextView tvUploadUrl;
     public Uri pdfUri; //local storage of url
     Button btnBack;
 
@@ -130,7 +134,12 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
 
     public void sendPacket(View view) {
 
-        uploadFile(pdfUri);
+
+        if(url != null) {
+            uploadFile(pdfUri);
+        }
+
+
         addToPacket();
 
 
@@ -139,7 +148,9 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         currentDateTimeString = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(new Date());
         dataPacket.put("timestamp", currentDateTimeString);
 
+
         dataPacket.put("url", url);
+
 
         DatabaseReference newRef = mDatabase.child(id).child("DataPacket").push();
         newRef.setValue(dataPacket);
@@ -166,26 +177,18 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
 
         filePath.putFile(pdfUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) // THIS SHIT IS THE PROBLEM AS IT REQUIRES THE CODE TO BE SUCCESS FIRST
+            {
                 filePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
                         url = uri.toString();
 
-
                     }
                 });
+
             }
         });
-
-
-
-
-
-
-
-//
-
 
     }
 
@@ -236,6 +239,7 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         medicalDataEt = findViewById(R.id.medicalDataET);
         btnUpload = findViewById(R.id.btnUpload);
         btnBack = findViewById(R.id.btnBack);
+        tvUploadUrl = findViewById(R.id.tvUploadUrl);
 
 
         btnUpload.setOnClickListener(this);
@@ -330,11 +334,15 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
 //        } else {
 //            Toast.makeText(this, "Please provide access storage permission", Toast.LENGTH_SHORT).show();
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode == REQUEST_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {}
+        if(requestCode == REQUEST_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            selectPdf();
+
+        }
         else {
             Toast.makeText(this, "Please provide access storage and camera permission", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private void selectPdf() {
         //Select files
@@ -347,6 +355,7 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         startActivityForResult(intent, 86);
 //        startActivityForResult(intent.createChooser(intent,"Select File"), 86);
     }
+    
 
 
     @Override
@@ -356,6 +365,19 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         //check whether the file has been selected
         if (requestCode == 86 && resultCode == RESULT_OK && data != null) {
             pdfUri = data.getData();//return the uri of the selected file
+            uploadFile(pdfUri);
+
+            Cursor returnCursor =
+                    getContentResolver().query(pdfUri, null, null, null, null);
+
+            int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+            returnCursor.moveToFirst();
+            String name = returnCursor.getString(nameIndex);
+
+            tvUploadUrl.setText(name);
+
+
+
         } else {
             Toast.makeText(this, "Please select a file", Toast.LENGTH_SHORT).show();
         }
