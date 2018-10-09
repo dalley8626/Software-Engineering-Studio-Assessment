@@ -82,6 +82,7 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
     TextView genderTv;
     TextView heightTv;
     TextView weightTv;
+    Button btnSend;
     EditText medicalDataEt;
     Button btnUpload;
     TextView tvUploadUrl;
@@ -134,19 +135,17 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
 
     public void sendPacket(View view) {
 
-
-        if(url != null) {
-            uploadFile(pdfUri);
-        }
-
-
         addToPacket();
+
 
 
         String id = mAuth.getCurrentUser().getUid();
 
+
+
         currentDateTimeString = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(new Date());
         dataPacket.put("timestamp", currentDateTimeString);
+
 
 
         dataPacket.put("url", url);
@@ -183,10 +182,18 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
                     @Override
                     public void onSuccess(Uri uri) {
                         url = uri.toString();
+                        btnSend.setClickable(true);
+                        Toast.makeText(DataPacketActivity.this, "Upload Complete", Toast.LENGTH_SHORT).show();
 
                     }
                 });
 
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                btnSend.setClickable(false);
+                Toast.makeText(DataPacketActivity.this, "The Submit button will be available when the file has finished upload", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -234,6 +241,7 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         nameTv = findViewById(R.id.nameTV);
         genderTv = findViewById(R.id.genderTV);
         heightTv = findViewById(R.id.heightTV);
+        btnSend = findViewById(R.id.sendBtn);
 
         weightTv = findViewById(R.id.weightTV);
         medicalDataEt = findViewById(R.id.medicalDataET);
