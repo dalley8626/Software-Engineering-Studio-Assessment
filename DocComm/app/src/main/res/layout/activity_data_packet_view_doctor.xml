@@ -58,6 +58,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="sendFeedback"
-        android:text="Give Feedback to Patient" />
+        android:text="Give Feedback to Patient"
+        android:background="@drawable/button_style1"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"/>
 
 </LinearLayout>
