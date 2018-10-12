@@ -159,6 +159,10 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         DatabaseReference doctorRef = mDatabase.child(doctorID).child("dataPacket").child(id).child(packetKey);
         doctorRef.setValue(dataPacket);
         mDatabase.child(doctorID).child("recentDataPackets").child(packetKey).setValue(dataPacket);
+        Map<String, Object> isClicked = new HashMap<>();
+        isClicked.put("isClicked", "false");
+        mDatabase.child(doctorID).child("recentDataPackets").child(packetKey).updateChildren(isClicked);
+
 
         Toast.makeText(DataPacketActivity.this, "Saved and Sent", Toast.LENGTH_SHORT).show();
 

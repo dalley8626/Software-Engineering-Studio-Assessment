@@ -22,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class DataPacketViewDoctor extends AppCompatActivity {
@@ -69,11 +70,18 @@ public class DataPacketViewDoctor extends AppCompatActivity {
         tvUploadName = findViewById(R.id.tvUploadName);
         llUploadName = findViewById(R.id.lluploadName);
 
+        boolean isClicked = getIntent().getBooleanExtra("isClicked", false);
+        String dataPacketID = getIntent().getStringExtra("packetID");
+        if(isClicked) {
+            Map<String, Object> updatedObject = new HashMap<>();
+            updatedObject.put("isClicked", "true");
+            mDatabase.child(doctorID).child("recentDataPackets").child(dataPacketID).updateChildren(updatedObject);
+        }
 
         DatabaseReference m1 = mDatabase.child(doctorID);
         DatabaseReference m2 = m1.child("dataPacket");
         DatabaseReference m3 = m2.child(patientID);
-        m3.addValueEventListener(new ValueEventListener() {
+        m3.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Map<String, Object> dataPacket;

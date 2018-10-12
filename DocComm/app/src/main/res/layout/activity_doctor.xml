@@ -36,9 +36,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:background="@drawable/button_style2"
         android:onClick="newDataPackets"
-        android:text="New Data Packets"
-        android:background="@drawable/button_style2"/>
+        android:text="Recent Data Packets" />
 
     <Button
         android:id="@+id/button10"

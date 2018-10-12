@@ -17,6 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class newDataPacketsFromDoctor extends AppCompatActivity {
@@ -28,6 +29,8 @@ public class newDataPacketsFromDoctor extends AppCompatActivity {
     private ArrayList<String> dataPacketIDs;
     private ArrayList<String> patientIDs;
     private ArrayList<String> timestamps;
+
+    ValueEventListener listener;
 
     String patientID;
     String doctorID;
@@ -59,26 +62,34 @@ public class newDataPacketsFromDoctor extends AppCompatActivity {
 
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, recentDataPackets);
 
-        mDatabase.addValueEventListener(new ValueEventListener() {
+        listener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot : dataSnapshot.child(doctorID).child("recentDataPackets").getChildren()) {
                     String packetID = snapshot.getKey();
                     Map<String, Object> dataPacket = (Map<String, Object>) snapshot.getValue();
-                    recentDataPackets.add(mapToString(dataPacket));
-                    dataPacketIDs.add(packetID);
-                    patientIDs.add((String) dataPacket.get("userID"));
-                    timestamps.add((String) dataPacket.get("timestamp"));
+                    if(dataPacket.get("isClicked").equals("false")) {
+                        recentDataPackets.add(mapToString(dataPacket));
+                        dataPacketIDs.add(packetID);
+                        patientIDs.add((String) dataPacket.get("userID"));
+                        timestamps.add((String) dataPacket.get("timestamp"));
+                    }
+                    else {
+                        mDatabase.child(doctorID).child("recentDataPackets").child(packetID).removeValue();
+                    }
                 }
 
                 recentDataPacketsLV.setAdapter(arrayAdapter);
-            }
 
+            }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        };
+
+        mDatabase.addListenerForSingleValueEvent(listener);
+
 
         recentDataPacketsLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -86,8 +97,10 @@ public class newDataPacketsFromDoctor extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), DataPacketViewDoctor.class);
                 intent.putExtra("patientID", patientIDs.get(position));
                 intent.putExtra("doctorID", doctorID);
+                intent.putExtra("packetID", dataPacketIDs.get(position));
                 intent.putExtra("timeStamp", timestamps.get(position));
-
+                intent.putExtra("isClicked", true);
+                mDatabase.removeEventListener(listener);
                 startActivity(intent);
             }
         });
