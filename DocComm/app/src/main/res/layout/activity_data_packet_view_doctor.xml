@@ -24,7 +24,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="10dp"
-        android:text="TextView"
+        android:text="Not measured"
         android:textSize="18sp" />
 
     <TextView
@@ -44,7 +44,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="10dp"
-        android:text="TextView"
+        android:text="No input"
         android:textSize="18sp" />
 
     <LinearLayout
