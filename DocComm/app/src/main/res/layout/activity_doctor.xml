@@ -20,28 +20,35 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:onClick="viewPatients"
-        android:text="View Patients" />
+        android:text="View Patients"
+        android:background="@drawable/button_style2"/>
 
     <Button
         android:id="@+id/changeCodeBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Change Pairing Code" />
+        android:text="Change Pairing Code"
+        android:background="@drawable/button_style2"/>
 
     <Button
         android:id="@+id/recentDataPacketBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:background="@drawable/button_style2"
         android:onClick="newDataPackets"
-        android:text="New Data Packets" />
+        android:text="Recent Data Packets" />
 
     <Button
         android:id="@+id/button10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginLeft="50dp"
         android:onClick="logout"
-        android:text="Logout" />
+        android:text="Logout"
+        android:background="@drawable/button_style1"/>
+
 </LinearLayout>

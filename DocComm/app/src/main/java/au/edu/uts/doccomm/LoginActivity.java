@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         id = mAuth.getCurrentUser().getUid();
 
         if(emailFlag) {
-            mDatabase.child(id).addValueEventListener(new ValueEventListener() {
+            mDatabase.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     Map<String, Object> user = (Map<String, Object>) dataSnapshot.getValue();

@@ -6,8 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.nfc.Tag;
+import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -35,9 +37,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -78,11 +82,14 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
     TextView genderTv;
     TextView heightTv;
     TextView weightTv;
+    Button btnSend;
     EditText medicalDataEt;
     Button btnUpload;
-    RecyclerView rcvUploadImages;
+    TextView tvUploadUrl;
     public Uri pdfUri; //local storage of url
     Button btnBack;
+
+    String userID;
 
     TextView heartRateTextView;
 
@@ -91,7 +98,6 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
 
     private static final int REQUEST_CODE = 1;
     private String [] permissions = {Manifest.permission.CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE};
-
     public void addToPacket() {
 
         if (!name.isEmpty())
@@ -116,6 +122,8 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
             dataPacket.put("heartRate", heartRateTextView.getText().toString());
         }
 
+            dataPacket.put("userID", userID);
+
 
     }
 
@@ -127,25 +135,34 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
 
     public void sendPacket(View view) {
 
-        uploadFile(pdfUri);
         addToPacket();
+
 
 
         String id = mAuth.getCurrentUser().getUid();
 
+
+
         currentDateTimeString = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(new Date());
         dataPacket.put("timestamp", currentDateTimeString);
 
+
+
         dataPacket.put("url", url);
+
 
         DatabaseReference newRef = mDatabase.child(id).child("DataPacket").push();
         newRef.setValue(dataPacket);
         //  mDatabase.child(id).push().setValue(true);
         packetKey = newRef.getKey();
-        DatabaseReference doctorRef = mDatabase.child(doctorID).child("dataPacket").child(id).push();
-        String dataPacketKey = doctorRef.getKey();
+
+        DatabaseReference doctorRef = mDatabase.child(doctorID).child("dataPacket").child(id).child(packetKey);
         doctorRef.setValue(dataPacket);
-        mDatabase.child(doctorID).child("recentDataPackets").child(dataPacketKey).setValue(true);
+        mDatabase.child(doctorID).child("recentDataPackets").child(packetKey).setValue(dataPacket);
+        Map<String, Object> isClicked = new HashMap<>();
+        isClicked.put("isClicked", "false");
+        mDatabase.child(doctorID).child("recentDataPackets").child(packetKey).updateChildren(isClicked);
+
 
         Toast.makeText(DataPacketActivity.this, "Saved and Sent", Toast.LENGTH_SHORT).show();
 
@@ -156,22 +173,31 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
     }
 
     public void uploadFile(Uri pdfUri) {
-//        String fileName = System.currentTimeMillis() + "";
+        String fileName = System.currentTimeMillis() + "";
         StorageReference storageReference = FirebaseStorage.getInstance().getReference();
 
-        final StorageReference filePath = storageReference.child("files");
+        final StorageReference filePath = storageReference.child("files").child(fileName);
 
         filePath.putFile(pdfUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) // THIS SHIT IS THE PROBLEM AS IT REQUIRES THE CODE TO BE SUCCESS FIRST
+            {
                 filePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
                         url = uri.toString();
-
+                        btnSend.setClickable(true);
+                        Toast.makeText(DataPacketActivity.this, "Upload Complete", Toast.LENGTH_SHORT).show();
 
                     }
                 });
+
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                btnSend.setClickable(false);
+                Toast.makeText(DataPacketActivity.this, "The Submit button will be available when the file has finished upload", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -204,12 +230,13 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         nameTv = findViewById(R.id.nameTV);
         genderTv = findViewById(R.id.genderTV);
         heightTv = findViewById(R.id.heightTV);
+        btnSend = findViewById(R.id.sendBtn);
 
         weightTv = findViewById(R.id.weightTV);
         medicalDataEt = findViewById(R.id.medicalDataET);
         btnUpload = findViewById(R.id.btnUpload);
-        rcvUploadImages = (RecyclerView) findViewById(R.id.rcvUploadImages);
         btnBack = findViewById(R.id.btnBack);
+        tvUploadUrl = findViewById(R.id.tvUploadUrl);
 
 
         btnUpload.setOnClickListener(this);
@@ -223,6 +250,7 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         if (bpm != 0) {
             heartRate = Integer.toString(bpm);
             heartRateTextView.setText(heartRate);
+            understandCB.setChecked(true);
         }
 
         if(!heartRateTextView.getText().toString().equals("not measureed")) {
@@ -241,6 +269,7 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
                 weight = user.getWeight();
                 height = user.getHeight();
                 medicalCondition = user.getMedicalCondition();
+                userID = user.getUserId();
 
                 nameTv.setText(name);
                 genderTv.setText(gender);
@@ -306,11 +335,15 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
 //        } else {
 //            Toast.makeText(this, "Please provide access storage permission", Toast.LENGTH_SHORT).show();
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode == REQUEST_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {}
+        if(requestCode == REQUEST_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            selectPdf();
+
+        }
         else {
             Toast.makeText(this, "Please provide access storage and camera permission", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private void selectPdf() {
         //Select files
@@ -323,6 +356,7 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         startActivityForResult(intent, 86);
 //        startActivityForResult(intent.createChooser(intent,"Select File"), 86);
     }
+    
 
 
     @Override
@@ -332,6 +366,19 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         //check whether the file has been selected
         if (requestCode == 86 && resultCode == RESULT_OK && data != null) {
             pdfUri = data.getData();//return the uri of the selected file
+            uploadFile(pdfUri);
+
+            Cursor returnCursor =
+                    getContentResolver().query(pdfUri, null, null, null, null);
+
+            int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+            returnCursor.moveToFirst();
+            String name = returnCursor.getString(nameIndex);
+
+            tvUploadUrl.setText(name);
+
+
+
         } else {
             Toast.makeText(this, "Please select a file", Toast.LENGTH_SHORT).show();
         }

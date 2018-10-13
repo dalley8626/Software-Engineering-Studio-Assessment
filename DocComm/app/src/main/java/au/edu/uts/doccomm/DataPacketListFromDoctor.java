@@ -17,6 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class DataPacketListFromDoctor extends AppCompatActivity {
@@ -56,6 +57,7 @@ public class DataPacketListFromDoctor extends AppCompatActivity {
         packetLV = findViewById(R.id.packetListView2);
 
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, dataPacketList);
+
 
         mDatabase.child(patientID).child("DataPacket").addValueEventListener(new ValueEventListener() {
             @Override
