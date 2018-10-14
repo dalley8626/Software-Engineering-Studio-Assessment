@@ -15,7 +15,10 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -34,6 +37,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 //import android.location.LocationListener;
 
@@ -49,6 +53,8 @@ public class FacilitiesMapsActivity extends FragmentActivity implements OnMapRea
     private double latitude, longitude;
     private int radiusProximity = 10000;
     private MarkerOptions markerOptions1 = new MarkerOptions();
+    EditText searchplace;
+    ImageButton searchDoctorRecommendation;
 
 
 
@@ -63,6 +69,10 @@ public class FacilitiesMapsActivity extends FragmentActivity implements OnMapRea
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        searchplace = findViewById(R.id.searchplace);
+        searchDoctorRecommendation = findViewById(R.id.searchID);
+
     }
 
 
@@ -95,7 +105,14 @@ public class FacilitiesMapsActivity extends FragmentActivity implements OnMapRea
           //  mMap.moveCamera(CameraUpdateFactory.newLatLng(markerOptions1.getPosition()));
 
             mMap.setMyLocationEnabled(true);
+
+
         }
+
+        if(getIntent().getStringExtra("address") != null) {
+                displayDoctorRecommendation();
+        }
+
 
 
         // Add a marker in Sydney and move the camera
@@ -154,31 +171,62 @@ public class FacilitiesMapsActivity extends FragmentActivity implements OnMapRea
         }
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
+    public void moveToUserCurrentLocation(Location location, String title) {
 
-        latitude = location.getLatitude();
-        longitude = location.getLongitude();
+        if (getIntent().getStringExtra("viewRecommendationClicked?").equals("YES")) {
 
-        LastUpdatedLocation =  location;
-        if(CurrentLocation != null){
-            CurrentLocation.remove();
         }
-            LatLng LatitudeLongitude = new LatLng(location.getLatitude(), location.getLongitude());
-            markerOptions1.position(LatitudeLongitude); //setting new position to updated lat/long
-            markerOptions1.title("User's current updated location");
-            markerOptions1.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-            //set colour , title, etc
 
-            CurrentLocation = mMap.addMarker(markerOptions1); //set location
-            mMap.animateCamera(CameraUpdateFactory.newLatLng(LatitudeLongitude));
+        else {
+
+            LastUpdatedLocation = location;
+
+            LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+            //mMap.clear();
+            markerOptions1.position(userLocation); //setting new position to updated lat/long
+            markerOptions1.title(title);
+            markerOptions1.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+            mMap.addMarker(markerOptions1); //set location
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 16));
             //new camera position
-            mMap.animateCamera(CameraUpdateFactory.zoomBy(15)); //zooms into user location by 20 points
+            // mMap.animateCamera(CameraUpdateFactory.zoomBy(15)); //zooms into user location by 20 points
 
             if (client != null) {
                 LocationServices.FusedLocationApi.removeLocationUpdates(client, this);
-                //stops it being constantly updated if it already has been updated
+//                //stops it being constantly updated if it already has been updated
             }
+//
+//
+        }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        moveToUserCurrentLocation(location,"Your current location");
+
+//        latitude = location.getLatitude();
+//        longitude = location.getLongitude();
+//
+//        LastUpdatedLocation =  LastUpdatedLocation;
+//        if(CurrentLocation != null){
+//            CurrentLocation.remove();
+//        }
+
+//            LatLng LatitudeLongitude = new LatLng(location.getLatitude(), location.getLongitude());
+//            markerOptions1.position(LatitudeLongitude); //setting new position to updated lat/long
+//            markerOptions1.title("User's current updated location");
+//            markerOptions1.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+//            //set colour , title, etc
+//
+//            mMap.addMarker(markerOptions1); //set location
+//            mMap.animateCamera(CameraUpdateFactory.newLatLng(LatitudeLongitude));
+//            //new camera position
+//            mMap.animateCamera(CameraUpdateFactory.zoomBy(15)); //zooms into user location by 20 points
+//
+//            if (client != null) {
+//                LocationServices.FusedLocationApi.removeLocationUpdates(client, this);
+//                //stops it being constantly updated if it already has been updated
+//            }
 
     }
 
@@ -242,8 +290,8 @@ public class FacilitiesMapsActivity extends FragmentActivity implements OnMapRea
                 break;
 
             case R.id.hospitalBtn:
-                mMap.clear(); //removes existing searched markers
-                String URL = getURL(latitude, longitude, hospital);
+                //mMap.clear(); //removes existing searched markers
+                String URL = getURL(LastUpdatedLocation.getLatitude(), LastUpdatedLocation.getLongitude(), hospital);
                 dataTransfer[0] = mMap;
                 dataTransfer[1] = URL;
                 nearbyMedicalFacilities.execute(dataTransfer);
@@ -254,6 +302,124 @@ public class FacilitiesMapsActivity extends FragmentActivity implements OnMapRea
         }
 
     }
+
+    public void testClick(){
+//        try {
+//            TimeUnit.SECONDS.wait(5000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+
+      //  EditText searchField = (EditText) findViewById(R.id.searchplace);
+        String inputted_address = searchplace.getText().toString();
+
+        List<Address> addresses = null;
+        MarkerOptions userAddressMarker = new MarkerOptions();
+
+        if(!TextUtils.isEmpty(inputted_address)){
+            Geocoder geocoder = new Geocoder(this);
+            try {
+                addresses = geocoder.getFromLocationName(inputted_address, 6);
+                if(addresses!=null){
+                    for(int i=0; i<addresses.size(); i++){
+
+                        Address userSearchAddress = addresses.get(i);
+                        LatLng LatitudeLong = new LatLng(userSearchAddress.getLatitude(), userSearchAddress.getLongitude());
+                        userAddressMarker.position(LatitudeLong); //setting new position to updated lat/long
+                        userAddressMarker.title(inputted_address);
+                        userAddressMarker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                        //set colour , title, etc
+                        mMap.addMarker(userAddressMarker);
+                       // mMap.moveCamera(CameraUpdateFactory.newLatLng(LatitudeLong));
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatitudeLong, 16));
+                        //new camera position
+                      //  mMap.animateCamera(CameraUpdateFactory.zoomTo(18)); //zooms into user location by 15 points
+                        searchplace.getText().clear();
+                    }
+                }
+                else{
+                    Toast.makeText(this, "Address/Location not found", Toast.LENGTH_SHORT).show();
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else{
+            Toast.makeText(this, "Enter text first", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void displayDoctorRecommendation(){
+        String hospital = "hospital";
+        Object dataTransfer[] = new Object[2]; //1st obj is mMap, and 2nd is url
+        NearbyMedicalFacilities nearbyMedicalFacilities = new NearbyMedicalFacilities();
+
+        String inputted_address = getIntent().getStringExtra("address");
+
+        Log.i("TESTTESTTESTTTTTTEST", searchplace.getText().toString());
+
+        searchplace.setText(inputted_address);
+
+
+
+        testClick();
+
+//        Log.i("TESTTESTTESTTTTTTEST", inputted_address);
+//                List<Address> addresses = null;
+//                MarkerOptions recommendedAddress = new MarkerOptions();
+//
+//                if(!TextUtils.isEmpty(inputted_address)){
+//                    Geocoder geocoder = new Geocoder(this);
+//                    try {
+//                        addresses = geocoder.getFromLocationName(inputted_address, 6);
+//                        if(addresses!=null){
+//                            for(int i=0; i<addresses.size(); i++){
+//
+//                                Address userSearchAddress = addresses.get(i);
+//                                LatLng LatitudeLong = new LatLng(userSearchAddress.getLatitude(), userSearchAddress.getLongitude());
+//                                recommendedAddress.position(LatitudeLong); //setting new position to updated lat/long
+//                                recommendedAddress.title(inputted_address);
+//                                recommendedAddress.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+//                                //set colour , title, etc
+//                                mMap.addMarker(recommendedAddress);
+//                                mMap.moveCamera(CameraUpdateFactory.newLatLng(LatitudeLong));
+//                                //new camera position
+//                                mMap.animateCamera(CameraUpdateFactory.zoomTo(18)); //zooms into user location by 15 points
+//                             //   searchField.getText().clear();
+//                            }
+//                        }
+//                        else{
+//                            Toast.makeText(this, "Address/Location not found", Toast.LENGTH_SHORT).show();
+//                        }
+//
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//                else{
+//                    Toast.makeText(this, "Enter text first", Toast.LENGTH_SHORT).show();
+//                }
+         //       break;
+
+//            case R.id.hospitalBtn:
+//                mMap.clear(); //removes existing searched markers
+//                String URL = getURL(latitude, longitude, hospital);
+//                dataTransfer[0] = mMap;
+//                dataTransfer[1] = URL;
+//                nearbyMedicalFacilities.execute(dataTransfer);
+//                Toast.makeText(this, "Locating nearby medical facilities", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "Nearby hospitals shown!", Toast.LENGTH_SHORT).show();
+//                break;
+
+
+
+    }
+
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        displayDoctorRecommendation();//start your method from here
+//    }
 
     private String getURL(double latitude, double longitude, String nearbyFacilities){
         StringBuilder url_google = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
