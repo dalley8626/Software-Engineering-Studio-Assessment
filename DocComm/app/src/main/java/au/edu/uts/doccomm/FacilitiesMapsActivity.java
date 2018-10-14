@@ -376,11 +376,6 @@ public class FacilitiesMapsActivity extends FragmentActivity implements OnMapRea
         searchplace.setText(inputted_address);
 
         simulatedSearchFunction(); //runs the search so that the patient can view the doctor's recommendation (address)
-<<<<<<< Updated upstream
-=======
-
-
->>>>>>> Stashed changes
     }
 
 //    @Override
