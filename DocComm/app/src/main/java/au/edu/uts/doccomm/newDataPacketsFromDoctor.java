@@ -78,7 +78,6 @@ public class newDataPacketsFromDoctor extends AppCompatActivity {
                         mDatabase.child(doctorID).child("recentDataPackets").child(packetID).removeValue();
                     }
                 }
-
                 recentDataPacketsLV.setAdapter(arrayAdapter);
 
             }
