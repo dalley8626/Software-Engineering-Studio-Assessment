@@ -16,5 +16,7 @@
     <string name="last_name">Last Name</string>
     <string name="title_activity_supplementary_files">SupplementaryFilesActivity</string>
     <string name="todo">TODO</string>
+    <string name="tips_message">Please press your finger on camera gently and wait for flashing turns green</string>
+    <string name="your_heart_apparently_is">Your Heart apparently is</string>
 
 </resources>
