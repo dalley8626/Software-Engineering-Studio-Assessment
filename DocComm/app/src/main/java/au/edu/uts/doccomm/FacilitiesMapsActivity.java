@@ -55,6 +55,7 @@ public class FacilitiesMapsActivity extends FragmentActivity implements OnMapRea
     private MarkerOptions markerOptions1 = new MarkerOptions();
     EditText searchplace;
     ImageButton searchDoctorRecommendation;
+    ImageButton hospitalButton1;
 
 
 
@@ -109,7 +110,9 @@ public class FacilitiesMapsActivity extends FragmentActivity implements OnMapRea
 
         }
 
+       hospitalButton1 = findViewById(R.id.hospitalBtn);
         if(getIntent().getStringExtra("address") != null) {
+            hospitalButton1.setVisibility(View.INVISIBLE);
                 displayDoctorRecommendation();
         }
 
