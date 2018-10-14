@@ -173,7 +173,7 @@ public class FacilitiesMapsActivity extends FragmentActivity implements OnMapRea
 
     public void moveToUserCurrentLocation(Location location, String title) {
 
-        if (getIntent().getStringExtra("viewRecommendationClicked?").equals("YES")) {
+        if(getIntent().getStringExtra("address") != null) {
 
         }
 
@@ -187,7 +187,7 @@ public class FacilitiesMapsActivity extends FragmentActivity implements OnMapRea
             markerOptions1.title(title);
             markerOptions1.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
             mMap.addMarker(markerOptions1); //set location
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 16));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 16));
             //new camera position
             // mMap.animateCamera(CameraUpdateFactory.zoomBy(15)); //zooms into user location by 20 points
 
@@ -303,13 +303,20 @@ public class FacilitiesMapsActivity extends FragmentActivity implements OnMapRea
 
     }
 
-    public void testClick(){
-//        try {
-//            TimeUnit.SECONDS.wait(5000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
+    public void simulatedNearbyFacilities(){ //forces a nearby search
 
-      //  EditText searchField = (EditText) findViewById(R.id.searchplace);
+        String hospital = "hospital";
+        Object dataTransfer[] = new Object[2]; //1st obj is mMap, and 2nd is url
+        NearbyMedicalFacilities nearbyMedicalFacilities = new NearbyMedicalFacilities();
+        String URL = getURL(LastUpdatedLocation.getLatitude(), LastUpdatedLocation.getLongitude(), hospital);
+        dataTransfer[0] = mMap;
+        dataTransfer[1] = URL;
+        nearbyMedicalFacilities.execute(dataTransfer);
+        Toast.makeText(this, "Locating nearby medical facilities", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Nearby hospitals shown!", Toast.LENGTH_SHORT).show();
+    }
+
+    public void simulatedSearchFunction(){
         String inputted_address = searchplace.getText().toString();
 
         List<Address> addresses = null;
@@ -356,63 +363,11 @@ public class FacilitiesMapsActivity extends FragmentActivity implements OnMapRea
 
         String inputted_address = getIntent().getStringExtra("address");
 
-        Log.i("TESTTESTTESTTTTTTEST", searchplace.getText().toString());
+        //Log.i("TESTTESTTESTTTTTTEST", searchplace.getText().toString());
 
         searchplace.setText(inputted_address);
 
-
-
-        testClick();
-
-//        Log.i("TESTTESTTESTTTTTTEST", inputted_address);
-//                List<Address> addresses = null;
-//                MarkerOptions recommendedAddress = new MarkerOptions();
-//
-//                if(!TextUtils.isEmpty(inputted_address)){
-//                    Geocoder geocoder = new Geocoder(this);
-//                    try {
-//                        addresses = geocoder.getFromLocationName(inputted_address, 6);
-//                        if(addresses!=null){
-//                            for(int i=0; i<addresses.size(); i++){
-//
-//                                Address userSearchAddress = addresses.get(i);
-//                                LatLng LatitudeLong = new LatLng(userSearchAddress.getLatitude(), userSearchAddress.getLongitude());
-//                                recommendedAddress.position(LatitudeLong); //setting new position to updated lat/long
-//                                recommendedAddress.title(inputted_address);
-//                                recommendedAddress.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-//                                //set colour , title, etc
-//                                mMap.addMarker(recommendedAddress);
-//                                mMap.moveCamera(CameraUpdateFactory.newLatLng(LatitudeLong));
-//                                //new camera position
-//                                mMap.animateCamera(CameraUpdateFactory.zoomTo(18)); //zooms into user location by 15 points
-//                             //   searchField.getText().clear();
-//                            }
-//                        }
-//                        else{
-//                            Toast.makeText(this, "Address/Location not found", Toast.LENGTH_SHORT).show();
-//                        }
-//
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//                else{
-//                    Toast.makeText(this, "Enter text first", Toast.LENGTH_SHORT).show();
-//                }
-         //       break;
-
-//            case R.id.hospitalBtn:
-//                mMap.clear(); //removes existing searched markers
-//                String URL = getURL(latitude, longitude, hospital);
-//                dataTransfer[0] = mMap;
-//                dataTransfer[1] = URL;
-//                nearbyMedicalFacilities.execute(dataTransfer);
-//                Toast.makeText(this, "Locating nearby medical facilities", Toast.LENGTH_SHORT).show();
-//                Toast.makeText(this, "Nearby hospitals shown!", Toast.LENGTH_SHORT).show();
-//                break;
-
-
-
+        simulatedSearchFunction(); //runs the search so that the patient can view the doctor's recommendation (address)
     }
 
 //    @Override
