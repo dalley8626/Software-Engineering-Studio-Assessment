@@ -46,7 +46,7 @@
             android:hint="Enter your Password"
             android:background="@drawable/edit_text_style1"
             android:inputType="textPassword"
-            android:imeOptions="actionSend"/>
+            android:imeOptions="actionGo"/>
 
         <Button
             android:id="@+id/btnSignIn"

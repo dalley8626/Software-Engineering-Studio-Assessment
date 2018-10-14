@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -31,7 +32,10 @@ public class ViewPairedDoctors extends AppCompatActivity {
 
     private ListView doctorListLV;
 
+    private TextView descriptionTV;
+
     private boolean fromInteractDoctorActivity;
+    private boolean fromViewPairedDoctors;
 
     private String mapToString(Map<String, Object> doctors) {
         String doctor = doctors.get("firstName") + " " + doctors.get("lastName") + "\n" +
@@ -55,6 +59,16 @@ public class ViewPairedDoctors extends AppCompatActivity {
         doctorListLV = findViewById(R.id.doctorListLV);
 
         fromInteractDoctorActivity = getIntent().getBooleanExtra("InteractDoctorActivity", false);
+        fromViewPairedDoctors = getIntent().getBooleanExtra("viewPairedDoctors", false);
+
+        descriptionTV = findViewById(R.id.textView19);
+        if(fromInteractDoctorActivity) {
+            descriptionTV.setText("Click to see doctor's feedback");
+        }
+        else if(fromViewPairedDoctors) {
+            descriptionTV.setText("Click to view the profile of a doctor");
+        }
+
 
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listOfDoctors);
 
@@ -79,14 +93,21 @@ public class ViewPairedDoctors extends AppCompatActivity {
         doctorListLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(!fromInteractDoctorActivity) {
+                if(!fromViewPairedDoctors && !fromInteractDoctorActivity) {
+                    Intent intent = new Intent(getApplicationContext(), DataPacketActivity.class);
+                    intent.putExtra("doctorID", listOfDoctorsID.get(position));
+
+                    startActivity(intent);
+
+                }
+                if(!fromInteractDoctorActivity && fromViewPairedDoctors) {
                     Intent intent = new Intent(getApplicationContext(), DoctorProfileViewActivity.class);
                     intent.putExtra("pairedView", true);
                     intent.putExtra("doctorID", listOfDoctorsID.get(position));
                     intent.putExtra("patientID", mAuth.getCurrentUser().getUid());
                     startActivity(intent);
                 }
-                else {
+                else if(fromInteractDoctorActivity && !fromViewPairedDoctors){
                     Intent intent = new Intent(getApplicationContext(), InteractDoctorActivity.class);
                     intent.putExtra("doctorID", listOfDoctorsID.get(position));
                     intent.putExtra("patientID", mAuth.getCurrentUser().getUid());
@@ -101,6 +122,7 @@ public class ViewPairedDoctors extends AppCompatActivity {
                 if(!fromInteractDoctorActivity) {
                     Intent intent = new Intent(getApplicationContext(), DataPacketActivity.class);
                     intent.putExtra("doctorID", listOfDoctorsID.get(position));
+
                     startActivity(intent);
 
                     return true;

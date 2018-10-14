@@ -80,10 +80,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         //Check if the user is signed in, if the user is signed in
         //Then re-direct the user to Main page
         mAuth = FirebaseAuth.getInstance();
-        if(mAuth.getCurrentUser() != null){
-            finish();
-            startActivity(new Intent(getApplicationContext(),UserActivty.class));
-        }
+//        if(mAuth.getCurrentUser() != null){
+//            finish();
+//            startActivity(new Intent(getApplicationContext(),UserActivty.class));
+//        }
 
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
 

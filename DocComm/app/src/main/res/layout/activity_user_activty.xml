@@ -9,8 +9,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
         android:onClick="onClick"
         android:orientation="vertical">
@@ -28,73 +28,79 @@
             android:id="@+id/viewPacketBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="viewPacket"
-            android:text="View Data Packet"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
-            android:background="@drawable/button_style2"/>
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button_style2"
+            android:onClick="viewPacket"
+            android:text="View Data Packet" />
 
         <Button
             android:id="@+id/button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="nearbyMedicalFacilities"
-            android:text="Nearby Medical Facilities"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/button_style2"
-            />
+            android:onClick="nearbyMedicalFacilities"
+            android:text="Nearby Medical Facilities" />
 
         <Button
             android:id="@+id/button3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/button_style2"
             android:onClick="viewProfile"
-            android:text="View Profile Information"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginLeft="15dp"
-            android:background="@drawable/button_style2"
-            />
-
-        <Button
-            android:id="@+id/button9"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="doctorList"
-            android:text="Send Data Packet"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginLeft="15dp"
-            android:background="@drawable/button_style2"
-            />
-
-        <Button
-            android:id="@+id/interactBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="interactDoctor"
-            android:text="Interact with Doctor"
-            android:visibility="visible"
-            android:layout_marginTop="40dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginLeft="15dp"
-            android:background="@drawable/button_style2"
-            />
+            android:text="View Profile Information" />
 
         <Button
             android:id="@+id/button12"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="pairDoctor"
-            android:text="Pair with Doctor"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/button_style2"
-            />
+            android:onClick="pairDoctor"
+            android:text="Pair with Doctor" />
+
+        <Button
+            android:id="@+id/viewPairedDoctorsBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/button_style2"
+            android:onClick="viewPairedDoctors"
+            android:text="View Paired Doctor(s)" />
+
+        <Button
+            android:id="@+id/button9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/button_style2"
+            android:onClick="doctorList"
+            android:text="Send Data Packet" />
+
+        <Button
+            android:id="@+id/interactBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/button_style2"
+            android:onClick="interactDoctor"
+            android:text="Feedback from Doctor"
+            android:visibility="visible" />
 
 
     </LinearLayout>
