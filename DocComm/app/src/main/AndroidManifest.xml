@@ -37,7 +37,7 @@
         </activity>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".UserActivty" />
-        <activity android:name=".DataPacketActivity" />
+        <activity android:name=".DataPacketActivity"/>
         <activity android:name=".DataPacketDisplay" />
         <activity android:name=".DataPacketList" />
         <activity android:name=".FacilitiesMapsActivity" />

@@ -74,7 +74,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="25dp"
         android:layout_marginRight="15dp"
-        android:text="To measure your heart rate, rest your index finger on the camera lens on the back of the phone once the flash turns on. Be sure to be as still as possible to ensure an accurate heart rate. Check the box once you understood." />
+        android:text="To measure your heart rate, rest your index finger firmly on the camera lens. Be sure to be as still as possible to ensure an accurate heart rate. Check the box once you understood." />
 
     <CheckBox
         android:id="@+id/checkBox2"
@@ -83,7 +83,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:onClick="boxChecked"
-        android:text="I have read and understood the above" />
+        android:text="I have read and understood the above. The back of camera is firmly covered." />
 
         <TextView
             android:id="@+id/heartRateTV"
