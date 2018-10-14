@@ -12,6 +12,11 @@ public class DoctorActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
+    public void changePairingCode(View view) {
+        Intent intent = new Intent(getApplicationContext(), ChangePairingCodeActivity.class);
+        startActivity(intent);
+    }
+
     public void newDataPackets(View view) {
         Intent intent = new Intent(getApplicationContext(), newDataPacketsFromDoctor.class);
         startActivity(intent);

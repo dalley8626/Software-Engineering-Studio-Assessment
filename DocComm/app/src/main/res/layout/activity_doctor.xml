@@ -28,8 +28,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Change Pairing Code"
-        android:background="@drawable/button_style2"/>
+        android:background="@drawable/button_style2"
+        android:onClick="changePairingCode"
+        android:text="Change Pairing Code" />
 
     <Button
         android:id="@+id/recentDataPacketBtn"

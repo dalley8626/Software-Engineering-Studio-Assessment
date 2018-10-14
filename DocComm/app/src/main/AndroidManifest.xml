@@ -72,7 +72,8 @@
         <activity android:name=".ViewPairedDoctors" />
         <activity android:name=".EnterDoctorCodeActivity" />
         <activity android:name=".SendFeedbackActivity" />
-        <activity android:name=".newDataPacketsFromDoctor"></activity>
+        <activity android:name=".newDataPacketsFromDoctor" />
+        <activity android:name=".ChangePairingCodeActivity"></activity>
     </application>
 
 </manifest>

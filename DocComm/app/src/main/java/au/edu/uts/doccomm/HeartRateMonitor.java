@@ -106,6 +106,8 @@ public class HeartRateMonitor extends Activity {
         countdown = (TextView) findViewById(R.id.countdown);
 
         getPermission();
+
+        startCounting();
     }
 
     /**
@@ -200,25 +202,27 @@ public class HeartRateMonitor extends Activity {
 
             int imgAvg = ImageProcessing.decodeYUV420SPtoRedAvg(data.clone(), height, width);
 
-            if(isCameraCovered(data.clone())) {
+
+
+//            if(isCameraCovered(data.clone())) {
                 Camera.Parameters parameters = camera.getParameters();
                 parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
                 camera.setParameters(parameters);
                 camera.startPreview();
-                if(isCountingStarted == false){
-                    startCounting();
-                    isCountingStarted = true;
-                }
-            }
-            else{
-                Camera.Parameters parameters = camera.getParameters();
-                parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-                camera.setParameters(parameters);
-                camera.startPreview();
-                beats = 0;
-                text.setText("--");
-                processing.set(false);
-            }
+//                if(isCountingStarted == false){
+//                    startCounting();
+//                    isCountingStarted = true;
+//                }
+//            }
+//            else{
+//                Camera.Parameters parameters = camera.getParameters();
+//                parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+//                camera.setParameters(parameters);
+//                camera.startPreview();
+//                beats = 0;
+//                text.setText("--");
+//                processing.set(false);
+            //}
 
             if (imgAvg == 0 || imgAvg == 255){
                 processing.set(false);

@@ -66,7 +66,6 @@ public class DataPacketListFromDoctor extends AppCompatActivity {
                     Map<String, Object> dataPacket = (Map<String, Object>) snapshot.getValue();
                     dataPacketList.add(mapToString(dataPacket));
                     timeStamps.add((String) dataPacket.get("timestamp"));
-
                 }
                 packetLV.setAdapter(arrayAdapter);
             }
@@ -86,6 +85,13 @@ public class DataPacketListFromDoctor extends AppCompatActivity {
                 intent.putExtra("timeStamp", timeStamps.get(position));
 
                 startActivity(intent);
+            }
+        });
+
+        packetLV.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                return false;
             }
         });
     }

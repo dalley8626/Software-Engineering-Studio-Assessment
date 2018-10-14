@@ -253,10 +253,6 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
             understandCB.setChecked(true);
         }
 
-        if(!heartRateTextView.getText().toString().equals("not measureed")) {
-            understandCB.setChecked(true);
-        }
-
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
