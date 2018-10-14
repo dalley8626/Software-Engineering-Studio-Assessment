@@ -54,7 +54,7 @@ public class ViewPatientProfileFromDoctor extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Map<String, Object> user = (Map<String, Object>) dataSnapshot.getValue();
-                nameTV.setText((String) user.get("firstName") + user.get("lastName"));
+                nameTV.setText((String) user.get("firstName") + " " + user.get("lastName"));
                 genderTV.setText((String) user.get("gender"));
                 heightTV.setText((String) user.get("height"));
                 weightTV.setText((String) user.get("weight"));

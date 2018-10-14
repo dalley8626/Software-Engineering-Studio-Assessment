@@ -17,6 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class DataPacketListFromDoctor extends AppCompatActivity {
@@ -57,6 +58,7 @@ public class DataPacketListFromDoctor extends AppCompatActivity {
 
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, dataPacketList);
 
+
         mDatabase.child(patientID).child("DataPacket").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -64,7 +66,6 @@ public class DataPacketListFromDoctor extends AppCompatActivity {
                     Map<String, Object> dataPacket = (Map<String, Object>) snapshot.getValue();
                     dataPacketList.add(mapToString(dataPacket));
                     timeStamps.add((String) dataPacket.get("timestamp"));
-
                 }
                 packetLV.setAdapter(arrayAdapter);
             }
@@ -84,6 +85,13 @@ public class DataPacketListFromDoctor extends AppCompatActivity {
                 intent.putExtra("timeStamp", timeStamps.get(position));
 
                 startActivity(intent);
+            }
+        });
+
+        packetLV.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                return false;
             }
         });
     }

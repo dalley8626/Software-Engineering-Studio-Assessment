@@ -11,13 +11,15 @@
         android:id="@+id/textView21"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Feedback for Heart Rate" />
+        android:text="Feedback for Heart Rate"
+        android:layout_margin="15dp"/>
 
     <TextView
         android:id="@+id/textView22"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Feedback for files" />
+        android:text="Feedback for files"
+        android:layout_margin="15dp"/>
 
     <EditText
         android:id="@+id/sendLocationET"
@@ -25,18 +27,22 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Put address here"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:layout_margin="15dp"/>
 
     <Button
         android:id="@+id/button14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="sendAddress"
-        android:text="Send Address to Patient" />
+        android:text="Send Address to Patient"
+        android:layout_margin="15dp"
+        android:background="@drawable/button_style2"/>
 
     <TextView
         android:id="@+id/textView23"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="This entire activity is not the final version" />
+        android:text="This entire activity is not the final version"
+        android:layout_margin="15dp"/>
 </LinearLayout>

@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import android.content.Intent;
 
 public class SendFeedbackActivity extends AppCompatActivity {
 
@@ -22,9 +23,16 @@ public class SendFeedbackActivity extends AppCompatActivity {
 
     public void sendAddress(View view) {
         String address = sendAddressET.getText().toString();
-        mDatabase.child(patientID).child("doctors").child(doctorID).child("feedback").child("address").setValue(address);
-        Toast.makeText(getApplicationContext(),"Address is sent", Toast.LENGTH_SHORT).show();
-        sendAddressET.setText("");
+        if(!address.equals("")) {
+            mDatabase.child(patientID).child("doctors").child(doctorID).child("feedback").child("address").setValue(address);
+            Toast.makeText(getApplicationContext(), "Address is sent", Toast.LENGTH_SHORT).show();
+            sendAddressET.setText("");
+            Intent intent = new Intent(getApplicationContext(), DoctorActivity.class);
+            startActivity(intent);
+        }
+        else {
+            Toast.makeText(getApplicationContext(),"Please enter an address", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

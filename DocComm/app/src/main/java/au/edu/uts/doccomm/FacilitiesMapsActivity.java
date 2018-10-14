@@ -116,6 +116,11 @@ public class FacilitiesMapsActivity extends FragmentActivity implements OnMapRea
                 displayDoctorRecommendation();
         }
 
+        if(getIntent().getStringExtra("address") != null) {
+                displayDoctorRecommendation();
+        }
+
+
 
 
         // Add a marker in Sydney and move the camera

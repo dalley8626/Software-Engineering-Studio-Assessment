@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -81,6 +82,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btnSignIn.setOnClickListener(this);
         tvSignUp.setOnClickListener(this);
         tvResetPassword.setOnClickListener(this);
+
+        etPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                userLogin();
+                return true;
+            }
+        });
     }
 
     public void checkEmailVerification() {
@@ -89,7 +98,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         id = mAuth.getCurrentUser().getUid();
 
         if(emailFlag) {
-            mDatabase.child(id).addValueEventListener(new ValueEventListener() {
+            mDatabase.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     Map<String, Object> user = (Map<String, Object>) dataSnapshot.getValue();

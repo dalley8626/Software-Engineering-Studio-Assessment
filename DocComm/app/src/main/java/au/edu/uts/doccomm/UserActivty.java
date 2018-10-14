@@ -74,6 +74,13 @@ public class UserActivty extends AppCompatActivity implements View.OnClickListen
 
     }
 
+    public void viewPairedDoctors(View view) {
+        Intent intent = new Intent(getApplicationContext(), ViewPairedDoctors.class);
+        intent.putExtra("viewPairedDoctors", true);
+        startActivity(intent);
+
+    }
+
     public void addPacket(View view) {
         Intent intent = new Intent(getApplicationContext(), DataPacketActivity.class);
         startActivity(intent);
@@ -113,13 +120,7 @@ public class UserActivty extends AppCompatActivity implements View.OnClickListen
         btnLogout = (Button) findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(this);
 
-        final Button uploadBtn = (Button) findViewById(R.id.startUpload);
-        uploadBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                uploadActivity(v);
-            }
-        });
+
 
     }
 

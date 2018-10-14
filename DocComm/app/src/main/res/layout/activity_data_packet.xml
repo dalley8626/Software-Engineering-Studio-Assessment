@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical"
     tools:context=".DataPacketActivity">
 
@@ -72,7 +74,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="25dp"
         android:layout_marginRight="15dp"
-        android:text="To measure your heart rate, rest your index finger on the camera lens on the back of the phone once the flash turns on. Be sure to be as still as possible to ensure an accurate heart rate. Check the box once you understood." />
+        android:text="To measure your heart rate, rest your index finger firmly on the camera lens. Be sure to be as still as possible to ensure an accurate heart rate. Check the box once you understood." />
 
     <CheckBox
         android:id="@+id/checkBox2"
@@ -81,7 +83,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:onClick="boxChecked"
-        android:text="I have read and understood the above" />
+        android:text="I have read and understood the above. The back of camera is firmly covered." />
 
         <TextView
             android:id="@+id/heartRateTV"
@@ -103,14 +105,14 @@
         android:text="Start Heart Rate Monitor"
         android:visibility="invisible" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="343dp"
-        android:layout_height="32dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="15dp"
-        android:text="Include any other relevent medical data in the field below." />
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="343dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:text="Include any other relevent medical data in the field below." />
 
     <EditText
         android:id="@+id/medicalDataET"
@@ -127,15 +129,13 @@
         android:layout_margin="15dp"
         android:text="Upload Files" />
 
-
-        <android.support.v7.widget.RecyclerView
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/rcvUploadImages"
             android:layout_margin="15dp"
-            >
-        </android.support.v7.widget.RecyclerView>
-
+            android:text="No file has been uploaded"
+            android:id="@+id/tvUploadUrl"
+            />
 
         <Button
             android:id="@+id/sendBtn"
