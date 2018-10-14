@@ -11,6 +11,7 @@ import android.content.res.Configuration;
 import android.hardware.Camera;
 import android.hardware.Camera.PreviewCallback;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.support.annotation.NonNull;
@@ -40,7 +41,8 @@ public class HeartRateMonitor extends Activity {
     private static Camera camera = null;
     private static View image = null;
     private static TextView text = null;
-
+    private static TextView countdown = null;
+    private static CountDownTimer countDownTimer = null;
     private static WakeLock wakeLock = null;
 
     private static int averageIndex = 0;
@@ -101,6 +103,7 @@ public class HeartRateMonitor extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        countdown = (TextView) findViewById(R.id.countdown);
 
         getPermission();
     }
@@ -142,6 +145,41 @@ public class HeartRateMonitor extends Activity {
         camera = null;
     }
 
+    public static boolean isCameraCovered(byte[] data) {
+        boolean n;
+
+        Camera.Size size = camera.getParameters().getPreviewSize();
+
+        int width = size.width;
+        int height = size.height;
+
+        int imgAvg = ImageProcessing.decodeYUV420SPtoRedAvg(data.clone(), height, width);
+
+        n = imgAvg > 230 || imgAvg < 30;
+
+        return n;
+    }
+
+    public void startCounting (){
+        countDownTimer = new CountDownTimer(30 * 1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                countdown.setText("" + millisUntilFinished / 1000);
+            }
+
+            @Override
+            public void onFinish() {
+            }
+        };
+        countDownTimer.start();
+    }
+
+    private boolean getTrue()
+    {
+        boolean n = true;
+        return n;
+    }
+
     private PreviewCallback previewCallback = new PreviewCallback() {
 
         /**
@@ -149,7 +187,7 @@ public class HeartRateMonitor extends Activity {
          */
         @Override
         public void onPreviewFrame(byte[] data, Camera cam) {
-
+            boolean isCountingStarted = false;
 
             if (data == null) throw new NullPointerException();
             Camera.Size size = cam.getParameters().getPreviewSize();
@@ -162,14 +200,24 @@ public class HeartRateMonitor extends Activity {
 
             int imgAvg = ImageProcessing.decodeYUV420SPtoRedAvg(data.clone(), height, width);
 
-            Camera.Parameters parameters = camera.getParameters();
-            if (true){
+            if(isCameraCovered(data.clone())) {
+                Camera.Parameters parameters = camera.getParameters();
                 parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
                 camera.setParameters(parameters);
                 camera.startPreview();
+                if(isCountingStarted == false){
+                    startCounting();
+                    isCountingStarted = true;
+                }
             }
             else{
-
+                Camera.Parameters parameters = camera.getParameters();
+                parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                camera.setParameters(parameters);
+                camera.startPreview();
+                beats = 0;
+                text.setText("--");
+                processing.set(false);
             }
 
             if (imgAvg == 0 || imgAvg == 255){
