@@ -3,33 +3,73 @@
 	android:orientation="vertical" 
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent" 
-	android:id="@+id/layout">
-	<LinearLayout android:id="@+id/top"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:orientation="horizontal" 
-        android:layout_width="fill_parent"
-        android:layout_height="50dp">
-        <TextView android:id="@+id/text"
-            android:text="@string/default_text"
-            android:textSize="32dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">        
-        </TextView>
-        <RelativeLayout
-	        android:orientation="horizontal" 
-	        android:layout_width="fill_parent"
-	        android:layout_height="fill_parent">
-	        <au.edu.uts.doccomm.HeartbeatView android:id="@+id/image"
-	        	android:layout_centerInParent="true"
-	            android:layout_width="wrap_content"
-		        android:layout_height="wrap_content">
-		    </au.edu.uts.doccomm.HeartbeatView>
-	    </RelativeLayout>
-    </LinearLayout>
-	<SurfaceView android:id="@+id/preview"
-        android:layout_weight="1" 
-		android:layout_width="fill_parent"
-		android:layout_height="0dp">
-	</SurfaceView>
+	android:id="@+id/layout"
+	android:background="@color/colorBLue"
+	android:paddingTop="50dp"
+	android:paddingBottom="30dp"
+	android:gravity="center">
+	<LinearLayout android:id="@+id/Middle"
+	android:paddingLeft="10dp"
+	android:paddingRight="10dp"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/colorGray">
+		<LinearLayout android:id="@+id/top"
+			android:padding="10dp"
+			android:orientation="vertical"
+			android:layout_width="wrap_content"
+			android:layout_height="150dp">
+			<TextView android:id="@+id/tips_message"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textSize="18sp"
+				android:text="@string/tips_message"
+				android:gravity="center"
+				android:textColor="@color/colorGreen">
+			</TextView>
+			<RelativeLayout
+				android:orientation="horizontal"
+				android:layout_width="wrap_content"
+				android:layout_height="100dp"
+				android:paddingRight="10dp"
+				android:paddingLeft="10dp">
+				<au.edu.uts.doccomm.HeartbeatView android:id="@+id/image"
+					android:layout_centerInParent="true"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content">
+				</au.edu.uts.doccomm.HeartbeatView>
+			</RelativeLayout>
+		</LinearLayout>
+		<SurfaceView android:id="@+id/preview"
+			android:layout_weight="1"
+			android:layout_width="fill_parent"
+			android:layout_height="0dp">
+		</SurfaceView>
+		<LinearLayout
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:gravity="center"
+			android:id="@+id/bottom"
+			android:paddingLeft="10dp"
+			android:paddingRight="10dp"
+			android:background="@color/colorGray">
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textSize="32sp"
+				android:text="@string/your_heart_apparently_is"
+				android:padding="10dp"
+				android:textColor="@color/colorGreen"
+				android:gravity="center">
+			</TextView>
+			<TextView android:id="@+id/text"
+				android:text="@string/default_text"
+				android:textSize="32dp"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content">
+			</TextView>
+		</LinearLayout>
+	</LinearLayout>
 </LinearLayout>
