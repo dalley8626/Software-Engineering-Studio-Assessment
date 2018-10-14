@@ -45,15 +45,17 @@
             android:layout_marginRight="15dp"
             android:hint="Enter your Password"
             android:background="@drawable/edit_text_style1"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:imeOptions="actionSend"/>
 
         <Button
             android:id="@+id/btnSignIn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="120dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="70dp"
             android:layout_marginRight="70dp"
+            android:layout_marginTop="120dp"
             android:background="@drawable/button_style1"
             android:text="Login" />
 

@@ -36,16 +36,6 @@
             android:background="@drawable/button_style2"/>
 
         <Button
-            android:id="@+id/startUpload"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Upload File"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginLeft="15dp"
-            android:background="@drawable/button_style2"/>
-
-        <Button
             android:id="@+id/button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
