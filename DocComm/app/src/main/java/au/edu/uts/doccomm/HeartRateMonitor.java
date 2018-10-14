@@ -50,11 +50,11 @@ public class HeartRateMonitor extends Activity {
     private static final int[] averageArray = new int[averageArraySize];
 
     private static int beatsAvg;
-    public final int[] result = new int[3];
 
     long newStartTime = 0;
 
     int count = 0;
+    int isOn = 0;
 
     public enum TYPE {
         GREEN, RED
@@ -174,12 +174,6 @@ public class HeartRateMonitor extends Activity {
         countDownTimer.start();
     }
 
-    private boolean getTrue()
-    {
-        boolean n = true;
-        return n;
-    }
-
     private PreviewCallback previewCallback = new PreviewCallback() {
 
         /**
@@ -207,17 +201,18 @@ public class HeartRateMonitor extends Activity {
                 camera.startPreview();
                 if(isCountingStarted == false){
                     startCounting();
-                    isCountingStarted = true;
+                    isOn = 1;
                 }
             }
-            else{
-                Camera.Parameters parameters = camera.getParameters();
-                parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-                camera.setParameters(parameters);
-                camera.startPreview();
-                beats = 0;
-                text.setText("--");
-                processing.set(false);
+            else {
+                if (isOn != 1) {
+                    Camera.Parameters parameters = camera.getParameters();
+                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                    camera.setParameters(parameters);
+                    camera.startPreview();
+                    beats = 0;
+                    text.setText("--");
+                }
             }
 
             if (imgAvg == 0 || imgAvg == 255){
@@ -290,29 +285,27 @@ public class HeartRateMonitor extends Activity {
                     }
                 }
                 beatsAvg = (beatsArrayAvg / beatsArrayCnt);
-                text.setText(String.valueOf(beatsAvg - 15));
+                text.setText(String.valueOf(imgAvg));
+                if(beatsAvg != 0) {
+                    text.setText(String.valueOf(beatsAvg - 15));
 
-                if(timeInSeconds >= 30) {
-                    Intent intent = new Intent(getApplicationContext(), DataPacketActivity.class);
-                    intent.putExtra("bpm", beatsAvg - 15);
-                    String doctorID = getIntent().getStringExtra("doctorID");
-                    intent.putExtra("doctorID", doctorID);
-                    startActivity(intent);
+                    if (timeInSeconds >= 30) {
+                        Intent intent = new Intent(getApplicationContext(), DataPacketActivity.class);
+                        intent.putExtra("bpm", beatsAvg - 15);
+                        String doctorID = getIntent().getStringExtra("doctorID");
+                        intent.putExtra("doctorID", doctorID);
+                        startActivity(intent);
+                    }
+
+                    startTime = System.currentTimeMillis();
+                    beats = 0;
+
+                    count = 1;
                 }
-
-                startTime = System.currentTimeMillis();
-                beats = 0;
-
-                count = 1;
-
             }
             processing.set(false);
         }
     };
-
-    public int[] getResult() {
-        return result;
-    }
 
     public SurfaceHolder.Callback surfaceCallback = new SurfaceHolder.Callback() {
 
