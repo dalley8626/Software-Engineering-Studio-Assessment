@@ -3,8 +3,11 @@ package au.edu.uts.doccomm;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,6 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,16 +37,16 @@ public class DataPacketViewDoctor extends AppCompatActivity {
     private StorageReference mStorageRef;
     private FirebaseStorage mFirebaseStorage;
 
-
+    private RecyclerView recyclerView;
 
     private String doctorID;
     private String patientID;
     private String timeStamp;
-
     private String url;
     private TextView heartRateTV;
     private LinearLayout llUploadName;
     private TextView tvUploadName;
+    String fileName;
 
     public void sendFeedback(View view) {
         Intent intent = new Intent(getApplicationContext(), SendFeedbackActivity.class);
@@ -64,8 +69,42 @@ public class DataPacketViewDoctor extends AppCompatActivity {
         timeStamp = getIntent().getStringExtra("timeStamp");
 
 
-        heartRateTV = findViewById(R.id.heartRateTV2);
+//        mDatabase.addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//                String fileName = dataSnapshot.getKey();
+//                String url = dataSnapshot.getValue(String.class);
+//
+//                ((MyAdapter)recyclerView.getAdapter()).update(fileName,url);
+//            }
+//
+//            @Override
+//            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
 
+        heartRateTV = findViewById(R.id.heartRateTV2);
+        recyclerView = findViewById(R.id.recyclerView);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        MyAdapter myAdapter = new MyAdapter(recyclerView,getApplicationContext(),new ArrayList<String>(),new ArrayList<String>());
+        recyclerView.setAdapter(myAdapter);
 
         tvUploadName = findViewById(R.id.tvUploadName);
         llUploadName = findViewById(R.id.lluploadName);
@@ -90,11 +129,15 @@ public class DataPacketViewDoctor extends AppCompatActivity {
                     dataPacket = (Map<String, Object>) snapshot.getValue();
                     packetTimeStamp = (String) dataPacket.get("timestamp");
                     url = (String) dataPacket.get("url");
+                    fileName = dataSnapshot.getKey();
+
+
 
                     if(timeStamp.equals(packetTimeStamp)) {
                        heartRateTV.setText((String) dataPacket.get("heartRate"));
                     }
                 }
+                ((MyAdapter)recyclerView.getAdapter()).update(fileName,url);
             }
 
 
