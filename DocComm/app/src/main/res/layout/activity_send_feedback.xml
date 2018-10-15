@@ -9,40 +9,68 @@
 
     <TextView
         android:id="@+id/textView21"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Feedback for Heart Rate"
-        android:layout_margin="15dp"/>
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:text="Feedback for heart rate" />
+
+    <EditText
+        android:id="@+id/heartRateFeedbackET"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:ems="10"
+        android:hint="Feedback for heart rate"
+        android:inputType="textMultiLine" />
 
     <TextView
         android:id="@+id/textView22"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Feedback for files"
-        android:layout_margin="15dp"/>
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:text="Feedback for files" />
 
     <EditText
-        android:id="@+id/sendLocationET"
-        android:layout_width="wrap_content"
+        android:id="@+id/filesFeedbackET"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:ems="10"
-        android:hint="Put address here"
-        android:inputType="textPersonName"
-        android:layout_margin="15dp"/>
-
-    <Button
-        android:id="@+id/button14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="sendAddress"
-        android:text="Send Address to Patient"
-        android:layout_margin="15dp"
-        android:background="@drawable/button_style2"/>
+        android:hint="Feedback for files"
+        android:inputType="textMultiLine" />
 
     <TextView
         android:id="@+id/textView23"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="This entire activity is not the final version"
-        android:layout_margin="15dp"/>
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:text="Recommended places" />
+
+    <EditText
+        android:id="@+id/sendLocationET"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:ems="10"
+        android:hint="Put address here"
+        android:inputType="textPersonName" />
+
+    <Button
+        android:id="@+id/button14"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:background="@drawable/button_style2"
+        android:onClick="sendAddress"
+        android:text="Send feedback" />
+
 </LinearLayout>

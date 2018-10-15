@@ -20,19 +20,32 @@ public class SendFeedbackActivity extends AppCompatActivity {
     private String doctorID;
 
     private EditText sendAddressET;
+    private EditText heartRateFeedbackET;
+    private EditText filesFeedbackET;
 
     public void sendAddress(View view) {
         String address = sendAddressET.getText().toString();
-        if(!address.equals("")) {
-            mDatabase.child(patientID).child("doctors").child(doctorID).child("feedback").child("address").setValue(address);
-            Toast.makeText(getApplicationContext(), "Address is sent", Toast.LENGTH_SHORT).show();
-            sendAddressET.setText("");
-            Intent intent = new Intent(getApplicationContext(), DoctorActivity.class);
-            startActivity(intent);
+        String heartRateFeedback = heartRateFeedbackET.getText().toString();
+        String filesFeedback = filesFeedbackET.getText().toString();
+
+        if(address.equals("")) {
+            address = "Your doctor has not sent an address yet!";
         }
-        else {
-            Toast.makeText(getApplicationContext(),"Please enter an address", Toast.LENGTH_SHORT).show();
+
+        if(heartRateFeedback.equals("")) {
+            heartRateFeedback = "No feedback";
         }
+
+        if(address.equals("")) {
+            filesFeedback = "No feedback";
+        }
+
+        mDatabase.child(patientID).child("doctors").child(doctorID).child("feedback").child("address").setValue(address);
+        mDatabase.child(patientID).child("doctors").child(doctorID).child("feedback").child("heartRateFeedback").setValue(heartRateFeedback);
+        mDatabase.child(patientID).child("doctors").child(doctorID).child("feedback").child("files").setValue(filesFeedback);
+        Toast.makeText(getApplicationContext(), "Feedback sent", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getApplicationContext(), DoctorActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -47,7 +60,8 @@ public class SendFeedbackActivity extends AppCompatActivity {
         doctorID = getIntent().getStringExtra("doctorID");
 
         sendAddressET = findViewById(R.id.sendLocationET);
-
+        heartRateFeedbackET = findViewById(R.id.heartRateFeedbackET);
+        filesFeedbackET = findViewById(R.id.filesFeedbackET);
     }
 
 }
