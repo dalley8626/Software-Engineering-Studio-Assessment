@@ -1,126 +1,484 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg"
+    android:weightSum="10"
     tools:context=".UserActivty">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
+        android:layout_height="0dp"
+        android:layout_weight="2"
         android:gravity="center_horizontal"
         android:onClick="onClick"
         android:orientation="vertical">
 
-
         <TextView
             android:id="@+id/tvUsername"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
+            android:layout_margin="10dp"
             android:text="Hello"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorWhite"
             android:textAlignment="center" />
 
-        <Button
-            android:id="@+id/viewPacketBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/button_style2"
-            android:onClick="viewPacket"
-            android:text="View Data Packet" />
+        <!--<Button-->
+        <!--android:id="@+id/viewPacketBtn"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="15dp"-->
+        <!--android:layout_marginRight="15dp"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:background="@drawable/button_style2"-->
+        <!--android:onClick="viewPacket"-->
+        <!--android:text="View Data Packet" />-->
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/button_style2"
-            android:onClick="nearbyMedicalFacilities"
-            android:text="Nearby Medical Facilities" />
+        <!--<Button-->
+        <!--android:id="@+id/button"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="15dp"-->
+        <!--android:layout_marginRight="15dp"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:background="@drawable/button_style2"-->
+        <!--android:onClick="nearbyMedicalFacilities"-->
+        <!--android:text="Nearby Medical Facilities" />-->
 
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/button_style2"
-            android:onClick="viewProfile"
-            android:text="View Profile Information" />
+        <!--<Button-->
+        <!--android:id="@+id/button3"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="15dp"-->
+        <!--android:layout_marginRight="15dp"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:background="@drawable/button_style2"-->
+        <!--android:onClick="viewProfile"-->
+        <!--android:text="View Profile Information" />-->
 
-        <Button
-            android:id="@+id/button12"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/button_style2"
-            android:onClick="pairDoctor"
-            android:text="Pair with Doctor" />
+        <!--<Button-->
+        <!--android:id="@+id/button12"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="15dp"-->
+        <!--android:layout_marginRight="15dp"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:background="@drawable/button_style2"-->
+        <!--android:onClick="pairDoctor"-->
+        <!--android:text="Pair with Doctor" />-->
 
-        <Button
-            android:id="@+id/viewPairedDoctorsBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/button_style2"
-            android:onClick="viewPairedDoctors"
-            android:text="View Paired Doctor(s)" />
+        <!--<Button-->
+        <!--android:id="@+id/viewPairedDoctorsBtn"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="15dp"-->
+        <!--android:layout_marginRight="15dp"-->
+        <!--android:layout_marginTop="40dp"-->
+        <!--android:background="@drawable/button_style2"-->
+        <!--android:onClick="viewPairedDoctors"-->
+        <!--android:text="View Paired Doctor(s)" />-->
 
-        <Button
-            android:id="@+id/button9"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/button_style2"
-            android:onClick="doctorList"
-            android:text="Send Data Packet" />
+        <!--<Button-->
+        <!--android:id="@+id/button9"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="15dp"-->
+        <!--android:layout_marginRight="15dp"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:background="@drawable/button_style2"-->
+        <!--android:onClick="doctorList"-->
+        <!--android:text="Send Data Packet" />-->
 
-        <Button
-            android:id="@+id/interactBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/button_style2"
-            android:onClick="interactDoctor"
-            android:text="Feedback from Doctor"
-            android:visibility="visible" />
+        <!--<Button-->
+            <!--android:id="@+id/interactBtn"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:background="@drawable/button_style2"-->
+            <!--android:onClick="interactDoctor"-->
+            <!--android:text="Feedback from Doctor"-->
+            <!--android:visibility="visible" />-->
 
 
-    </LinearLayout>
+    </RelativeLayout>
 
-    <LinearLayout
+    <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true">
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:alignmentMode="alignMargins"
+        android:columnCount="2"
+        android:columnOrderPreserved="false"
+        android:padding="14dp"
+        android:rowCount="4">
 
-        <Button
-            android:id="@+id/btnLogout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            android:background="@drawable/button_style1"
-            android:text="Logout" />
+        <!--Row 1 definition-->
+        <!--Column 1 definition-->
+        <android.support.v7.widget.CardView
 
-    </LinearLayout>
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_rowWeight="1"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp">
 
-</RelativeLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_margin="16dp"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/viewPacketBtn"
+                    android:layout_width="75dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/ic_local_hospital_black_24dp"
+                    android:onClick="viewPacket" />
+
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:text="View Medical&#10; History"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="10dp"
+                    android:textStyle="bold|italic" />
+
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <!--Column 2 definition-->
+
+        <android.support.v7.widget.CardView
+
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_rowWeight="1"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_margin="16dp"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/button"
+                    android:layout_width="75dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/ic_location_searching_black_24dp"
+                    android:onClick="nearbyMedicalFacilities" />
+
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="45dp"
+                    android:text="Nearby Medical&#10;Facilities"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="10dp"
+                    android:textStyle="bold|italic" />
+
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+        <!--Row 1 definition-->
+        <!--Column 1 definition-->
+        <android.support.v7.widget.CardView
+
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_rowWeight="1"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_margin="16dp"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/button3"
+                    android:layout_width="75dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/ic_person_pin_black_24dp"
+                    android:onClick="viewProfile" />
+
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:text="View Profile &#10;Information "
+                    android:textAlignment="center"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="10dp"
+                    android:textStyle="bold|italic" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <!--Column 2 definition-->
+
+        <android.support.v7.widget.CardView
+
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_rowWeight="1"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_margin="16dp"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/button12"
+                    android:layout_width="75dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/ic_phonelink_ring_black_24dp"
+                    android:onClick="pairDoctor" />
+
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:text="Pair With&#10;Doctor"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="10dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+        <!--Row 1 definition-->
+        <!--Column 1 definition-->
+        <android.support.v7.widget.CardView
+
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_rowWeight="1"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_margin="16dp"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/viewPairedDoctorsBtn"
+                    android:layout_width="75dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/ic_pageview_black_24dp"
+                    android:onClick="viewPairedDoctors" />
+
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:text="View Paired&#10;Doctor(s)"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="10dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <!--Column 2 definition-->
+
+        <android.support.v7.widget.CardView
+
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_rowWeight="1"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_margin="16dp"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/button9"
+                    android:layout_width="75dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/ic_send_black_24dp"
+                    android:onClick="doctorList" />
+
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:text="Send Medical&#10;Information"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="10dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            -----------
+
+        </android.support.v7.widget.CardView>
+
+        <!--Row 1 definition-->
+        <!--Column 1 definition-->
+        <android.support.v7.widget.CardView
+
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_rowWeight="1"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_margin="16dp"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/interactBtn"
+                    android:layout_width="75dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/ic_feedback_black_24dp"
+                    android:onClick="interactDoctor" />
+
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:text="Feedback from&#10;Doctor"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="10dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <!--Column 2 definition-->
+
+        <android.support.v7.widget.CardView
+
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_rowWeight="1"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_margin="16dp"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/btnLogout"
+                    android:layout_width="75dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/ic_remove_circle_outline_black_24dp"
+                    android:onClick="doctorList" />
+
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:text="Logout"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="10dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+    </GridLayout>
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignParentStart="true">-->
+
+        <!--<Button-->
+            <!--android:id="@+id/btnLogout"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="15dp"-->
+            <!--android:layout_marginLeft="50dp"-->
+            <!--android:layout_marginRight="50dp"-->
+            <!--android:background="@drawable/button_style1"-->
+            <!--android:text="Logout" />-->
+
+    <!--</LinearLayout>-->
+
+</LinearLayout>

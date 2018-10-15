@@ -55,7 +55,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="70dp"
             android:layout_marginRight="70dp"
-            android:layout_marginTop="120dp"
+            android:layout_marginTop="80dp"
             android:background="@drawable/button_style1"
             android:text="Login" />
 
@@ -63,14 +63,16 @@
             android:id="@+id/tvSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Do not have an account? Sign up"
+            android:layout_marginTop="15dp"
+            android:text="Don't have an account? Sign up!"
             android:textAlignment="center" />
 
         <TextView
             android:id="@+id/tvResetPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Forget your password?"
+            android:layout_marginTop="10dp"
+            android:text="Forgot your password? Click here!"
             android:textAlignment="center" />
 
     </LinearLayout>

@@ -195,7 +195,7 @@ public class FacilitiesMapsActivity extends FragmentActivity implements OnMapRea
             markerOptions1.title(title);
             markerOptions1.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
             mMap.addMarker(markerOptions1); //set location
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 16));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 16));
             //new camera position
             // mMap.animateCamera(CameraUpdateFactory.zoomBy(15)); //zooms into user location by 20 points
 
