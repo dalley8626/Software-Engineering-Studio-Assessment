@@ -40,9 +40,10 @@ public class SendFeedbackActivity extends AppCompatActivity {
             filesFeedback = "No feedback";
         }
 
-        mDatabase.child(patientID).child("doctors").child(doctorID).child("feedback").child("address").setValue(address);
-        mDatabase.child(patientID).child("doctors").child(doctorID).child("feedback").child("heartRateFeedback").setValue(heartRateFeedback);
-        mDatabase.child(patientID).child("doctors").child(doctorID).child("feedback").child("files").setValue(filesFeedback);
+        DatabaseReference newRef = mDatabase.child(patientID).child("doctors").child(doctorID).child("feedback");
+        newRef.child("address").setValue(address);
+        newRef.child("heartRateFeedback").setValue(heartRateFeedback);
+        newRef.child("files").setValue(filesFeedback);
         Toast.makeText(getApplicationContext(), "Feedback sent", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getApplicationContext(), DoctorActivity.class);
         startActivity(intent);

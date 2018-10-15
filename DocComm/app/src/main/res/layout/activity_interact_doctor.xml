@@ -63,5 +63,6 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="5dp"
         android:onClick="viewRecommendation"
+        android:background="@drawable/button_style2"
         android:text="View address on map" />
 </LinearLayout>

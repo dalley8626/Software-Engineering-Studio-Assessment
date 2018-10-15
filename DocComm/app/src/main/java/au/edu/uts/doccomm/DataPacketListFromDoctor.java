@@ -28,6 +28,7 @@ public class DataPacketListFromDoctor extends AppCompatActivity {
 
     private ArrayList<String> dataPacketList;
     private ArrayList<String> dataPacketUserID;
+    private ArrayList<String> dataPacketKey;
     private ArrayList<String> timeStamps;
 
     private ListView packetLV;

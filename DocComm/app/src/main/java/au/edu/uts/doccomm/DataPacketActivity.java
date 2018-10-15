@@ -55,7 +55,7 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private StorageReference mStorageRef;
-    //    private FirebaseStorage firebaseStorage;
+    // private FirebaseStorage firebaseStorage;
     private String id;
     public String url;
 
@@ -319,8 +319,10 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 permissions[0]) == PackageManager.PERMISSION_GRANTED
                 && ContextCompat.checkSelfPermission(this.getApplicationContext(),
-                permissions[1]) == PackageManager.PERMISSION_GRANTED){}
-        else{
+                permissions[1]) == PackageManager.PERMISSION_GRANTED) {
+           //what kind of coding style is this? why is there an empty body???
+        }
+        else {
             ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE);
         }
     }
@@ -334,7 +336,7 @@ public class DataPacketActivity extends AppCompatActivity implements View.OnClic
 //            Toast.makeText(this, "Please provide access storage permission", Toast.LENGTH_SHORT).show();
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode == REQUEST_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            selectPdf();
+            //selectPdf();
 
         }
         else {
