@@ -36,6 +36,10 @@ public class InteractDoctorActivity extends AppCompatActivity {
 
 
     TextView addressTV;
+    TextView heartRateFeedbackTV;
+    TextView fileFeedbackTV;
+
+
 
     private String patientID;
     private String doctorID;
@@ -46,6 +50,8 @@ public class InteractDoctorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_interact_doctor);
 
         addressTV = findViewById(R.id.addressTV);
+        heartRateFeedbackTV = findViewById(R.id.heartRateFeedbackTV2);
+        fileFeedbackTV = findViewById(R.id.fileFeedbackTV2);
 
         patientID = getIntent().getStringExtra("patientID");
         doctorID = getIntent().getStringExtra("doctorID");
@@ -57,9 +63,14 @@ public class InteractDoctorActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if(dataSnapshot.hasChild("feedback")) {
-                            Map<String, Object> addresses = (Map<String, Object>) dataSnapshot.child("feedback").getValue();
-                            String address = (String) addresses.get("address");
+                            Map<String, Object> feedback = (Map<String, Object>) dataSnapshot.child("feedback").getValue();
+                            String address = (String) feedback.get("address");
+                            String heartRateFeedback = (String) feedback.get("heartRateFeedback");
+                            String fileFeedback = (String) feedback.get("files");
+
                             addressTV.setText(address);
+                            heartRateFeedbackTV.setText(heartRateFeedback);
+                            fileFeedbackTV.setText(fileFeedback);
                         }
                     }
 
