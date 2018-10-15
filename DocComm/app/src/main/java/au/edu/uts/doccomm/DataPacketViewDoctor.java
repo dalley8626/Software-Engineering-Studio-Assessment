@@ -106,9 +106,6 @@ public class DataPacketViewDoctor extends AppCompatActivity {
         MyAdapter myAdapter = new MyAdapter(recyclerView,getApplicationContext(),new ArrayList<String>(),new ArrayList<String>());
         recyclerView.setAdapter(myAdapter);
 
-        tvUploadName = findViewById(R.id.tvUploadName);
-        llUploadName = findViewById(R.id.lluploadName);
-
         boolean isClicked = getIntent().getBooleanExtra("isClicked", false);
         String dataPacketID = getIntent().getStringExtra("packetID");
         if(isClicked) {
