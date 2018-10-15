@@ -64,40 +64,10 @@ public class DataPacketViewDoctor extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
 
+
         doctorID = getIntent().getStringExtra("doctorID");
         patientID = getIntent().getStringExtra("patientID");
         timeStamp = getIntent().getStringExtra("timeStamp");
-
-
-//        mDatabase.addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//                String fileName = dataSnapshot.getKey();
-//                String url = dataSnapshot.getValue(String.class);
-//
-//                ((MyAdapter)recyclerView.getAdapter()).update(fileName,url);
-//            }
-//
-//            @Override
-//            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//            }
-//
-//            @Override
-//            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
 
         heartRateTV = findViewById(R.id.heartRateTV2);
         recyclerView = findViewById(R.id.recyclerView);
@@ -129,14 +99,17 @@ public class DataPacketViewDoctor extends AppCompatActivity {
                     fileName = dataSnapshot.getKey();
 
 
-
                     if(timeStamp.equals(packetTimeStamp)) {
                        heartRateTV.setText((String) dataPacket.get("heartRate"));
                     }
                 }
-                ((MyAdapter)recyclerView.getAdapter()).update(fileName,url);
-            }
+                if(url != null) {
+                    ((MyAdapter)recyclerView.getAdapter()).update(fileName,url);
+                } else {
+                    ((MyAdapter)recyclerView.getAdapter()).update("No file added",null);
+                }
 
+            }
 
 
             @Override
@@ -144,21 +117,7 @@ public class DataPacketViewDoctor extends AppCompatActivity {
 
             }
         });
-    }
-
-    public void getDownloadFile() {
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-
-        StorageReference httpReference = storage.getReferenceFromUrl(url);
-
-        mStorageRef.child("files").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                url = uri.toString();
-                tvUploadName.setText(url);
-            }
-        });
-
 
     }
+
 }

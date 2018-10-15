@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -51,20 +52,22 @@ public class MyAdapter extends RecyclerView.Adapter <MyAdapter.ViewHolder>{
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView tvFileName;
 
-        public ViewHolder (View itemView) {
+        public ViewHolder (final View itemView) {
             super(itemView);
             tvFileName = itemView.findViewById(R.id.tvFileName);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     int position = recyclerView.getChildLayoutPosition(v);
                     Intent intent = new Intent();
                     intent.setType(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse(urls.get(position)));
                     context.startActivity(intent);
-
                 }
             });
+
+
         }
     }
 }
