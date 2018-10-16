@@ -69,6 +69,7 @@ public class DataPacketViewDoctor extends AppCompatActivity {
         patientID = getIntent().getStringExtra("patientID");
         timeStamp = getIntent().getStringExtra("timeStamp");
 
+
         heartRateTV = findViewById(R.id.heartRateTV2);
         recyclerView = findViewById(R.id.recyclerView);
 

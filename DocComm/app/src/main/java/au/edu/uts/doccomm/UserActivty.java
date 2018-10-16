@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +26,7 @@ import java.util.Map;
 
 public class UserActivty extends AppCompatActivity implements View.OnClickListener {
 
-    private Button btnLogout;
+    private ImageButton btnLogout;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private TextView tvUsername;
@@ -117,7 +118,7 @@ public class UserActivty extends AppCompatActivity implements View.OnClickListen
         tvUsername.setText("Welcome " + user.getEmail());
 
 
-        btnLogout = (Button) findViewById(R.id.btnLogout);
+        btnLogout = (ImageButton) findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(this);
 
 

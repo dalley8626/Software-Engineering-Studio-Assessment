@@ -62,7 +62,8 @@
         android:layout_marginRight="15dp"
         android:ems="10"
         android:hint="Put address here"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:layout_margin="15dp"/>
 
     <Button
         android:id="@+id/button14"
