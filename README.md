@@ -6,6 +6,6 @@ Contributors:
 Manny Joher - Retrieving current location, retrieving nearby medical facilities, viewing recommended location address on a map
 Alex Bell - Firebase backend, user manual
 Xinjun Tan 12935716 - Anything relating to accessing and uploading to Firebase storage ie. viewing and modifing profile information 
-Senghout Lay - Login, Registration, Upload supplementary files to data packet and retrieving from data packet
+Senghout Lay - Login, Registration, Upload and retreiving supplementary files to and from data packets
 Jack Li - Heart Rate, permissions
 Shaohang Yuan - Firebase storage, User Interface
