@@ -2,7 +2,7 @@
 
 This app is designed for patients and doctors to connnect to each other. Patients will be able to send useful infomation about their health and location to doctors who are paired through a pairing code. Doctors can send feedback to their respective patients.
 
-# Installation of the repository
+# Clone the repository
 Clone this repository and import into Android Studio
 
 $git clone https://github.com/dalley8626/Software-Engineering-Studio-Assessment.git
