@@ -13,7 +13,7 @@ This app is designed for patients and doctors to connnect to each other. Patient
 
 
 # Contributors:
-Manny Joher - Retrieving current location, retrieving nearby medical facilities, viewing recommended location address on a map, user interface optimisation, patient UI
+Manjyot Joher (Manny) - Retrieving current location, retrieving nearby medical facilities, viewing recommended location address on a map, user interface optimisation, patient UI
 
 Alex Bell - Firebase backend, user manual
 
