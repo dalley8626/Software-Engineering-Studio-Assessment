@@ -16,6 +16,12 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Map;
 
+/***************************************************************************************************
+ Allows for doctors to view patient profile information
+
+ Author: Xinjun Tan 12935716
+ ***************************************************************************************************/
+
 public class ViewPatientProfileFromDoctor extends AppCompatActivity {
 
     private String patientID;

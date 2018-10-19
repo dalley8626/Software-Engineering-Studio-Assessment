@@ -20,6 +20,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/***************************************************************************************************
+Allows doctors to view all received data packet from paired patients
+ Author: Xinjun Tan 12935716
+ ***************************************************************************************************/
+
 public class DataPacketListFromDoctor extends AppCompatActivity {
 
 

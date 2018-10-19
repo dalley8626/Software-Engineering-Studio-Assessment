@@ -30,6 +30,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/***************************************************************************************************
+ Allows doctor open received data packet
+ Author: Xinjun Tan 12935716, Senghout Lay
+ ***************************************************************************************************/
+
 public class DataPacketViewDoctor extends AppCompatActivity {
 
     private FirebaseAuth mAuth;

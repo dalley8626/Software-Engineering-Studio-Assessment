@@ -18,6 +18,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/***************************************************************************************************
+ List the sent data packets for patient to see
+
+ Author: Xinjun Tan 12935716
+ ***************************************************************************************************/
+
 public class DataPacketList extends AppCompatActivity {
 
     ListView packetLV;

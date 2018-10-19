@@ -14,6 +14,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+/***************************************************************************************************
+ Allows for patients to view profile information
+ Author: Xinjun Tan 12935716
+ ***************************************************************************************************/
+
 public class ViewProfileActivity extends AppCompatActivity {
 
 

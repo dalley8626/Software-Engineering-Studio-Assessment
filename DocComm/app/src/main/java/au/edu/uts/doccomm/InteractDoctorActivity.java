@@ -1,5 +1,11 @@
 package au.edu.uts.doccomm;
 
+/***************************************************************************************************
+ Allows for patient to view feedback sent by doctor
+
+ Author: Manny Joher, Xinjun Tan 12935716
+ ***************************************************************************************************/
+
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;

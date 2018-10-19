@@ -15,6 +15,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+/***************************************************************************************************
+ Connects button from doctor main screen to functions
+ Updates a textfield to notify the doctor that a data packet was sent
+
+ Author: Xinjun Tan 12935716
+ ***************************************************************************************************/
+
 public class DoctorActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;

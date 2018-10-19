@@ -24,6 +24,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/***************************************************************************************************
+ Allows for doctor to view of a list of paired patients
+ Author: Xinjun Tan 12935716
+ ***************************************************************************************************/
+
 public class ViewPatientsActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;

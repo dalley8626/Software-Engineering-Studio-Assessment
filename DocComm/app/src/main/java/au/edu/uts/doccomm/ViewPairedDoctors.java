@@ -20,6 +20,12 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Map;
 
+/***************************************************************************************************
+ Allows for patient to view a list of paired doctors in a listview
+
+ Author: Xinjun Tan 12935716
+ ***************************************************************************************************/
+
 public class ViewPairedDoctors extends AppCompatActivity {
 
     private ArrayList<String> listOfDoctors;

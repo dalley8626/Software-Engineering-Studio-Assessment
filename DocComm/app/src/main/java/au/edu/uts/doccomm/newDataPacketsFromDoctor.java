@@ -20,6 +20,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/***************************************************************************************************
+ Displays a list of recently sent data packet. Once clicked, it will be removed from this listview
+
+ Author: Xinjun Tan 12935716
+ ***************************************************************************************************/
+
 public class newDataPacketsFromDoctor extends AppCompatActivity {
 
     private FirebaseAuth mAuth;

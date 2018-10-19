@@ -18,6 +18,11 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
+/***************************************************************************************************
+ Allows patient to view the profile of paired doctor
+ Author: Xinjun Tan 12935716
+ ***************************************************************************************************/
+
 public class DoctorProfileViewActivity extends AppCompatActivity {
     String id;
     private DatabaseReference mDatabase;

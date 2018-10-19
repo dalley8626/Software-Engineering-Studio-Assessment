@@ -21,6 +21,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/***************************************************************************************************
+ This activity is not used in the final version of the app and should have been removed.
+
+ Author: Xinjun Tan 12935716
+ ***************************************************************************************************/
+
 public class DoctorHireActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;

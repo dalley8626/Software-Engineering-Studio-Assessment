@@ -21,6 +21,12 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Map;
 
+/***************************************************************************************************
+ Allows doctor pairing if patient enters correct pairing code.
+
+ Author: Xinjun Tan 12935716
+ ***************************************************************************************************/
+
 public class EnterDoctorCodeActivity extends AppCompatActivity {
 
 
